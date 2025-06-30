@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
         ref: "Company",
         default: null
     },
+    isSupervisor: {
+        type: Boolean,
+        default: false
+    },
     shiftIds: {
         type: [{
             type: mongoose.Schema.Types.ObjectId,
@@ -41,9 +45,12 @@ const userSchema = new mongoose.Schema({
         }],
         default: []
     },
-    isSupervisor: {
-        type: Boolean,
-        default: false
+    incidentReports: {
+        type: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "IncidentReport"
+        }],
+        default: []
     }
 });
 
