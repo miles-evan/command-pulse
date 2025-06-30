@@ -1,10 +1,8 @@
 import { Router } from "express";
-import { checkIsAuthenticated, checkIsInCompany, checkIsSupervisor, checkNotInCompany } from "../utils/middleware.js";
+import { permission } from "../utils/middleware.js";
 import {
-    createCompany,
-    getCompanyName, getContacts, getInviteCodes,
-    joinCompanyById,
-    joinCompanyByInviteCode, leaveCompany, resetInviteCodes
+    createCompany, joinCompanyById, joinCompanyByInviteCode, leaveCompany,
+    getCompanyName, getContacts, getInviteCodes, resetInviteCodes
 } from "../queries/companyQueries.js";
 
 const companyRouter = Router();
@@ -12,14 +10,10 @@ const companyRouter = Router();
 // --------------------------------
 
 
-// middleware
-companyRouter.use(checkIsAuthenticated);
-
-
 // Create company
 companyRouter.post(
     "/",
-    checkNotInCompany,
+    ...permission("not in company"),
     async (request, response) => {
         const { companyName } = request.body;
         try {
@@ -36,8 +30,7 @@ companyRouter.post(
 // Get invite codes
 companyRouter.get(
     "/invite-codes",
-    checkIsInCompany,
-    checkIsSupervisor,
+    ...permission("supervisor"),
     async (request, response) => {
         return response.send(await getInviteCodes(request.user.companyId));
     }
@@ -47,8 +40,7 @@ companyRouter.get(
 // Reset invite codes
 companyRouter.post(
     "/invite-codes/reset",
-    checkIsInCompany,
-    checkIsSupervisor,
+    ...permission("supervisor"),
     async (request, response) => {
         const { companyId } = request.user;
         await resetInviteCodes(companyId);
@@ -60,7 +52,7 @@ companyRouter.post(
 // Join company
 companyRouter.post(
     "/join",
-    checkNotInCompany,
+    ...permission("not in company"),
     async (request, response) => {
         const { inviteCode } = request.body;
         const companyId = await joinCompanyByInviteCode(request.user.id, inviteCode);
@@ -72,6 +64,7 @@ companyRouter.post(
 // Leave company
 companyRouter.post(
     "/leave",
+    ...permission("in company"),
     async (request, response) => {
         await leaveCompany(request.user.id);
         return response.sendStatus(200);
@@ -82,7 +75,7 @@ companyRouter.post(
 // Get contacts
 companyRouter.get(
     "/contacts",
-    checkIsInCompany,
+    ...permission("in company"),
     async (request, response) => {
         return response.send(await getContacts(request.user.companyId));
     }

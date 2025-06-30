@@ -1,13 +1,6 @@
 import { validationResult } from "express-validator";
 
 
-export function checkIsAuthenticated(request, response, next) {
-    if(!("isAuthenticated" in request) || !request.isAuthenticated())
-        return response.sendStatus(401);
-    return next();
-}
-
-
 export function validateRequest(validationSchema) {
     return [...validationSchema, (request, response, next) => {
         const errors = validationResult(request);
@@ -15,6 +8,29 @@ export function validateRequest(validationSchema) {
             return response.status(400).json({ errors: errors.array() });
         next();
     }];
+}
+
+
+export function permission(permission) {
+    switch(permission) {
+        case "logged in":
+            return [checkIsAuthenticated];
+        case "in company":
+            return [checkIsAuthenticated, checkIsInCompany];
+        case "not in company":
+            return [checkIsAuthenticated, checkNotInCompany];
+        case "supervisor":
+            return [checkIsAuthenticated, checkIsInCompany, checkIsSupervisor];
+        default:
+            return [];
+    }
+}
+
+
+export function checkIsAuthenticated(request, response, next) {
+    if(!("isAuthenticated" in request) || !request.isAuthenticated())
+        return response.sendStatus(401);
+    return next();
 }
 
 
