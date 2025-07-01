@@ -74,6 +74,25 @@ async function deleteShiftRequest(shiftRequestId) {
 }
 
 
+// --------------------------------
+
+
+export async function getShifts(userId, date, dir=1, skip=0, limit=20) {
+	
+	const user = await User.findById(userId);
+	
+	const shifts = await Shift.find({
+		_id: { $in: user.shiftIds },
+		date: dir === 1? { $gte: date } : { $lte: date }
+	})
+		.sort({ date: dir, startTime: dir })
+		.skip(skip)
+		.limit(limit);
+	
+	return projectShifts(shifts);
+}
+
+
 export async function getAllShifts(companyId, startDate="0000-00-00", endDate="9999-99-99") {
 	const shifts = [];
 	
@@ -81,9 +100,9 @@ export async function getAllShifts(companyId, startDate="0000-00-00", endDate="9
 	
 	const users = await User.find(
 		{ $or: [
-				{ _id: { $in: company.supervisorIds } },
-				{ _id: { $in: company.officerIds } }
-			] }
+			{ _id: { $in: company.supervisorIds } },
+			{ _id: { $in: company.officerIds } }
+		] }
 	);
 	
 	(await Promise.all(
@@ -102,8 +121,7 @@ export async function getAllShifts(companyId, startDate="0000-00-00", endDate="9
 	shifts.push(...await Promise.all(shiftRequests.map(shiftRequest => Shift.findById(shiftRequest.shiftId))));
 	
 	sortShifts(shifts);
-	
-	return shifts;
+	return projectShifts(shifts);
 }
 
 
@@ -118,6 +136,30 @@ function sortShifts(shifts) {
 		return 0;
 	});
 }
+
+
+async function projectShifts(shifts) {
+	const userIds = [...new Set(shifts.map(shift => shift.userId))];
+	const users = await User.find({ _id: { $in: userIds } });
+	const names = {};
+	users.forEach(user => names[user.id] = { firstName: user.firstName, lastName: user.lastName });
+	
+	return shifts.map(shift => ({
+		shiftId: shift.id,
+		firstName: names[shift.userId].firstName,
+		lastName: names[shift.userId].lastName,
+		date: shift.date,
+		startTime: shift.startTime,
+		endTime: shift.endTime,
+		location: shift.location,
+		payRate: shift.payRate,
+		clockInTime: shift.clockInTime,
+		clockOutTime: shift.clockOutTime
+	}));
+}
+
+
+// --------------------------------
 
 
 export async function userInSameCompanyAsShift(userId, shiftId) {
