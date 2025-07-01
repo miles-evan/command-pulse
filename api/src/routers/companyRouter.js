@@ -17,8 +17,7 @@ companyRouter.post(
     async (request, response) => {
         const { companyName } = request.body;
         try {
-            const newCompany = await createCompany(companyName);
-            await joinCompanyById(request.user.id, newCompany.id, "supervisor");
+            const newCompany = await createCompany(companyName, request.user.id);
             return response.status(201).send({ companyId: newCompany.id });
         } catch ({ message }) {
             return response.status(400).send({ message });

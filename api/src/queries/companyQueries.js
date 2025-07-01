@@ -4,13 +4,16 @@ import {generateUniqueCode} from "../utils/inviteCodes.js";
 import {expandUserIdArray} from "./userQueries.js";
 
 
-export async function createCompany(name) {
+export async function createCompany(companyName, supervisorId) {
     const newCompany = new Company({
-        name,
+        name: companyName,
         supervisorInviteCode: await generateUniqueCode("supervisorInviteCode"),
         officerInviteCode: await generateUniqueCode("officerInviteCode")
     });
     await newCompany.save();
+
+    await joinCompanyById(supervisorId, newCompany.id, "supervisor");
+
     return newCompany;
 }
 

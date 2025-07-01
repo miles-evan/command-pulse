@@ -14,14 +14,14 @@ export function permission(permission) {
 }
 
 
-export function checkIsAuthenticated(request, response, next) {
+function checkIsAuthenticated(request, response, next) {
     if(!("isAuthenticated" in request) || !request.isAuthenticated())
         return response.sendStatus(401);
     return next();
 }
 
 
-export function checkIsInCompany(request, response, next) {
+function checkIsInCompany(request, response, next) {
     // assumes you're already authenticated
     if(request.user.companyId == null)
         return response.status(403).send({ message: "must be in a company" });
@@ -29,7 +29,7 @@ export function checkIsInCompany(request, response, next) {
 }
 
 
-export function checkNotInCompany(request, response, next) {
+function checkNotInCompany(request, response, next) {
     // assumes you're already authenticated
     if (request.user.companyId == null)
         return next();
@@ -37,7 +37,7 @@ export function checkNotInCompany(request, response, next) {
 }
 
 
-export function checkIsSupervisor(request, response, next) {
+function checkIsSupervisor(request, response, next) {
     // assumes you're already in a company
     if(!request.user.isSupervisor)
         return response.status(403).send({ message: "must be a supervisor" });

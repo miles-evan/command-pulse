@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { permission } from "../middleware/permission.js";
 import {sameCompanyAsShift, sameCompanyAsUser} from "../middleware/sameCompanyAs.js";
-import {createAndAssignShift, reassignShift} from "../queries/shiftQueries.js";
+import {createAndAssignShift, getAllShifts, reassignShift} from "../queries/shiftQueries.js";
 
 const shiftRouter = Router();
 
@@ -37,6 +37,18 @@ shiftRouter.post(
         const { shiftId, userId, shiftRequestMessage } = request.body;
         await reassignShift(shiftId, userId, shiftRequestMessage, request.user.companyId)
         return response.sendStatus(200);
+    }
+);
+
+
+// Get all shifts
+shiftRouter.get(
+    "/all",
+    ...permission("supervisor"),
+    async (request, response) => {
+        const { startDate, endDate } = request.query;
+        const shifts = await getAllShifts(request.user.companyId, startDate, endDate);
+        response.send({ shifts });
     }
 );
 
