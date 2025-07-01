@@ -2,6 +2,7 @@ import { Shift } from "../mongoose/schemas/shiftSchema.js";
 import { User } from "../mongoose/schemas/userSchema.js";
 import { ShiftRequest } from "../mongoose/schemas/shiftRequestSchema.js";
 import { Company } from "../mongoose/schemas/companySchema.js";
+import extractFromRequest from "../utils/extractFromRequest.js";
 
 
 export async function createAndAssignShift(
@@ -58,7 +59,7 @@ async function unassignShift(userId, shiftId) {
 }
 
 
-async function createShiftRequest(shiftId, message="", isCover, companyId) {
+export async function createShiftRequest(shiftId, message="", isCover, companyId) {
 	const newShiftRequest = new ShiftRequest({ shiftId, message, isCover });
 	await newShiftRequest.save();
 	
@@ -174,4 +175,10 @@ export async function userInSameCompanyAsShift(userId, shiftId) {
 		const company = await Company.findOne({ shiftRequestIds: shiftRequest.id });
 		return user.companyId.equals(company.id);
 	}
+}
+
+
+export async function userOwnsShift(userId, shiftId) {
+	const shift = await Shift.findById(shiftId);
+	return shift.userId.equals(userId);
 }
