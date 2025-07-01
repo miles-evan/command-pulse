@@ -13,10 +13,16 @@ export async function expandUserIdArray(userIds) {
     if(userIds.length === 0) return [];
     return User.aggregate([
         { $match: {
-                _id: { $in: userIds }
-            }},
+            _id: { $in: userIds }
+        }},
         { $project: {
-                userId: "$_id", firstName: 1, lastName: 1, _id: 0
-            }}
+            userId: "$_id", firstName: 1, lastName: 1, _id: 0
+        }}
     ]);
+}
+
+export async function usersInSameCompany(userId1, userId2) {
+    const user1 = await User.findById(userId1);
+    const user2 = await User.findById(userId2);
+    return user1.companyId.equals(user2.companyId);
 }

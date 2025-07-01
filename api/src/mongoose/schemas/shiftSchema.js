@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const shiftSchema = new mongoose.Schema({
     date: {
-        type: Date,
+        type: String,
         required: true
     },
     location: {
@@ -24,7 +24,7 @@ const shiftSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
-        required: true
+        default: null
     },
     clockInTime: {
         type: String,

@@ -4,7 +4,8 @@ const shiftRequestSchema = new mongoose.Schema({
     shiftId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Shift",
-        required: true
+        required: true,
+        unique: true
     },
     message: {
         type: String,

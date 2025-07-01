@@ -1,7 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import "../strategies/local-strategy.js";
-import {createUser} from "../queries/userQueries.js";
+import { createUser } from "../queries/userQueries.js";
 
 const userRouter = Router();
 
@@ -40,7 +40,12 @@ userRouter.post("/logout",(request, response) => {
 userRouter.get("/status", (request, response) => {
     if(!request.isAuthenticated())
         return response.send({ isLoggedIn: false, message: "Not logged in" });
-    return response.send({ isLoggedIn: true, message: `Logged into ${request.user.firstName}`, userId: request.user.id });
+    return response.send({
+        isLoggedIn: true,
+        message: `Logged into ${request.user.firstName}`,
+        userId: request.user.id,
+        isSupervisor: request.user.isSupervisor
+    });
 });
 
 

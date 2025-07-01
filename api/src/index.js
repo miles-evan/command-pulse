@@ -5,6 +5,7 @@ import userRouter from "./routers/userRouter.js";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import session from "express-session";
+import shiftRouter from "./routers/shiftRouter.js";
 
 
 const app = express();
@@ -37,6 +38,7 @@ app.use(passport.session());
 // routers
 app.use("/command-pulse/api/v1/users", userRouter);
 app.use("/command-pulse/api/v1/companies", companyRouter);
+app.use("/command-pulse/api/v1/shifts", shiftRouter);
 
 
 // serve static frontend

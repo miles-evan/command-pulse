@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { permission } from "../utils/middleware.js";
+import { permission } from "../middleware/permission.js";
 import {
     createCompany, joinCompanyById, joinCompanyByInviteCode, leaveCompany,
     getCompanyName, getContacts, getInviteCodes, resetInviteCodes
