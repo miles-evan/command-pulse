@@ -2,18 +2,10 @@ import { Shift } from "../mongoose/schemas/shiftSchema.js";
 import { User } from "../mongoose/schemas/userSchema.js";
 import { ShiftRequest } from "../mongoose/schemas/shiftRequestSchema.js";
 import { Company } from "../mongoose/schemas/companySchema.js";
-import extractFromRequest from "../utils/extractFromRequest.js";
 
 
 export async function createAndAssignShift(
-	date,
-	startTime,
-	endTime,
-	location,
-	payRate,
-	userId,
-	shiftRequestMessage,
-	companyId
+	date, startTime, endTime, location, payRate, userId, shiftRequestMessage, companyId
 ) {
 	const newShift = new Shift({ date, startTime, endTime, location, payRate, userId });
 	await newShift.save();
@@ -28,15 +20,18 @@ export async function createAndAssignShift(
 }
 
 
-export async function reassignShift(shiftId, userId, shiftRequestMessage, companyId) {
-	const shift = await Shift.findById(shiftId);
+export async function acceptShiftRequest(userId, shiftRequestId) {
+	const { shiftId } = await ShiftRequest.findById(shiftRequestId);
 	
+	await reassignShift(shiftId, userId);
+	
+	return shiftId;
+}
+
+
+export async function reassignShift(shiftId, userId, shiftRequestMessage, companyId) {
 	// remove connections
-	if(shift.userId)
-		await unassignShift(shift.userId, shiftId);
-	const shiftRequest = await ShiftRequest.findOne({ shiftId: shiftId });
-	if(shiftRequest)
-		await deleteShiftRequest(shiftRequest.id);
+	await removeAllShiftConnections(shiftId);
 	
 	// add connections
 	if(userId) {
@@ -44,6 +39,28 @@ export async function reassignShift(shiftId, userId, shiftRequestMessage, compan
 	} else {
 		await createShiftRequest(shiftId, shiftRequestMessage, false, companyId);
 	}
+}
+
+
+export async function deleteAndUnassignShifts(shiftIds) {
+	await Promise.all(
+		shiftIds.map(async shiftId => {
+			await removeAllShiftConnections(shiftId);
+			await Shift.findByIdAndDelete(shiftId);
+		})
+	);
+}
+
+
+async function removeAllShiftConnections(shiftId) {
+	const shift = await Shift.findById(shiftId);
+	
+	if(shift.userId)
+		await unassignShift(shift.userId, shiftId);
+	
+	const shiftRequest = await ShiftRequest.findOne({ shiftId: shiftId });
+	if(shiftRequest)
+		await deleteShiftRequest(shiftRequest.id);
 }
 
 
@@ -69,7 +86,7 @@ export async function createShiftRequest(shiftId, message="", isCover, companyId
 }
 
 
-async function deleteShiftRequest(shiftRequestId) {
+export async function deleteShiftRequest(shiftRequestId) {
 	await Company.updateOne({ shiftRequestIds: shiftRequestId }, { $pull: { shiftRequestIds: shiftRequestId } });
 	await ShiftRequest.findByIdAndDelete(shiftRequestId);
 }
@@ -163,6 +180,26 @@ async function projectShifts(shifts) {
 // --------------------------------
 
 
+export async function updateShiftInfos(shiftIds, updatedInfo) {
+	await Promise.all(shiftIds.map(shiftId => updateShiftInfo(shiftId, updatedInfo)));
+}
+
+
+export async function updateShiftInfo(shiftId, updatedInfo) {
+	await Shift.findByIdAndUpdate(shiftId, updatedInfo);
+}
+
+
+// --------------------------------
+
+
+export async function userInSameCompanyAsShiftRequest(userId, shiftRequestId) {
+	const user = await User.findById(userId);
+	const company = await Company.findOne({ shiftRequestIds: shiftRequestId });
+	return user.companyId.equals(company.id);
+}
+
+
 export async function userInSameCompanyAsShift(userId, shiftId) {
 	const user = await User.findById(userId);
 	const shift = await Shift.findById(shiftId);
@@ -178,7 +215,30 @@ export async function userInSameCompanyAsShift(userId, shiftId) {
 }
 
 
+export async function userOwnsShiftRequest(userId, shiftRequestId) {
+	const { shiftId } = await ShiftRequest.findById(shiftRequestId);
+	return userOwnsShift(userId, shiftId);
+}
+
+
 export async function userOwnsShift(userId, shiftId) {
 	const shift = await Shift.findById(shiftId);
 	return shift.userId.equals(userId);
+}
+
+
+export async function isShiftToday(shiftId) {
+	const shift = await Shift.findById(shiftId);
+	return shift.date === new Date().toISOString().slice(0, 10);
+}
+
+
+export async function hasClockedIn(shiftId) {
+	const shift = await Shift.findById(shiftId);
+	return shift.clockInTime !== null;
+}
+
+export async function hasClockedOut(shiftId) {
+	const shift = await Shift.findById(shiftId);
+	return shift.clockOutTime !== null;
 }

@@ -1,14 +1,21 @@
 import { Router } from "express";
 import { permission } from "../middleware/permission.js";
-import {sameCompanyAsShift, sameCompanyAsUser} from "../middleware/sameCompanyAs.js";
 import {
+	sameCompanyAsShift,
+	sameCompanyAsShiftRequest,
+	sameCompanyAsShifts,
+	sameCompanyAsUser
+} from "../middleware/sameCompanyAs.js";
+import {
+	acceptShiftRequest,
 	createAndAssignShift,
-	createShiftRequest,
+	createShiftRequest, deleteAndUnassignShifts, deleteShiftRequest,
 	getAllShifts,
 	getShifts,
-	reassignShift
+	reassignShift, updateShiftInfo, updateShiftInfos
 } from "../queries/shiftQueries.js";
-import {isMyShift} from "../middleware/isMy.js";
+import {isMyShift, isMyShiftRequest} from "../middleware/isMy.js";
+import { clockInOutPermission } from "../middleware/clockInOutPermission.js";
 
 const shiftRouter = Router();
 
@@ -35,7 +42,7 @@ shiftRouter.post(
 );
 
 
-// Reassign / unassign (shift request) shift
+// Reassign / shift request shift
 shiftRouter.post(
 	"/reassign",
 	...permission("supervisor"),
@@ -108,6 +115,92 @@ shiftRouter.post(
 		} catch ({ message }) {
 			return response.status(400).send({ message });
 		}
+	}
+);
+
+
+// Delete cover request
+shiftRouter.delete(
+	"/requests/:shiftRequestId",
+	...permission("in company"),
+	isMyShiftRequest("params.shiftRequestId"),
+	async (request, response) => {
+		const { shiftRequestId } = request.params;
+		
+		await deleteShiftRequest(shiftRequestId);
+		return response.sendStatus(200);
+	}
+);
+
+
+// Accept shift request
+shiftRouter.post(
+	"/requests/:shiftRequestId/accept",
+	...permission("in company"),
+	sameCompanyAsShiftRequest("params.shiftRequestId"),
+	async (request, response) => {
+		const { shiftRequestId } = request.params;
+		
+		const shiftId = await acceptShiftRequest(request.user.id, shiftRequestId);
+		return response.send({ shiftId });
+	}
+);
+
+
+// Delete and unassign shift
+shiftRouter.delete(
+	"/",
+	...permission("supervisor"),
+	sameCompanyAsShifts("body.shiftIds"),
+	async (request, response) => {
+		const { shiftIds } = request.body;
+		
+		await deleteAndUnassignShifts(shiftIds);
+	}
+);
+
+
+// Update shift infos
+shiftRouter.put(
+	"/",
+	...permission("supervisor"),
+	sameCompanyAsShifts("body.shiftIds"),
+	async (request, response) => {
+		const {
+			shiftIds,
+			updatedInfo: { date, location, startTime, endTime, payRate }
+		} = request.body;
+		
+		// remove later once validation is added (use matchedData())
+		const updatedInfo = { date, location, startTime, endTime, payRate }
+		for(const attribute in updatedInfo) {
+			if(updatedInfo[attribute] === undefined)
+				delete updatedInfo[attribute];
+		}
+		
+		await updateShiftInfos(shiftIds, updatedInfo);
+		response.sendStatus(200);
+	}
+);
+
+
+// Clock in/out
+shiftRouter.post(
+	"/:shiftId/clock/:inOrOut",
+	...permission("in company"),
+	isMyShift("params.shiftId"),
+	clockInOutPermission("params.shiftId", "params.inOrOut"),
+	async (request, response) => {
+		const { shiftId, inOrOut } = request.params;
+		
+		const propertyToUpdate = inOrOut === "in"? "clockInTime": "clockOutTime";
+		
+		const now = new Date();
+		const timeString = now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
+		
+		await updateShiftInfo(shiftId, { [propertyToUpdate]: timeString });
+		
+		response.sendStatus(200);
 	}
 );
 
