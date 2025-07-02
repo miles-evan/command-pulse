@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { permission } from "../middleware/permission.js";
 import {
-    createCompany, joinCompanyById, joinCompanyByInviteCode, leaveCompany,
+    createCompany, joinCompanyByInviteCode, leaveCompany,
     getCompanyName, getContacts, getInviteCodes, resetInviteCodes
 } from "../queries/companyQueries.js";
+import {validateRequest} from "../middleware/validate.js";
+import {createCompanyValidation, joinCompanyValidation} from "../validation/companyValidation.js";
 
 const companyRouter = Router();
 
@@ -13,6 +15,7 @@ const companyRouter = Router();
 // Create company
 companyRouter.post(
     "/",
+    ...validateRequest(createCompanyValidation),
     ...permission("not in company"),
     async (request, response) => {
         const { companyName } = request.body;
@@ -51,6 +54,7 @@ companyRouter.post(
 // Join company
 companyRouter.post(
     "/join",
+    ...validateRequest(joinCompanyValidation),
     ...permission("not in company"),
     async (request, response) => {
         const { inviteCode } = request.body;

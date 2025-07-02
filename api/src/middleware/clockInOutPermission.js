@@ -10,7 +10,7 @@ export function clockInOutPermission(pathFromRequestToShiftId, pathFromRequestTo
 		const shiftId = extractFromRequest(request, shiftIdPathArray);
 		const inOrOut = extractFromRequest(request, inOrOutPathArray);
 		
-		if(!await isShiftToday(shiftId))
+		if(inOrOut === "in" && !await isShiftToday(shiftId))
 			return response.status(403).send({ message: "shift must be today" });
 		
 		if(inOrOut === "out" && !await hasClockedIn(shiftId))

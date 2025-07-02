@@ -18,7 +18,7 @@ export async function createCompany(companyName, supervisorId) {
 }
 
 
-export async function joinCompanyById(userId, companyId, role="officer") {
+async function joinCompanyById(userId, companyId, role="officer") {
     if (!["officer", "supervisor"].includes(role)) {
         throw new Error("Invalid role");
     }

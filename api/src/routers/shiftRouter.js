@@ -16,6 +16,13 @@ import {
 } from "../queries/shiftQueries.js";
 import {isMyShift, isMyShiftRequest} from "../middleware/isMy.js";
 import { clockInOutPermission } from "../middleware/clockInOutPermission.js";
+import {validateRequest} from "../middleware/validate.js";
+import {
+	acceptShiftRequestValidation, clockInOutValidation,
+	createAssignShiftValidation, deleteCoverRequestValidation, deleteShiftsValidation,
+	getAllShiftsValidation, getMyShiftsValidation, getSomeonesShiftsValidation, makeCoverRequestValidation,
+	reassignShiftValidation, updateShiftInfoValidation
+} from "../validation/shiftValidation.js";
 
 const shiftRouter = Router();
 
@@ -25,6 +32,7 @@ const shiftRouter = Router();
 // Create and assign (or shift request) shift
 shiftRouter.post(
 	"/assign",
+	...validateRequest(createAssignShiftValidation),
 	...permission("supervisor"),
 	sameCompanyAsUser("body.userId"),
 	async (request, response) => {
@@ -45,6 +53,7 @@ shiftRouter.post(
 // Reassign / shift request shift
 shiftRouter.post(
 	"/reassign",
+	...validateRequest(reassignShiftValidation),
 	...permission("supervisor"),
 	sameCompanyAsShift("body.shiftId"),
 	sameCompanyAsUser("body.userId"),
@@ -60,6 +69,7 @@ shiftRouter.post(
 // Get all shifts
 shiftRouter.get(
 	"/all",
+	...validateRequest(getAllShiftsValidation),
 	...permission("supervisor"),
 	async (request, response) => {
 		const { startDate, endDate } = request.query;
@@ -72,6 +82,7 @@ shiftRouter.get(
 // Get my shifts
 shiftRouter.get(
 	"/",
+	...validateRequest(getMyShiftsValidation),
 	...permission("in company"),
 	async (request, response) => {
 		const { date, dir, skip, limit } = request.query;
@@ -85,6 +96,7 @@ shiftRouter.get(
 // Get someone's shifts
 shiftRouter.get(
 	"/users/:userId",
+	...validateRequest(getSomeonesShiftsValidation),
 	...permission("supervisor"),
 	async (request, response) => {
 		const {
@@ -101,6 +113,7 @@ shiftRouter.get(
 // Make cover request
 shiftRouter.post(
 	"/requests/add/:shiftId",
+	...validateRequest(makeCoverRequestValidation),
 	...permission("in company"),
 	isMyShift("params.shiftId"),
 	async (request, response) => {
@@ -122,6 +135,7 @@ shiftRouter.post(
 // Delete cover request
 shiftRouter.delete(
 	"/requests/:shiftRequestId",
+	...validateRequest(deleteCoverRequestValidation),
 	...permission("in company"),
 	isMyShiftRequest("params.shiftRequestId"),
 	async (request, response) => {
@@ -136,6 +150,7 @@ shiftRouter.delete(
 // Accept shift request
 shiftRouter.post(
 	"/requests/:shiftRequestId/accept",
+	...validateRequest(acceptShiftRequestValidation),
 	...permission("in company"),
 	sameCompanyAsShiftRequest("params.shiftRequestId"),
 	async (request, response) => {
@@ -147,9 +162,10 @@ shiftRouter.post(
 );
 
 
-// Delete and unassign shift
+// Delete and unassign shift(s)
 shiftRouter.delete(
 	"/",
+	...validateRequest(deleteShiftsValidation),
 	...permission("supervisor"),
 	sameCompanyAsShifts("body.shiftIds"),
 	async (request, response) => {
@@ -160,9 +176,10 @@ shiftRouter.delete(
 );
 
 
-// Update shift infos
+// Update shift info
 shiftRouter.put(
 	"/",
+	...validateRequest(updateShiftInfoValidation),
 	...permission("supervisor"),
 	sameCompanyAsShifts("body.shiftIds"),
 	async (request, response) => {
@@ -187,6 +204,7 @@ shiftRouter.put(
 // Clock in/out
 shiftRouter.post(
 	"/:shiftId/clock/:inOrOut",
+	...validateRequest(clockInOutValidation),
 	...permission("in company"),
 	isMyShift("params.shiftId"),
 	clockInOutPermission("params.shiftId", "params.inOrOut"),

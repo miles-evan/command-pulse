@@ -2,6 +2,8 @@ import { Router } from "express";
 import passport from "passport";
 import "../strategies/local-strategy.js";
 import { createUser } from "../queries/userQueries.js";
+import { validateRequest } from "../middleware/validate.js";
+import { loginValidation, signupValidation } from "../validation/userValidation.js";
 
 const userRouter = Router();
 
@@ -9,7 +11,10 @@ const userRouter = Router();
 
 
 // Sign up
-userRouter.post("/signup", async (request, response) => {
+userRouter.post(
+    "/signup",
+    ...validateRequest(signupValidation),
+    async (request, response) => {
     const { email, password, firstName, lastName, phoneNumber } = request.body;
     try {
         const newUser = await createUser(email, password, firstName, lastName, phoneNumber)
@@ -21,7 +26,9 @@ userRouter.post("/signup", async (request, response) => {
 
 
 // Login
-userRouter.post("/login",
+userRouter.post(
+    "/login",
+    ...validateRequest(loginValidation),
     passport.authenticate("local"),
     (request, response) => {
         response.send({ userId: request.user.id });
