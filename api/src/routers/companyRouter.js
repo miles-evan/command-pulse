@@ -2,10 +2,14 @@ import { Router } from "express";
 import { permission } from "../middleware/permission.js";
 import {
     createCompany, joinCompanyByInviteCode, leaveCompany,
-    getCompanyName, getContacts, getInviteCodes, resetInviteCodes
+    getCompanyName, getContacts, getInviteCodes, resetInviteCodes, checkInviteCode
 } from "../queries/companyQueries.js";
 import {validateRequest} from "../middleware/validate.js";
-import {createCompanyValidation, joinCompanyValidation} from "../validation/companyValidation.js";
+import {
+    checkInviteCodeValidation,
+    createCompanyValidation,
+    joinCompanyValidation
+} from "../validation/companyValidation.js";
 
 const companyRouter = Router();
 
@@ -47,6 +51,18 @@ companyRouter.post(
         const { companyId } = request.user;
         await resetInviteCodes(companyId);
         return response.send(await getInviteCodes(companyId));
+    }
+);
+
+
+// Check invite code
+companyRouter.get(
+    "/invite-codes/check/:inviteCode",
+    ...validateRequest(checkInviteCodeValidation),
+    async (request, response) => {
+        const { inviteCode } = request.params;
+        const isValid = await checkInviteCode(inviteCode);
+        return response.send({ isValid });
     }
 );
 

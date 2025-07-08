@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import {body, param} from "express-validator";
 
 
 export const createCompanyValidation = [
@@ -17,5 +17,15 @@ export const joinCompanyValidation = [
 		.isString().withMessage("Invite code must be a string")
 		.trim()
 		.notEmpty().withMessage("Invite code is required")
-		.isLength({ min: 6, max: 12 }).withMessage("Invite code must be 6-12 characters")
+		.isLength({ min: 8, max: 8 }).withMessage("Invite code must be 8 characters")
+];
+
+
+export const checkInviteCodeValidation = [
+	param("inviteCode")
+		.exists().withMessage("Invite code must be included")
+		.isString().withMessage("Invite code must be a string")
+		.trim()
+		.notEmpty().withMessage("Invite code is required")
+		.isLength({ min: 8, max: 8 }).withMessage("Invite code must be 8 characters")
 ];

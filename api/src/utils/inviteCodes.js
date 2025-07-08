@@ -1,5 +1,6 @@
 import { Company } from "../mongoose/schemas/companySchema.js";
 
+
 // generates random 8 digit unique code
 export async function generateUniqueCode() {
     while(true) {

@@ -1,4 +1,4 @@
-import {body, param, query} from "express-validator";
+import { body, param, query } from "express-validator";
 
 
 export const createAssignShiftValidation = [
@@ -57,13 +57,16 @@ export const getMyShiftsValidation = [
 		.matches(/^\d{4}-\d{2}-\d{2}$/).withMessage("date must be yyyy-mm-dd"),
 	query("dir")
 		.optional()
-		.isIn(["1", "-1"]).withMessage("dir must be 1 or -1"),
+		.isIn(["1", "-1"]).withMessage("dir must be 1 or -1")
+		.toInt(),
 	query("skip")
 		.optional()
-		.isInt({ min: 0 }).withMessage("skip must be a non-negative integer"),
+		.isInt({ min: 0 }).withMessage("skip must be a non-negative integer")
+		.toInt(),
 	query("limit")
 		.optional()
 		.isInt({ min: 1 }).withMessage("limit must be a positive integer")
+		.toInt()
 ];
 
 
@@ -100,7 +103,7 @@ export const acceptShiftRequestValidation = [
 ];
 
 
-export const deleteShiftsValidation = [
+export const deleteUnassignShiftsValidation = [
 	body("shiftIds")
 		.exists().withMessage("shiftIds must be included")
 		.isArray({ min: 1 }).withMessage("shiftIds must be a non-empty array"),

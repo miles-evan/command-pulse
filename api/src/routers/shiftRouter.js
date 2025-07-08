@@ -1,28 +1,22 @@
 import { Router } from "express";
 import { permission } from "../middleware/permission.js";
 import {
-	sameCompanyAsShift,
-	sameCompanyAsShiftRequest,
-	sameCompanyAsShifts,
-	sameCompanyAsUser
+	sameCompanyAsShift, sameCompanyAsShiftRequest, sameCompanyAsShifts, sameCompanyAsUser
 } from "../middleware/sameCompanyAs.js";
 import {
-	acceptShiftRequest,
-	createAndAssignShift,
-	createShiftRequest, deleteAndUnassignShifts, deleteShiftRequest,
-	getAllShifts,
-	getShifts,
-	reassignShift, updateShiftInfo, updateShiftInfos
+	acceptShiftRequest, createAndAssignShift, createShiftRequest, deleteAndUnassignShifts, deleteShiftRequest,
+	getAllShifts, getShifts, reassignShift, updateShiftInfo, updateShiftInfos
 } from "../queries/shiftQueries.js";
 import {isMyShift, isMyShiftRequest} from "../middleware/isMy.js";
 import { clockInOutPermission } from "../middleware/clockInOutPermission.js";
-import {validateRequest} from "../middleware/validate.js";
+import { validateRequest } from "../middleware/validate.js";
 import {
 	acceptShiftRequestValidation, clockInOutValidation,
-	createAssignShiftValidation, deleteCoverRequestValidation, deleteShiftsValidation,
+	createAssignShiftValidation, deleteCoverRequestValidation, deleteUnassignShiftsValidation,
 	getAllShiftsValidation, getMyShiftsValidation, getSomeonesShiftsValidation, makeCoverRequestValidation,
 	reassignShiftValidation, updateShiftInfoValidation
 } from "../validation/shiftValidation.js";
+import {matchedData} from "express-validator";
 
 const shiftRouter = Router();
 
@@ -87,7 +81,7 @@ shiftRouter.get(
 	async (request, response) => {
 		const { date, dir, skip, limit } = request.query;
 		
-		const shifts = await getShifts(request.user.id, date, Number(dir), Number(skip), Number(limit));
+		const shifts = await getShifts(request.user.id, date, dir, skip, limit);
 		response.send({ shifts });
 	}
 );
@@ -104,7 +98,7 @@ shiftRouter.get(
 			query: { date, dir, skip, limit }
 		} = request;
 		
-		const shifts = await getShifts(userId, date, Number(dir), Number(skip), Number(limit));
+		const shifts = await getShifts(userId, date, dir, skip, limit);
 		response.send({ shifts });
 	}
 );
@@ -165,7 +159,7 @@ shiftRouter.post(
 // Delete and unassign shift(s)
 shiftRouter.delete(
 	"/",
-	...validateRequest(deleteShiftsValidation),
+	...validateRequest(deleteUnassignShiftsValidation),
 	...permission("supervisor"),
 	sameCompanyAsShifts("body.shiftIds"),
 	async (request, response) => {
@@ -183,17 +177,7 @@ shiftRouter.put(
 	...permission("supervisor"),
 	sameCompanyAsShifts("body.shiftIds"),
 	async (request, response) => {
-		const {
-			shiftIds,
-			updatedInfo: { date, location, startTime, endTime, payRate }
-		} = request.body;
-		
-		// remove later once validation is added (use matchedData())
-		const updatedInfo = { date, location, startTime, endTime, payRate }
-		for(const attribute in updatedInfo) {
-			if(updatedInfo[attribute] === undefined)
-				delete updatedInfo[attribute];
-		}
+		const { shiftIds, updatedInfo } = matchedData(request);
 		
 		await updateShiftInfos(shiftIds, updatedInfo);
 		response.sendStatus(200);

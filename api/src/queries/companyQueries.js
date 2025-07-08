@@ -43,6 +43,14 @@ export async function joinCompanyByInviteCode(userId, inviteCode) {
 }
 
 
+export async function checkInviteCode(inviteCode) {
+    return !!await Company.findOne({ $or: [
+        { supervisorInviteCode: inviteCode },
+        { officerInviteCode: inviteCode }
+    ]});
+}
+
+
 export async function getCompanyName(companyId) {
     const company = await Company.findById(companyId);
     return company.name;

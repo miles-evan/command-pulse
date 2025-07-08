@@ -6,30 +6,36 @@ import MongoStore from "connect-mongo";
 import passport from "passport";
 import session from "express-session";
 import shiftRouter from "./routers/shiftRouter.js";
+import cors from "cors";
 
 
 const app = express();
 
 mongoose.connect("mongodb://localhost/command-pulse")
-    .then(() => console.log("Connected to database"));
+	.then(() => console.log("Connected to database"));
 
 // --------------------------------
 
 
 // middleware
 app.use(express.json());
+app.use(cors({
+	origin: true,
+	methods: ["GET", "POST", "PUT", "DELETE"],
+	credentials: true
+}));
 app.use(session({
-    secret: "command pulse gpE4J8eGjn=]a{f-ig+^FQ)RA",
-    saveUninitialized: false,
-    resave: false,
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24,
-        sameSite: "lax",
-        secure: false
-    },
-    store: MongoStore.create({
-        client: mongoose.connection.getClient()
-    })
+	secret: "command pulse gpE4J8eGjn=]a{f-ig+^FQ)RA",
+	saveUninitialized: false,
+	resave: false,
+	cookie: {
+		maxAge: 1000 * 60 * 60 * 24,
+		sameSite: "lax",
+		secure: false
+	},
+	store: MongoStore.create({
+		client: mongoose.connection.getClient()
+	})
 }));
 app.use(passport.initialize());
 app.use(passport.session());
