@@ -3,7 +3,7 @@ import Button from "@/components/Button.jsx";
 import StyledText from "@/components/StyledText";
 import FormHeader from "@/components/form-card/FormHeader";
 import FormCard from "@/components/form-card/FormCard";
-import * as userService from "@/services/userService.js";
+import Gap from "@/components/Gap";
 
 
 export default function GetStarted() {
@@ -12,13 +12,17 @@ export default function GetStarted() {
 	return (
 		<SafeAreaViewWithBackground>
 			
-			<StyledText look="68 semibold veryHard" style={{ marginTop: 25 }}>Welcome</StyledText>
+			<Gap size={25}/>
+			
+			<StyledText look="68 semibold veryHard">Welcome</StyledText>
 			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
 			
-			<FormCard style={{ marginTop: "100" }}>
+			<Gap size={100}/>
+			
+			<FormCard>
 				<FormHeader>Get started</FormHeader>
 				<Button look="white" to="/setup/join-company">Join a company</Button>
-				<Button>Create a new company</Button>
+				<Button to="/setup/create-company">Create a new company</Button>
 			</FormCard>
 			
 		</SafeAreaViewWithBackground>

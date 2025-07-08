@@ -2,6 +2,9 @@
 
 export const Colors = {
 	accent: "#0077ff",
+	softAccent: "#80a8ff",
+	
+	
 	white: "#ffffff",
 	verySoft: "#fbfbfb",
 	soft: "#c7c7c7",

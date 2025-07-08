@@ -6,9 +6,14 @@ import BackButton from "@/components/BackButton";
 import InputBubble from "@/components/form-card/InputBubble";
 import SubmitButton from "@/components/form-card/SubmitButton";
 import Gap from "@/components/Gap";
+import { useLocalSearchParams } from "expo-router";
 
 
-export default function JoinCompany() {
+export default function PersonalInfo() {
+	
+	const params = useLocalSearchParams();
+	console.log(params);
+	
 	
 	return (
 		<SafeAreaViewWithBackground>
@@ -20,12 +25,14 @@ export default function JoinCompany() {
 			<StyledText look="68 semibold veryHard">Set up</StyledText>
 			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
 			
-			<Gap size={95}/>
+			<Gap size={25}/>
 			
 			<FormCard>
-				<FormHeader>Join company</FormHeader>
-				<InputBubble fieldName="inviteCode" placeholder={"Join code"}/>
-				<SubmitButton to="/setup/create-account">Next</SubmitButton>
+				<FormHeader>Personal info</FormHeader>
+				<InputBubble fieldName="firstName" placeholder="first name"/>
+				<InputBubble fieldName="lastName" placeholder="last name"/>
+				<InputBubble fieldName="phoneNumber" placeholder="phone number"/>
+				<SubmitButton>Finish</SubmitButton>
 			</FormCard>
 		
 		</SafeAreaViewWithBackground>

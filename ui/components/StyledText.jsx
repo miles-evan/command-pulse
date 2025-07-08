@@ -3,15 +3,32 @@ import { FontWeights } from "@/constants/Typography";
 import { Colors } from "@/constants/Colors";
 
 
-export default function StyledText({ look="12 semibold black", hCenter=true, vCenter=false, style={}, children }) {
+export default function StyledText(
+	{
+		look="12 semibold black",
+		hCenter=true,
+		vCenter=false,
+		style={},
+		children,
+		adjustsFontSizeToFit,
+		numberOfLines,
+		onPress,
+	}
+) {
 	
 	return (
-		<Text style={getStyle(look, hCenter, vCenter, style)}>
+		<Text
+			style={getStyle(look, hCenter, vCenter, style)}
+			adjustsFontSizeToFit={adjustsFontSizeToFit}
+			numberOfLines={numberOfLines}
+			onPress={onPress}
+		>
 			{children}
 		</Text>
 	);
 	
 }
+
 
 function getStyle(look, hCenter, vCenter, style) {
 	look = look.split(" ");

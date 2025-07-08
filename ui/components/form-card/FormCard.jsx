@@ -9,7 +9,7 @@ export default function FormCard({ children, style }) {
 	
 	const inputValuesRef = useRef({});
 	const submitRef = useRef(() => {});
-	const checkValidationRef = useRef(() => {});
+	const checkValidationRef = useRef(() => true);
 	
 	return (
 		<FormContext.Provider value={{ inputValuesRef, submitRef, checkValidationRef }}>
