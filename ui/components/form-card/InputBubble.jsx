@@ -1,9 +1,11 @@
 import { useContext, useEffect, useRef } from "react";
 import { FormContext } from "./FormCard.jsx";
-import {TextInput} from "react-native";
+import { TextInput, StyleSheet } from "react-native";
+import {FontWeights} from "@/constants/Typography";
+import {Colors} from "@/constants/Colors";
 
 
-export default function InputBubble({ fieldName, placeholder, type="text", submitOnEnter=false }) {
+export default function InputBubble({ fieldName, placeholder, submitOnEnter=false, style={} }) {
 	
 	const { inputValuesRef, submitRef } = useContext(FormContext);
 	
@@ -20,6 +22,35 @@ export default function InputBubble({ fieldName, placeholder, type="text", submi
 			onSubmitEditing={() => {
 				if(submitOnEnter) submitRef.current();
 			}}
+			placeholderTextColor={Colors.accent}
+			style={getStyles(style).inputBubble}
 		/>
 	);
+}
+
+
+function getStyles(style) {
+	return StyleSheet.create({
+		inputBubble: {
+			fontSize: 20,
+			fontWeight: FontWeights.regular,
+			color: Colors.accent,
+			
+			width: "90%",
+			height: 44,
+			
+			paddingLeft: 15,
+			
+			borderRadius: 48,
+			
+			marginHorizontal: "auto",
+			marginVertical: 8,
+			
+			backgroundColor: Colors.verySoft,
+			borderWidth: 1,
+			borderColor: Colors.soft,
+			
+			...style
+		}
+	});
 }

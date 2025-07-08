@@ -3,9 +3,11 @@ import Button from "@/components/Button.jsx";
 import StyledText from "@/components/StyledText";
 import FormHeader from "@/components/form-card/FormHeader";
 import FormCard from "@/components/form-card/FormCard";
+import * as userService from "@/services/userService.js";
 
 
 export default function GetStarted() {
+	
 	
 	return (
 		<SafeAreaViewWithBackground>

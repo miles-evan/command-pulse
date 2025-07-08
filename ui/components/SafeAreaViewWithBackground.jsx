@@ -1,5 +1,5 @@
 import background from "@/assets/images/squares-background.png";
-import { SafeAreaView, View, Image, Dimensions, StyleSheet } from "react-native";
+import { SafeAreaView, View, Image, Dimensions, StyleSheet, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 
@@ -9,17 +9,19 @@ const { width } = Dimensions.get("window");
 export default function SafeAreaViewWithBackground({ children }) {
 	
 	return (
-		<View style={{ flex: 1, backgroundColor: "white" }}>
-			
-			<StatusBar style="dark" />
-			
-			<Image source={background} resizeMode="cover" style={styles.image}/>
-			
-			<SafeAreaView style={{ flex: 1 }}>
-				{children}
-			</SafeAreaView>
-			
-		</View>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+			<View style={{ flex: 1, backgroundColor: "white" }}>
+				
+				<StatusBar style="dark" />
+				
+				<Image source={background} resizeMode="cover" style={styles.image}/>
+				
+				<SafeAreaView style={{ flex: 1 }}>
+					{children}
+				</SafeAreaView>
+				
+			</View>
+		</TouchableWithoutFeedback>
 	);
 	
 }

@@ -4,12 +4,12 @@ import StyledText from "@/components/StyledText";
 import { router } from "expo-router";
 
 
-export default function Button({ look="blue", width="90%", onPress=()=>{}, to, children }) {
+export default function Button({ look="blue", onPress=()=>{}, to, children, buttonStyle={}, textStyle={} }) {
 	
 	if(to) onPress = () => router.push(to);
 	
 	
-	const styles = getStyles(look, width);
+	const styles = getStyles(look, buttonStyle, textStyle);
 	
 	
 	return (
@@ -23,10 +23,10 @@ export default function Button({ look="blue", width="90%", onPress=()=>{}, to, c
 }
 
 
-function getStyles(look, width) {
+function getStyles(look, buttonStyle, textStyle) {
 	return StyleSheet.create({
 		button: {
-			width: width,
+			width: "90%",
 			height: 44,
 			
 			borderRadius: 48,
@@ -44,17 +44,16 @@ function getStyles(look, width) {
 					borderColor: Colors.soft,
 				}
 			}[look],
+			
+			...buttonStyle
 		},
 		
 		text: {
-			...{
-				"blue": {
-					color: Colors.white,
-				},
-				"white": {
-					color: Colors.accent,
-				}
-			}[look],
+			color: look === "blue"? Colors.white
+				: look === "white"? Colors.accent
+				: "#000000",
+			
+			...textStyle
 		}
 	});
 }
