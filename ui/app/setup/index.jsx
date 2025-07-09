@@ -5,6 +5,7 @@ import FormHeader from "@/components/form-card/FormHeader";
 import FormCard from "@/components/form-card/FormCard";
 import Gap from "@/components/Gap";
 import HorizontalLine from "@/components/HorizontalLine";
+import OrLine from "@/components/OrLine";
 
 
 export default function GetStarted() {
@@ -21,6 +22,8 @@ export default function GetStarted() {
 			<Gap size={40}/>
 			<HorizontalLine/>
 			<Gap size={40}/>
+			
+			<OrLine/>
 			
 			<FormCard>
 				<FormHeader>Get started</FormHeader>
