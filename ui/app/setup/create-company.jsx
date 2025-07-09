@@ -7,7 +7,7 @@ import InputBubble from "@/components/form-card/InputBubble";
 import SubmitButton from "@/components/form-card/SubmitButton";
 import Gap from "@/components/Gap";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
-import { validateCompanyName } from "@/scripts/validation";
+import { validateCompanyName } from "@/utils/validation";
 import HorizontalLine from "@/components/HorizontalLine";
 
 

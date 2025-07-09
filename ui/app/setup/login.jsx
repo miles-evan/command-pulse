@@ -8,19 +8,26 @@ import SubmitButton from "@/components/form-card/SubmitButton";
 import Gap from "@/components/Gap";
 import { router, useLocalSearchParams } from "expo-router";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
-import { validateLoginInfo } from "@/scripts/validation";
+import { validateLoginInfo } from "@/utils/validation";
 import * as userService from "@/services/userService.js";
 import * as companyService from "@/services/companyService";
 import HorizontalLine from "@/components/HorizontalLine";
+import {useRef} from "react";
+import {storeCredentials} from "@/utils/AsyncStorageAuthentication";
 
 
 export default function Login() {
 	
 	const { isCreatingCompany, inviteCode, companyName } = useLocalSearchParams();
+	const setErrorMessagesRef = useRef(() => {});
 	
 	
 	async function loginAndJoinOrCreateCompany({ email, password }) {
-		await userService.login(email, password);
+		const response = await userService.login(email, password);
+		if(!response.ok)
+			return setErrorMessagesRef.current(["Incorrect email or password"]);
+		
+		await storeCredentials(email, password);
 		
 		await companyService.leave();
 		
@@ -53,7 +60,7 @@ export default function Login() {
 				<FormHeader>Login</FormHeader>
 				<InputBubble fieldName="email"/>
 				<InputBubble fieldName="password" secureTextEntry submitOnEnter/>
-				<ErrorMessages validate={validateLoginInfo}/>
+				<ErrorMessages validate={validateLoginInfo} setErrorMessagesRef={setErrorMessagesRef}/>
 				<SubmitButton onSubmit={loginAndJoinOrCreateCompany}>Finish</SubmitButton>
 			</FormCard>
 		

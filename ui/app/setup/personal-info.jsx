@@ -9,9 +9,10 @@ import Gap from "@/components/Gap";
 import { useLocalSearchParams } from "expo-router";
 import * as userService from "@/services/userService";
 import * as companyService from "@/services/companyService";
-import { validatePersonalInfo } from "@/scripts/validation";
+import { validatePersonalInfo } from "@/utils/validation";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
 import HorizontalLine from "@/components/HorizontalLine";
+import {storeCredentials} from "@/utils/AsyncStorageAuthentication";
 
 
 export default function PersonalInfo() {
@@ -22,6 +23,8 @@ export default function PersonalInfo() {
 	async function signUpAndJoinOrCreateCompany({ firstName, lastName, phoneNumber }) {
 		await userService.signup(email, password, firstName, lastName, phoneNumber);
 		await userService.login(email, password);
+		
+		await storeCredentials(email, password);
 		
 		console.log(await userService.status())
 		

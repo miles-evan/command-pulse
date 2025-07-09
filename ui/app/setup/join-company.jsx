@@ -8,7 +8,7 @@ import SubmitButton from "@/components/form-card/SubmitButton";
 import Gap from "@/components/Gap";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
 import * as companyService from "@/services/companyService";
-import { validateInviteCode } from "@/scripts/validation";
+import { validateInviteCode } from "@/utils/validation";
 import HorizontalLine from "@/components/HorizontalLine";
 
 
