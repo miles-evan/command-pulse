@@ -12,7 +12,7 @@ export default function StyledText(
 		children,
 		adjustsFontSizeToFit,
 		numberOfLines,
-		onPress,
+		onPress
 	}
 ) {
 	

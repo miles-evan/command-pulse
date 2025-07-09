@@ -1,6 +1,7 @@
 import {useContext, useEffect, useState} from "react";
 import { FormContext } from "./FormCard.jsx";
 import {Text} from "react-native";
+import StyledText from "@/components/StyledText";
 
 
 export default function ErrorMessages({ validate, setErrorMessagesRef }) {
@@ -15,13 +16,15 @@ export default function ErrorMessages({ validate, setErrorMessagesRef }) {
 	}, []);
 	
 	
-	checkValidationRef.current = () => {
-		const { errorMessages: newErrorMessages, passed } = validate(inputValuesRef.current);
+	checkValidationRef.current = async () => {
+		const { errorMessages: newErrorMessages, passed } = await validate(inputValuesRef.current);
 		setErrorMessages(newErrorMessages);
 		return passed;
-	};
+	}
 	
 	
-	return errorMessages.map((e, i) => <Text key={i}>{e}</Text>);
+	return errorMessages.map(
+		(e, i) => <StyledText look="14 semibold veryHard" key={i}>{e}</StyledText>
+	);
 	
 }

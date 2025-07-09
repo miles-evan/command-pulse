@@ -1,9 +1,9 @@
 import { Router } from "express";
 import passport from "passport";
 import "../strategies/local-strategy.js";
-import { createUser } from "../queries/userQueries.js";
+import { createUser, emailIsAvailable } from "../queries/userQueries.js";
 import { validateRequest } from "../middleware/validate.js";
-import { loginValidation, signupValidation } from "../validation/userValidation.js";
+import { checkEmailAvailabilityValidation, loginValidation, signupValidation } from "../validation/userValidation.js";
 
 const userRouter = Router();
 
@@ -37,10 +37,23 @@ userRouter.post(
 
 
 // Logout
-userRouter.post("/logout",(request, response) => {
+userRouter.post("/logout", (request, response) => {
     request.logout(console.log);
     response.sendStatus(200);
 });
+
+
+// Check email availability
+userRouter.get(
+    "/check-email/:email",
+    validateRequest(checkEmailAvailabilityValidation),
+    async (request, response) => {
+        const { email } = request.params;
+        
+        const isAvailable = await emailIsAvailable(email);
+        return response.send({ isAvailable });
+    }
+);
 
 
 // Get login status

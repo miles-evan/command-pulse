@@ -6,7 +6,7 @@ import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 
 
-export default function InputBubble({ fieldName, placeholder, submitOnEnter=false, style={} }) {
+export default function InputBubble({ fieldName, placeholder, secureTextEntry, submitOnEnter, style={} }) {
 	
 	const { inputValuesRef, submitRef } = useContext(FormContext);
 	
@@ -24,6 +24,7 @@ export default function InputBubble({ fieldName, placeholder, submitOnEnter=fals
 			
 			<TextInput
 				placeholder={placeholder ?? fieldName}
+				secureTextEntry={secureTextEntry}
 				onChangeText={value => inputValuesRef.current[fieldName] = value}
 				onSubmitEditing={() => {
 					if(submitOnEnter) submitRef.current();

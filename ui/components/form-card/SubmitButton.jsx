@@ -1,4 +1,4 @@
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useState} from "react";
 import { FormContext } from "./FormCard.jsx";
 import Button from "@/components/Button";
 import {router} from "expo-router";
@@ -9,12 +9,24 @@ export default function SubmitButton({ onSubmit, to, children="Submit" }) {
 	
 	const { submitRef, inputValuesRef, checkValidationRef } = useContext(FormContext);
 	const params = useLocalSearchParams();
+	const [buttonDisabled, setButtonDisabled] = useState(false);
 	
 	
-	function submit() {
-		if(!checkValidationRef.current()) return;
+	async function submit() {
+		setButtonDisabled(true);
 		
-		if(!to) return onSubmit(inputValuesRef.current);
+		if(!await checkValidationRef.current()) {
+			setButtonDisabled(false);
+			return;
+		}
+		
+		if(!to) {
+			await onSubmit(inputValuesRef.current);
+			setButtonDisabled(false);
+			return;
+		}
+		
+		setButtonDisabled(false);
 		
 		router.push({
 			pathname: to,
@@ -28,6 +40,6 @@ export default function SubmitButton({ onSubmit, to, children="Submit" }) {
 	}, []);
 	
 	
-	return <Button onPress={submit}>{children}</Button>;
+	return <Button onPress={submit} disabled={buttonDisabled}>{children}</Button>;
 	
 }

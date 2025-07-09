@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import {body, param} from "express-validator";
 
 
 export const signupValidation = [
@@ -6,6 +6,7 @@ export const signupValidation = [
 		.exists().withMessage("Email must be included")
 		.isString().withMessage("Email must be a string")
 		.trim()
+		.toLowerCase()
 		.notEmpty().withMessage("Email is required")
 		.isEmail().withMessage("Email must be valid"),
 	body("password")
@@ -39,6 +40,7 @@ export const loginValidation = [
 		.exists().withMessage("Email must be included")
 		.isString().withMessage("Email must be a string")
 		.trim()
+		.toLowerCase()
 		.notEmpty().withMessage("Email is required")
 		.isEmail().withMessage("Email must be valid"),
 	body("password")
@@ -47,3 +49,14 @@ export const loginValidation = [
 		.notEmpty().withMessage("Password is required")
 		.isLength({ min: 6, max: 24 }).withMessage("Password must be 6-24 characters")
 ];
+
+
+export const checkEmailAvailabilityValidation = [
+	param("email")
+		.exists().withMessage("Email must be included")
+		.isString().withMessage("Email must be a string")
+		.trim()
+		.toLowerCase()
+		.notEmpty().withMessage("Email is required")
+		.isEmail().withMessage("Email must be valid")
+]

@@ -9,6 +9,11 @@ export async function createUser(email, password, firstName, lastName, phoneNumb
 }
 
 
+export async function emailIsAvailable(email) {
+    return !await User.findOne({ email: email });
+}
+
+
 export async function expandUserIdArray(userIds) {
     if(userIds.length === 0) return [];
     return User.aggregate([

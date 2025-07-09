@@ -16,6 +16,10 @@ export const login = async (email, password) =>
 export const logout = async () =>
 	await fetch.post(rootURL + "/logout");
 
+// check email availability
+export const emailIsAvailable = async email =>
+	await fetch.get(rootURL + `/check-email/${email}`);
+
 // login status check
 export const status = async () =>
 	await fetch.get(rootURL + "/status");
