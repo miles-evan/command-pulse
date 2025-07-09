@@ -3,13 +3,13 @@ import HorizontalLine from "@/components/HorizontalLine";
 import StyledText from "@/components/StyledText";
 
 
-export default function OrLine({ length="90%", thickness=1, color="mediumSoft", style }) {
+export default function OrLine({ length="90%", thickness=1, color="mediumSoft", containerStyle, lineStyle, textStyle }) {
 	
 	return (
-		<View style={{ flexDirection: "row", width: length, marginHorizontal: "auto", ...style }}>
-			<HorizontalLine thickness={thickness} color={color} style={{ flex: 1 }}/>
-			<StyledText look="16 light medium" vCenter style={{ marginHorizontal: 6 }}>OR</StyledText>
-			<HorizontalLine thickness={thickness} color={color} style={{ flex: 1 }}/>
+		<View style={{ flexDirection: "row", width: length, marginHorizontal: "auto", ...containerStyle }}>
+			<HorizontalLine thickness={thickness} color={color} style={{ flex: 1, ...lineStyle }}/>
+			<StyledText look="16 light medium" vCenter style={{ marginHorizontal: 6, ...textStyle }}>OR</StyledText>
+			<HorizontalLine thickness={thickness} color={color} style={{ flex: 1, ...lineStyle }}/>
 		</View>
 	);
 	

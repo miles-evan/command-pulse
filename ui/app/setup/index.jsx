@@ -23,13 +23,13 @@ export default function GetStarted() {
 			<HorizontalLine/>
 			<Gap size={40}/>
 			
-			<OrLine/>
-			
 			<FormCard>
 				<FormHeader>Get started</FormHeader>
 				<Button look="white" to="/setup/join-company">Join a company</Button>
 				<Button to="/setup/create-company" withParams={{ isCreatingCompany: true }}>Create a new company</Button>
 			</FormCard>
+			
+			<Button to="/(tabs)/announcements">To tabs</Button>
 			
 		</SafeAreaViewWithBackground>
 	);

@@ -44,9 +44,9 @@ export default function PersonalInfo() {
 			<StyledText look="68 semibold veryHard">Set up</StyledText>
 			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
 			
-			<Gap size={40}/>
+			<Gap size={35}/>
 			<HorizontalLine/>
-			<Gap size={40}/>
+			<Gap size={35}/>
 			
 			<FormCard>
 				<FormHeader>Personal info</FormHeader>

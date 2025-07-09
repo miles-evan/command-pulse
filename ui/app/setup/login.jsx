@@ -6,7 +6,7 @@ import BackButton from "@/components/BackButton";
 import InputBubble from "@/components/form-card/InputBubble";
 import SubmitButton from "@/components/form-card/SubmitButton";
 import Gap from "@/components/Gap";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
 import { validateLoginInfo } from "@/scripts/validation";
 import * as userService from "@/services/userService.js";
@@ -31,6 +31,8 @@ export default function Login() {
 		}
 		
 		console.log(await companyService.status());
+		
+		router.replace("/(tabs)/announcements");
 	}
 	
 	
@@ -43,9 +45,9 @@ export default function Login() {
 			<StyledText look="68 semibold veryHard">Set up</StyledText>
 			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
 			
-			<Gap size={40}/>
+			<Gap size={35}/>
 			<HorizontalLine/>
-			<Gap size={40}/>
+			<Gap size={35}/>
 			
 			<FormCard>
 				<FormHeader>Login</FormHeader>
