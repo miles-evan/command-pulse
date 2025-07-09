@@ -21,3 +21,9 @@ export async function asyncStorageAuthentication() {
 export async function storeCredentials(email, password) {
 	await asyncStorage.store("credentials", { email, password });
 }
+
+
+export async function removeCredentialsAndLogOut() {
+	await asyncStorage.remove("credentials");
+	await userService.logout();
+}

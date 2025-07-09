@@ -17,3 +17,12 @@ export async function get(key) {
 		console.log(e);
 	}
 }
+
+
+export async function remove(key) {
+	try {
+		return await AsyncStorage.removeItem(key);
+	} catch(e) {
+		console.log(e);
+	}
+}
