@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import StyledText from "@/components/StyledText";
 import { dateOfWeek, formatTime, shortenDate } from "@/utils/dateUtils";
+import FlexRowSpaceBetween from "@/components/FlexRowSpaceBetween";
 
 
 export default function DateAndTime({ date, startTime, endTime }) {
@@ -8,7 +9,7 @@ export default function DateAndTime({ date, startTime, endTime }) {
 
 	
 	return (
-		<View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end" }}>
+		<FlexRowSpaceBetween style={{ alignItems: "flex-end" }}>
 			
 			<View style={{ marginRight: 10, flexShrink: 1 }}>
 				
@@ -52,7 +53,7 @@ export default function DateAndTime({ date, startTime, endTime }) {
 				
 			</View>
 			
-		</View>
+		</FlexRowSpaceBetween>
 	);
 	
 }

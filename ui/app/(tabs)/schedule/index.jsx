@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import * as shiftService from "@/services/shiftService";
 import { getToday } from "@/utils/dateUtils";
 import StyledText from "@/components/StyledText";
+import FlexRowSpaceBetween from "@/components/FlexRowSpaceBetween";
 
 
 export default function Schedule() {
@@ -30,10 +31,10 @@ export default function Schedule() {
 
 			<TabHeader />
 
-			<View style={{ width: "90%", flexDirection: "row", justifyContent: "space-between", marginHorizontal: "auto" }}>
+			<FlexRowSpaceBetween>
 				<StyledText look="16 medium medium">Upcoming shifts:</StyledText>
 				<StyledText look="16 medium accent">See past shifts</StyledText>
-			</View>
+			</FlexRowSpaceBetween>
 
 			<FlatList
 				data={shifts}
