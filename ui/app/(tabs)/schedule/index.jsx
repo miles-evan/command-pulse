@@ -1,28 +1,19 @@
 import TabHeader from "@/components/TabHeader";
 import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground";
-import { FlatList, View } from "react-native";
-import ShiftCard from "@/components/scheduling/ShiftCard";
-import { useEffect, useState } from "react";
-import * as shiftService from "@/services/shiftService";
-import { getToday } from "@/utils/dateUtils";
+import { useState } from "react";
 import StyledText from "@/components/StyledText";
 import FlexRowSpaceBetween from "@/components/FlexRowSpaceBetween";
+import Gap from "@/components/Gap";
+import ShiftList from "@/components/scheduling/ShiftList";
 
 
 export default function Schedule() {
 	
-	const [shifts, setShifts] = useState([]);
-
-
-	useEffect(() => {
-		getShifts();
-	}, []);
+	const [dir, setDir] = useState(1);
 	
 	
-	async function getShifts() {
-		const response = await shiftService.getMy(getToday(), 1, 0, 100);
-		const { shifts } = response.body;
-		setShifts(shifts);
+	function toggleDir() {
+		setDir(prev => -prev);
 	}
 	
 	
@@ -32,16 +23,17 @@ export default function Schedule() {
 			<TabHeader />
 
 			<FlexRowSpaceBetween>
-				<StyledText look="16 medium medium">Upcoming shifts:</StyledText>
-				<StyledText look="16 medium accent">See past shifts</StyledText>
+				<StyledText look="18 medium medium">
+					{dir === 1? "Upcoming shifts:" : "Past shifts:"}
+				</StyledText>
+				<StyledText look="18 medium accent" onPress={toggleDir}>
+					{dir === 1? "See past shifts" : "See upcoming shifts"}
+				</StyledText>
 			</FlexRowSpaceBetween>
+			
+			<Gap size={5}/>
 
-			<FlatList
-				data={shifts}
-				keyExtractor={(item, index) => index.toString()}
-				renderItem={({ item: shift }) => <ShiftCard shift={shift} />}
-				keyboardDismissMode="on-drag"
-			/>
+			<ShiftList dir={dir}/>
 
 		</SafeAreaViewWithBackground>
 	

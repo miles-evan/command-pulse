@@ -15,7 +15,7 @@ export default function ShiftCard({ shift }) {
 	
 	
 	return (
-		<Card style={{ paddingHorizontal: 25 }}>
+		<Card style={{ paddingHorizontal: 25, marginTop: 0 }}>
 			<DateAndTime date={date} startTime={startTime} endTime={endTime}/>
 			<Gap size={5}/>
 			<LocationAndPayRate location={location} payRate={payRate}/>
