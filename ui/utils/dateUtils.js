@@ -1,3 +1,5 @@
+// server uses formats like "2025-06-31" and "07:30 PM"
+// we want to see "6/31" and "7:30PM"
 
 
 export function getTodayString() {
@@ -21,6 +23,9 @@ export function getCurrentTimeString() {
 
 
 export function dayOfWeek(date) {
+	if(date === getTodayString())
+		return "Today";
+	
 	const parts = date.split("-");
 	date = new Date(parts[0], parts[1] - 1, parts[2]);
 	return date.toLocaleDateString("en-US", { weekday: "long" });
@@ -35,7 +40,23 @@ export function shortenDate(date) {
 
 export function shortenTime(time) {
 	const parts = time.split(/[: ]/);
-	return `${removeZeroPad(parts[0])}:${parts[1]} ${parts[2].toLowerCase()}`;
+	return `${removeZeroPad(parts[0])}:${parts[1]}${parts[2].toLowerCase()}`;
+}
+
+
+// --------------------------------
+
+
+export function compareDateTimes(date1, time1, date2, time2) {
+	return Date.parse(`${date1}T${convertTo24(time1)}`) - Date.parse(`${date2}T${convertTo24(time2)}`);
+}
+
+function convertTo24(time) {
+	const [h, m, ampm] = time.split(/[: ]/);
+	let hour = Number(h);
+	if (ampm === "PM" && hour !== 12) hour += 12;
+	if (ampm === "AM" && hour === 12) hour = 0;
+	return `${padZero(hour)}:${m}`;
 }
 
 

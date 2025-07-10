@@ -3,6 +3,14 @@ import * as fetch from "../utils/fetch.js";
 
 const rootURL = "http://192.168.1.202:80/command-pulse/api/v1/shifts"
 
-// create company
+// get my shifts
 export const getMy = (date, time, dir, skip, limit) =>
 	fetch.get(rootURL, { date, time, dir, skip, limit });
+
+// clock in
+export const clockIn = shiftId =>
+	fetch.post(rootURL + `${shiftId}/clock/in`);
+
+// clock out
+export const clockOut = shiftId =>
+	fetch.post(rootURL + `${shiftId}/clock/out`);

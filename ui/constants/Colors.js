@@ -4,6 +4,7 @@ export const Colors = {
 	accent: "#0077ff",
 	softAccent: "#80a8ff",
 	
+	danger: "#F01111",
 	
 	white: "#ffffff",
 	verySoft: "#fbfbfb",

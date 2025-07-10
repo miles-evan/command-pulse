@@ -3,7 +3,7 @@ import {FlatList} from "react-native";
 import {useEffect, useState} from "react";
 import * as shiftService from "@/services/shiftService";
 import {getCurrentTimeString, getTodayString} from "@/utils/dateUtils";
-import ShowIf from "@/components/ShowIf";
+import If from "@/components/If";
 import StyledText from "@/components/StyledText";
 import Gap from "@/components/Gap";
 
