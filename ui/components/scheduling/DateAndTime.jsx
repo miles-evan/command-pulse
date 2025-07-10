@@ -1,47 +1,58 @@
 import { View } from "react-native";
 import StyledText from "@/components/StyledText";
+import { dateOfWeek, formatTime, shortenDate } from "@/utils/dateUtils";
 
 
 export default function DateAndTime({ date, startTime, endTime }) {
-	
-	const dayOfWeek = new Date(date).toLocaleDateString("en-US", { weekday: "long" });
-	
-	const d = new Date(date);
-	const shortenedDate = `${d.getMonth() + 1}/${d.getDate()}`
-	
-	function formatTime(time) {
-		const parts = time.split(" ");
-		return parts[0] + parts[1].toLowerCase();
-	}
+
+
 	
 	return (
 		<View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", alignItems: "flex-end" }}>
 			
-			<View style={{ marginRight: 10 }}>
+			<View style={{ marginRight: 10, flexShrink: 1 }}>
 				
-				<StyledText look="48 regular veryHard" style={{ marginHorizontal: 0, marginVertical: 0 }}>
-					{dayOfWeek}
+				<StyledText
+					look="48 regular veryHard"
+					style={{ marginHorizontal: 0, marginVertical: 0 }}
+					adjustsFontSizeToFit
+					numberOfLines={1}
+				>
+					{dateOfWeek(date)}
 				</StyledText>
 				
-				<StyledText look="22 light veryHard" style={{ marginHorizontal: 0, marginVertical: 0, marginTop: -4 }}>
-					{shortenedDate}
+				<StyledText
+					look="22 light veryHard"
+					style={{ marginHorizontal: 0, marginVertical: 0, marginTop: -4 }}
+				>
+					{shortenDate(date)}
 				</StyledText>
 				
 			</View>
 			
-			<View>
+			<View style={{ flexShrink: 1 }}>
 				
-				<StyledText look="34 regular veryHard" style={{ marginVertical: 0 }}>
+				<StyledText
+					look="34 regular veryHard"
+					style={{ marginVertical: 0 }}
+					adjustsFontSizeToFit
+					numberOfLines={1}
+				>
 					{formatTime(startTime)}
 				</StyledText>
 				
-				<StyledText look="34 regular veryHard" style={{ marginVertical: 0, marginTop: -4 }}>
+				<StyledText
+					look="34 regular veryHard"
+					style={{ marginVertical: 0, marginTop: -4 }}
+					adjustsFontSizeToFit
+					numberOfLines={1}
+				>
 					{formatTime(endTime)}
 				</StyledText>
 				
 			</View>
 			
 		</View>
-	)
+	);
 	
 }
