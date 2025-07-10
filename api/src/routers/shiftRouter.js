@@ -79,9 +79,9 @@ shiftRouter.get(
 	...validateRequest(getMyShiftsValidation),
 	...permission("in company"),
 	async (request, response) => {
-		const { date, dir, skip, limit } = matchedData(request);
+		const { date, time, dir, skip, limit } = matchedData(request);
 		
-		const shifts = await getShifts(request.user.id, date, dir, skip, limit);
+		const shifts = await getShifts(request.user.id, date, time, dir, skip, limit);
 		response.send({ shifts });
 	}
 );
@@ -93,9 +93,9 @@ shiftRouter.get(
 	...validateRequest(getSomeonesShiftsValidation),
 	...permission("supervisor"),
 	async (request, response) => {
-		const { userId, date, dir, skip, limit } = matchedData(request);
+		const { userId, date, time, dir, skip, limit } = matchedData(request);
 		
-		const shifts = await getShifts(userId, date, dir, skip, limit);
+		const shifts = await getShifts(userId, date, time, dir, skip, limit);
 		response.send({ shifts });
 	}
 );

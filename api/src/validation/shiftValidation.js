@@ -1,16 +1,23 @@
 import { body, param, query } from "express-validator";
 
 
+const timeFormat = "hh:mm AM/PM";
+const timeRegex = /^(0[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/;
+
+const dateFormat = "yyyy-mm-dd"
+const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+
+
 export const createAssignShiftValidation = [
 	body("date")
 		.exists().withMessage("Date must be included")
-		.matches(/^\d{4}-\d{2}-\d{2}$/).withMessage("Date must be in yyyy-mm-dd format"),
+		.matches(dateRegex).withMessage(`Date must be in ${dateFormat} format`),
 	body("startTime")
 		.exists().withMessage("Start time must be included")
-		.matches(/^(0?[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/).withMessage("Start time must be in h:mm AM/PM format"),
+		.matches(timeRegex).withMessage(`Start time must be in ${timeFormat} format`),
 	body("endTime")
 		.exists().withMessage("End time must be included")
-		.matches(/^(0?[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/).withMessage("End time must be in h:mm AM/PM format"),
+		.matches(timeRegex).withMessage(`End time must be in ${timeFormat} format`),
 	body("location")
 		.exists().withMessage("Location must be included")
 		.isString().withMessage("Location must be a string")
@@ -44,17 +51,20 @@ export const reassignShiftValidation = [
 export const getAllShiftsValidation = [
 	query("startDate")
 		.optional()
-		.matches(/^\d{4}-\d{2}-\d{2}$/).withMessage("startDate must be yyyy-mm-dd"),
+		.matches(dateRegex).withMessage(`startDate must be ${dateFormat}`),
 	query("endDate")
 		.optional()
-		.matches(/^\d{4}-\d{2}-\d{2}$/).withMessage("endDate must be yyyy-mm-dd")
+		.matches(dateRegex).withMessage(`endDate must be ${dateFormat}`)
 ];
 
 
 export const getMyShiftsValidation = [
 	query("date")
 		.optional()
-		.matches(/^\d{4}-\d{2}-\d{2}$/).withMessage("date must be yyyy-mm-dd"),
+		.matches(dateRegex).withMessage(`date must be ${dateFormat}`),
+	query("time")
+		.optional()
+		.matches(timeRegex).withMessage(`Time must be in ${timeFormat} format`),
 	query("dir")
 		.optional()
 		.isIn(["1", "-1"]).withMessage("dir must be 1 or -1")
@@ -123,17 +133,17 @@ export const updateShiftInfoValidation = [
 		.isObject().withMessage("updatedInfo must be an object"),
 	body("updatedInfo.date")
 		.optional()
-		.matches(/^\d{4}-\d{2}-\d{2}$/).withMessage("Date must be in yyyy-mm-dd format"),
+		.matches(dateRegex).withMessage(`Date must be in ${dateFormat} format`),
 	body("updatedInfo.location")
 		.optional()
 		.isString().withMessage("Location must be a string")
 		.isLength({ min: 1, max: 50 }).withMessage("Location must be 1-50 characters"),
 	body("updatedInfo.startTime")
 		.optional()
-		.matches(/^(0?[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/).withMessage("Start time must be in h:mm AM/PM format"),
+		.matches(timeRegex).withMessage(`Start time must be in ${timeFormat} format`),
 	body("updatedInfo.endTime")
 		.optional()
-		.matches(/^(0?[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/).withMessage("End time must be in h:mm AM/PM format"),
+		.matches(timeRegex).withMessage(`End time must be in ${timeFormat} format`),
 	body("updatedInfo.payRate")
 		.optional()
 		.isFloat({ min: 0 }).withMessage("Pay rate must be a positive number")

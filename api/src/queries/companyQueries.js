@@ -18,18 +18,6 @@ export async function createCompany(companyName, supervisorId) {
 }
 
 
-async function joinCompanyById(userId, companyId, role="officer") {
-    if (!["officer", "supervisor"].includes(role)) {
-        throw new Error("Invalid role");
-    }
-
-    await User.findByIdAndUpdate(userId, { $set: { companyId: companyId, isSupervisor: role === "supervisor" } })
-
-    const roleField = role + "Ids";
-    await Company.findByIdAndUpdate(companyId, { $addToSet: { [roleField]: userId } });
-}
-
-
 export async function joinCompanyByInviteCode(userId, inviteCode) {
     let role = "supervisor";
     let company = await Company.findOne({ supervisorInviteCode: inviteCode });
@@ -40,6 +28,18 @@ export async function joinCompanyByInviteCode(userId, inviteCode) {
     if(!company) throw new Error("Invalid invite code");
     await joinCompanyById(userId, company.id, role);
     return company.id;
+}
+
+
+async function joinCompanyById(userId, companyId, role="officer") {
+    if (!["officer", "supervisor"].includes(role)) {
+        throw new Error("Invalid role");
+    }
+
+    await User.findByIdAndUpdate(userId, { $set: { companyId: companyId, isSupervisor: role === "supervisor" } });
+
+    const roleField = role + "Ids";
+    await Company.findByIdAndUpdate(companyId, { $addToSet: { [roleField]: userId } });
 }
 
 

@@ -14,6 +14,9 @@ export default function ShiftCard({ shift }) {
 	} = shift;
 	
 	
+	
+	
+	
 	return (
 		<Card style={{ paddingHorizontal: 25, marginTop: 0 }}>
 			<DateAndTime date={date} startTime={startTime} endTime={endTime}/>

@@ -2,7 +2,7 @@ import ShiftCard from "@/components/scheduling/ShiftCard";
 import {FlatList} from "react-native";
 import {useEffect, useState} from "react";
 import * as shiftService from "@/services/shiftService";
-import {getToday} from "@/utils/dateUtils";
+import {getCurrentTimeString, getTodayString} from "@/utils/dateUtils";
 import ShowIf from "@/components/ShowIf";
 import StyledText from "@/components/StyledText";
 import Gap from "@/components/Gap";
@@ -28,7 +28,7 @@ export default function ShiftList({ dir }) {
 			setIsLoading(true);
 			
 			(async () => {
-				const response = await shiftService.getMy(getToday(), dir, prev.length, 10);
+				const response = await shiftService.getMy(getTodayString(), getCurrentTimeString(), dir, prev.length, 10);
 				const { shifts: newShifts } = response.body;
 				setShifts([...prev, ...newShifts]);
 				setIsLoading(false);
@@ -47,14 +47,12 @@ export default function ShiftList({ dir }) {
 			keyboardDismissMode="on-drag"
 			onEndReached={loadShifts}
 			onEndReachedThreshold={0.5}
-			ItemSeparatorComponent={
-				<Gap size={32}/>
-			}
-			ListFooterComponent={
+			ItemSeparatorComponent={() => <Gap size={32} />}
+			ListFooterComponent={() => (
 				<StyledText look="18 semibold hard">
 					{isLoading ? "Loading..." : " "}
 				</StyledText>
-			}
+			)}
 		/>
 	);
 	

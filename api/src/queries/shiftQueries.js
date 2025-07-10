@@ -95,8 +95,36 @@ export async function deleteShiftRequest(shiftRequestId) {
 // --------------------------------
 
 
-export async function getShifts(userId, date, dir=1, skip=0, limit=20) {
+// excludes any shifts at exactly that date and time
+export async function getShifts(userId, date, time=null, dir=1, skip=0, limit=20) {
+	if(!time)
+		return await getShiftsBasedOnDay(userId, date, dir, skip, limit);
 	
+	console.log({ userId, date, time, dir, skip, limit });
+	
+	const user = await User.findById(userId);
+	
+	const shifts = await Shift.find({
+		$and: [
+			{ _id: { $in: user.shiftIds } },
+			{ $or: [
+				{ date: dir === 1? { $gt: date } : { $lt: date } },
+				{ $and: [
+					{ date: date },
+					{ startTime: dir === 1? { $gt: time } : { $lt: time } }
+				]}
+			]}
+		]
+	})
+		.sort({ date: dir, startTime: dir })
+		.skip(skip)
+		.limit(limit);
+	
+	return projectShifts(shifts);
+}
+
+
+async function getShiftsBasedOnDay(userId, date, dir=1, skip=0, limit=20) {
 	const user = await User.findById(userId);
 	
 	const shifts = await Shift.find({

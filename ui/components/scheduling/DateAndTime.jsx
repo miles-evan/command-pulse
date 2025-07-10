@@ -1,6 +1,6 @@
 import { View } from "react-native";
 import StyledText from "@/components/StyledText";
-import { dateOfWeek, formatTime, shortenDate } from "@/utils/dateUtils";
+import { dayOfWeek, shortenTime, shortenDate } from "@/utils/dateUtils";
 import FlexRowSpaceBetween from "@/components/FlexRowSpaceBetween";
 
 
@@ -19,7 +19,7 @@ export default function DateAndTime({ date, startTime, endTime }) {
 					adjustsFontSizeToFit
 					numberOfLines={1}
 				>
-					{dateOfWeek(date)}
+					{dayOfWeek(date)}
 				</StyledText>
 				
 				<StyledText
@@ -39,7 +39,7 @@ export default function DateAndTime({ date, startTime, endTime }) {
 					adjustsFontSizeToFit
 					numberOfLines={1}
 				>
-					{formatTime(startTime)}
+					{shortenTime(startTime)}
 				</StyledText>
 				
 				<StyledText
@@ -48,7 +48,7 @@ export default function DateAndTime({ date, startTime, endTime }) {
 					adjustsFontSizeToFit
 					numberOfLines={1}
 				>
-					{formatTime(endTime)}
+					{shortenTime(endTime)}
 				</StyledText>
 				
 			</View>
