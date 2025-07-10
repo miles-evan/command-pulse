@@ -5,6 +5,7 @@ export const Colors = {
 	softAccent: "#80a8ff",
 	
 	danger: "#F01111",
+	softDanger: "#ff7f7f",
 	
 	white: "#ffffff",
 	verySoft: "#fbfbfb",

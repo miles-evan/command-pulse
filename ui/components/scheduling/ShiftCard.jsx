@@ -9,7 +9,9 @@ import ClockOutButton from "@/components/scheduling/ClockOutButton";
 import IncidentButton from "@/components/scheduling/IncidentButton";
 import FlexRowSpaceAround from "@/components/FlexRowSpaceAround";
 import { Colors } from "@/constants/Colors";
-import {compareDateTimes, getCurrentTimeString, getTodayString} from "@/utils/dateUtils";
+import { compareDateTimes, getCurrentTimeString, getTodayString } from "@/utils/dateUtils";
+import { useEffect, useState } from "react";
+import * as shiftService from "@/services/shiftService";
 
 
 export default function ShiftCard({ shift }) {
@@ -18,8 +20,11 @@ export default function ShiftCard({ shift }) {
 		shiftId, firstName, lastName, date, startTime, endTime, location, payRate, clockInTime, clockOutTime
 	} = shift;
 	
+	const [stage, setStage] = useState(0)
 	
-	function computeStage() {
+	
+	// compute stage
+	useEffect(() => {
 		const todayDateString = getTodayString();
 		const currentTimeString = getCurrentTimeString();
 		
@@ -27,18 +32,27 @@ export default function ShiftCard({ shift }) {
 		const minsUntilEndTime = compareDateTimes(date, endTime, todayDateString, currentTimeString) / (1000*60);
 		
 		if(minsUntilStartTime > 30 || minsUntilEndTime < -1440) {
-			return 0;
+			setStage(0);
 		} else if(clockInTime === null && minsUntilStartTime <= 30 && minsUntilEndTime >= 0) {
-			return 1;
+			setStage(1);
 		} else if(clockInTime !== null && clockOutTime === null && minsUntilEndTime > -120) {
-			return 2;
+			setStage(2);
 		} else {
-			return 3;
+			setStage(3);
 		}
+	}, []);
+	
+	
+	async function clockIn() {
+		setStage(2);
+		await shiftService.clockIn(shiftId);
 	}
 	
 	
-	const stage = computeStage();
+	async function clockOut() {
+		setStage(3);
+		await shiftService.clockOut(shiftId);
+	}
 	
 	
 	return (
@@ -61,11 +75,11 @@ export default function ShiftCard({ shift }) {
 				
 				<FlexRowSpaceAround>
 					<If condition={stage === 1}>
-						<ClockInButton shiftId={shiftId}/>
+						<ClockInButton onPress={clockIn}/>
 					</If>
 					<If condition={stage === 2}>
 						<IncidentButton/>
-						<ClockOutButton shiftId={shiftId}/>
+						<ClockOutButton onPress={clockOut}/>
 					</If>
 					<If condition={stage === 3}>
 						<IncidentButton/>
@@ -73,8 +87,6 @@ export default function ShiftCard({ shift }) {
 				</FlexRowSpaceAround>
 				
 			</If>
-			
-			
 			
 		</Card>
 	);

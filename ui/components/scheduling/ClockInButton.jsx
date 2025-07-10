@@ -5,12 +5,16 @@ import { Pressable } from "react-native";
 import * as shiftService from "@/services/shiftService";
 
 
-export default function ClockInButton({ shiftId }) {
+export default function ClockInButton({ onPress }) {
 	
 	return (
-		<Pressable style={{ alignItems: "center" }} onPress={() => shiftService.clockIn(shiftId)}>
-			<MaterialIcons name="play-circle-outline" size={54} color={Colors.accent} />
-			<StyledText look="24 medium accent" style={{ marginVertical: -3 }}>Clock in</StyledText>
+		<Pressable style={{ alignItems: "center" }} onPress={onPress}>
+			{({ pressed }) => (
+				<>
+					<MaterialIcons name="play-circle-outline" size={54} color={pressed? Colors.softAccent : Colors.accent} />
+					<StyledText look={`24 medium ${pressed? "softAccent" : "accent"}`} style={{ marginVertical: -3 }}>Clock in</StyledText>
+				</>
+			)}
 		</Pressable>
 	);
 	

@@ -6,12 +6,17 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 import * as shiftService from "@/services/shiftService";
 
 
-export default function ClockOutButton({ shiftId }) {
+export default function ClockOutButton({ onPress }) {
+	
 	
 	return (
-		<Pressable style={{ alignItems: "center" }} onPress={() => shiftService.clockOut(shiftId)}>
-			<MaterialCommunityIcons name="stop-circle-outline" size={54} color={Colors.danger} />
-			<StyledText look="24 medium danger" style={{ marginVertical: -3 }}>Clock out</StyledText>
+		<Pressable style={{ alignItems: "center" }} onPress={onPress}>
+			{({ pressed }) => (
+				<>
+					<MaterialCommunityIcons name="stop-circle-outline" size={54} color={pressed? Colors.softDanger : Colors.danger} />
+					<StyledText look={`24 medium ${pressed? "softDanger" : "danger"}`} style={{ marginVertical: -3 }}>Clock out</StyledText>
+				</>
+			)}
 		</Pressable>
 	);
 	
