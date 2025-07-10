@@ -28,9 +28,9 @@ export default function ShiftCard({ shift }) {
 		
 		if(minsUntilStartTime > 30 || minsUntilEndTime < -1440) {
 			return 0;
-		} else if(minsUntilStartTime <= 30 && minsUntilEndTime >= 0) {
+		} else if(clockInTime === null && minsUntilStartTime <= 30 && minsUntilEndTime >= 0) {
 			return 1;
-		} else if(clockInTime && !clockOutTime && minsUntilEndTime <= 60) {
+		} else if(clockInTime !== null && clockOutTime === null && minsUntilEndTime > -120) {
 			return 2;
 		} else {
 			return 3;

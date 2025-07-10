@@ -9,8 +9,8 @@ export const getMy = (date, time, dir, skip, limit) =>
 
 // clock in
 export const clockIn = shiftId =>
-	fetch.post(rootURL + `${shiftId}/clock/in`);
+	fetch.post(rootURL + `/${shiftId}/clock/in`);
 
 // clock out
 export const clockOut = shiftId =>
-	fetch.post(rootURL + `${shiftId}/clock/out`);
+	fetch.post(rootURL + `/${shiftId}/clock/out`);
