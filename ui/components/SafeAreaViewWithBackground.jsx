@@ -9,20 +9,19 @@ const { width } = Dimensions.get("window");
 export default function SafeAreaViewWithBackground({ children }) {
 	
 	return (
-		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-			<View style={{ flex: 1, backgroundColor: "white" }}>
-				
-				<StatusBar style="dark" />
-				
-				<Image source={background} resizeMode="cover" style={styles.image}/>
-				
-				<SafeAreaView style={{ flex: 1 }}>
-					{children}
-				</SafeAreaView>
-				
-			</View>
-		</TouchableWithoutFeedback>
+		<View style={{ flex: 1, backgroundColor: "white" }}>
+		
+			<StatusBar style="dark" />
+			
+			<Image source={background} resizeMode="cover" style={styles.image}/>
+			
+			<SafeAreaView style={{ flex: 1 }}>
+				{children}
+			</SafeAreaView>
+		
+		</View>
 	);
+	
 	
 }
 

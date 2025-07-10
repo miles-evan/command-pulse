@@ -103,6 +103,9 @@ companyRouter.get(
 
 // Get company status
 companyRouter.get("/status", async (request, response) => {
+    if(!request.isAuthenticated())
+        return response.send({ isInCompany: false, message: "not in a company" });
+    
     const { companyId } = request.user;
 
     if(companyId == null)

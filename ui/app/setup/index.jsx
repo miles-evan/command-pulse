@@ -5,7 +5,6 @@ import FormHeader from "@/components/form-card/FormHeader";
 import FormCard from "@/components/form-card/FormCard";
 import Gap from "@/components/Gap";
 import HorizontalLine from "@/components/HorizontalLine";
-import OrLine from "@/components/OrLine";
 
 
 export default function GetStarted() {
@@ -28,8 +27,6 @@ export default function GetStarted() {
 				<Button look="white" to="/setup/join-company">Join a company</Button>
 				<Button to="/setup/create-company" withParams={{ isCreatingCompany: true }}>Create a new company</Button>
 			</FormCard>
-			
-			<Button to="/(tabs)/announcements">To tabs</Button>
 			
 		</SafeAreaViewWithBackground>
 	);

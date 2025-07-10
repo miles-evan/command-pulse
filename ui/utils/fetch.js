@@ -5,8 +5,16 @@ export async function post(url, body={}) {
 }
 
 
-export async function get(url) {
-	return await fetchWithBody(url, "GET");
+export async function get(url, queryObj) {
+	const fullUrl = queryObj? url + toQueryString(queryObj) : url
+	return await fetchWithBody(fullUrl, "GET");
+}
+
+
+function toQueryString(queryObj) {
+	return "?" + Object.entries(queryObj)
+		.map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+		.join("&");
 }
 
 
