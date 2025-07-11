@@ -9,9 +9,9 @@ import ClockOutButton from "@/components/scheduling/ClockOutButton";
 import IncidentButton from "@/components/scheduling/IncidentButton";
 import FlexRowSpaceAround from "@/components/FlexRowSpaceAround";
 import { Colors } from "@/constants/Colors";
-import { compareDateTimes, getCurrentTimeString, getTodayString } from "@/utils/dateUtils";
 import { useEffect, useState } from "react";
 import * as shiftService from "@/services/shiftService";
+import { computeShiftStage } from "@/components/scheduling/computeShiftStage";
 
 
 export default function ShiftCard({ shift }) {
@@ -23,24 +23,9 @@ export default function ShiftCard({ shift }) {
 	const [stage, setStage] = useState(0)
 	
 	
-	// compute stage
 	useEffect(() => {
-		const todayDateString = getTodayString();
-		const currentTimeString = getCurrentTimeString();
-		
-		const minsUntilStartTime = compareDateTimes(date, startTime, todayDateString, currentTimeString) / (1000*60);
-		const minsUntilEndTime = compareDateTimes(date, endTime, todayDateString, currentTimeString) / (1000*60);
-		
-		if(minsUntilStartTime > 30 || minsUntilEndTime < -1440) {
-			setStage(0);
-		} else if(clockInTime === null && minsUntilStartTime <= 30 && minsUntilEndTime >= 0) {
-			setStage(1);
-		} else if(clockInTime !== null && clockOutTime === null && minsUntilEndTime > -120) {
-			setStage(2);
-		} else {
-			setStage(3);
-		}
-	}, []);
+		setStage(computeShiftStage(shift))
+	}, [shift]);
 	
 	
 	async function clockIn() {

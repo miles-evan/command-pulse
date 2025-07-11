@@ -96,6 +96,7 @@ export async function deleteShiftRequest(shiftRequestId) {
 
 
 // excludes any shifts at exactly that date and time
+// filters and sorts by endTime
 export async function getShifts(userId, date, time=null, dir=1, skip=0, limit=20) {
 	if(!time)
 		return await getShiftsBasedOnDay(userId, date, dir, skip, limit);
@@ -111,12 +112,12 @@ export async function getShifts(userId, date, time=null, dir=1, skip=0, limit=20
 				{ date: dir === 1? { $gt: date } : { $lt: date } },
 				{ $and: [
 					{ date: date },
-					{ startTime: dir === 1? { $gt: time } : { $lt: time } }
+					{ endTime: dir === 1? { $gt: time } : { $lt: time } }
 				]}
 			]}
 		]
 	})
-		.sort({ date: dir, startTime: dir })
+		.sort({ date: dir, endTime: dir })
 		.skip(skip)
 		.limit(limit);
 	
