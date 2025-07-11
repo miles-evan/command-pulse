@@ -19,6 +19,7 @@ export default function Account() {
 	return (
 		<SafeAreaViewWithBackground>
 			<StyledText look="48 semibold veryHard">Account</StyledText>
+			<StyledText look="24 semibold hard">This is a placeholder page</StyledText>
 			<BackButton/>
 			<Gap size={50}/>
 			<Button onPress={logout}>Log out</Button>
