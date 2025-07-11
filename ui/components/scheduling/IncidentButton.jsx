@@ -3,7 +3,6 @@ import {Colors} from "@/constants/Colors";
 import StyledText from "@/components/StyledText";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 
 
 export default function IncidentButton({ onPress }) {

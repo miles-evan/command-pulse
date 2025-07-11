@@ -3,8 +3,13 @@
 
 
 export function getTodayString() {
-	return new Date().toISOString().slice(0, 10)
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = padZero(date.getMonth() + 1);
+	const day = padZero(date.getDate())
+	return `${year}-${month}-${day}`;
 }
+
 
 
 export function getCurrentTimeString() {

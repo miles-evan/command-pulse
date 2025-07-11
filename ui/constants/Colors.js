@@ -12,7 +12,8 @@ export const Colors = {
 	soft: "#c7c7c7",
 	mediumSoft: "#aaaaaa",
 	medium: "#797979",
-	hard: "#5b5b5b",
+	mediumHard: "#5b5b5b",
+	hard: "#303030",
 	veryHard: "#161616",
 	black: "#000000",
 };
