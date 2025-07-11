@@ -13,6 +13,8 @@ export default function SubmitButton({ onSubmit, to, children="Submit" }) {
 	
 	
 	async function submit() {
+		if(buttonDisabled) return;
+		
 		setButtonDisabled(true);
 		
 		if(!await checkValidationRef.current()) {
@@ -37,7 +39,7 @@ export default function SubmitButton({ onSubmit, to, children="Submit" }) {
 	
 	useEffect(() => {
 		submitRef.current = submit;
-	}, []);
+	}, [submit]);
 	
 	
 	return <Button onPress={submit} disabled={buttonDisabled}>{children}</Button>;

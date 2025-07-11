@@ -6,7 +6,7 @@ import BackButton from "@/components/BackButton";
 import InputBubble from "@/components/form-card/InputBubble";
 import SubmitButton from "@/components/form-card/SubmitButton";
 import Gap from "@/components/Gap";
-import { useLocalSearchParams } from "expo-router";
+import {router, useLocalSearchParams} from "expo-router";
 import * as userService from "@/services/userService";
 import * as companyService from "@/services/companyService";
 import { validatePersonalInfo } from "@/utils/validation";
@@ -34,7 +34,9 @@ export default function PersonalInfo() {
 			await companyService.join(inviteCode);
 		}
 		
-		console.log(await companyService.status())
+		console.log(await companyService.status());
+		
+		router.replace("/(tabs)/announcements");
 	}
 	
 	

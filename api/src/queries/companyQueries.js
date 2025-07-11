@@ -1,7 +1,7 @@
 import { User } from "../mongoose/schemas/userSchema.js";
 import { Company } from "../mongoose/schemas/companySchema.js";
-import {generateUniqueCode} from "../utils/inviteCodes.js";
-import {expandUserIdArray} from "./userQueries.js";
+import { generateUniqueCode } from "../utils/inviteCodes.js";
+import { expandUserIdArray } from "./userQueries.js";
 
 
 export async function createCompany(companyName, supervisorId) {
@@ -87,4 +87,9 @@ export async function resetInviteCodes(companyId) {
 export async function getContacts(companyId) {
     const { supervisorIds, officerIds } = await Company.findById(companyId);
     return { supervisors: await expandUserIdArray(supervisorIds), officers: await expandUserIdArray(officerIds) }
+}
+
+
+export async function checkCompanyNameAvailability(companyName) {
+    return !await Company.findOne({ name: companyName });
 }

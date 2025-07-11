@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from "react";
+import { useContext, useEffect } from "react";
 import { FormContext } from "./FormCard.jsx";
 import { TextInput, StyleSheet, View } from "react-native";
 import { FontWeights } from "@/constants/Typography";

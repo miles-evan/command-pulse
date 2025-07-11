@@ -55,11 +55,16 @@ export function validatePersonalInfo({ firstName, lastName, phoneNumber }) {
 }
 
 
-export function validateCompanyName({ companyName }) {
+export async function validateCompanyName({ companyName }) {
+	
+	console.log("hi 1")
 	const errorMessages = [];
 	
 	if (companyName.length < 2 || companyName.length > 50)
 		errorMessages.push("Company name must be 2-50 characters");
+	
+	if(!(await companyService.companyNameIsAvailable(companyName)).body.isAvailable)
+		errorMessages.push("Company name already taken");
 	
 	return { errorMessages, passed: errorMessages.length === 0 };
 }

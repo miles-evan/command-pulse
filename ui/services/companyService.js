@@ -19,6 +19,10 @@ export const join = async inviteCode =>
 export const leave = async () =>
 	await fetch.post(rootURL + "/leave");
 
+// check company name availability
+export const companyNameIsAvailable = async companyName =>
+	await fetch.get(rootURL + `/check-name/${companyName}`);
+
 // get company status
 export const status = async () =>
 	await fetch.get(rootURL + "/status");

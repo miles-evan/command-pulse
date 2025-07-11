@@ -2,10 +2,11 @@ import { Router } from "express";
 import { permission } from "../middleware/permission.js";
 import {
     createCompany, joinCompanyByInviteCode, leaveCompany,
-    getCompanyName, getContacts, getInviteCodes, resetInviteCodes, checkInviteCode
+    getCompanyName, getContacts, getInviteCodes, resetInviteCodes, checkInviteCode, checkCompanyNameAvailability
 } from "../queries/companyQueries.js";
 import {validateRequest} from "../middleware/validate.js";
 import {
+    checkCompanyNameAvailabilityValidation,
     checkInviteCodeValidation,
     createCompanyValidation,
     joinCompanyValidation
@@ -97,6 +98,19 @@ companyRouter.get(
     ...permission("in company"),
     async (request, response) => {
         return response.send(await getContacts(request.user.companyId));
+    }
+);
+
+
+// Check company name availability
+companyRouter.get(
+    "/check-name/:companyName",
+    ...validateRequest(checkCompanyNameAvailabilityValidation),
+    async (request, response) => {
+        const { companyName } = request.params;
+        
+        const isAvailable = await checkCompanyNameAvailability(companyName);
+        return response.send({ isAvailable });
     }
 );
 

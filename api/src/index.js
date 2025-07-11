@@ -47,7 +47,12 @@ app.use("/command-pulse/api/v1/companies", companyRouter);
 app.use("/command-pulse/api/v1/shifts", shiftRouter);
 
 
-// serve static frontend
+// test
+app.get("/command-pulse/api/v1/", (request, response) => {
+	const { body, query, params } = request;
+	console.log({ body, query, params });
+	response.sendStatus(200);
+});
 
 
 // --------------------------------

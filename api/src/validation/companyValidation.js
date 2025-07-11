@@ -29,3 +29,13 @@ export const checkInviteCodeValidation = [
 		.notEmpty().withMessage("Invite code is required")
 		.isLength({ min: 8, max: 8 }).withMessage("Invite code must be 8 characters")
 ];
+
+
+export const checkCompanyNameAvailabilityValidation = [
+	param("companyName")
+		.exists().withMessage("Company name must be included")
+		.isString().withMessage("Company name must be a string")
+		.trim()
+		.notEmpty().withMessage("Company name is required")
+		.isLength({ min: 2, max: 50 }).withMessage("Company name must be 2-50 characters")
+];

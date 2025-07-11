@@ -1,19 +1,23 @@
 
 
 export async function post(url, body={}) {
-	return await fetchWithBody(url, "POST", body);
+	return await fetchWithBody((url), "POST", body);
 }
 
 
 export async function get(url, queryObj) {
-	const fullUrl = queryObj? url + toQueryString(queryObj) : url
+	if(url.includes("?"))
+		throw new Error("Use queryObj argument for query parameters");
+	
+	const fullUrl = (url) + toQueryString(queryObj);
 	return await fetchWithBody(fullUrl, "GET");
 }
 
 
 function toQueryString(queryObj) {
+	if(!queryObj) return "";
 	return "?" + Object.entries(queryObj)
-		.map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+		.map(([key, value]) => `${key}=${value}`)
 		.join("&");
 }
 
