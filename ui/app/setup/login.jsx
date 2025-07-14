@@ -15,12 +15,15 @@ import HorizontalLine from "@/components/utility-components/HorizontalLine.jsx";
 import {useRef} from "react";
 import {storeCredentials} from "@/utils/AsyncStorageAuthentication";
 import {Keyboard, TouchableWithoutFeedback} from "react-native";
+import If from "@/components/utility-components/If.jsx";
+import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
 
 
 export default function Login() {
 	
 	const { isCreatingCompany, inviteCode, companyName } = useLocalSearchParams();
 	const setErrorMessagesRef = useRef(() => {});
+	const keyboardVisible = useKeyboardVisible();
 	
 	
 	async function loginAndJoinOrCreateCompany({ email, password }) {
@@ -52,10 +55,12 @@ export default function Login() {
 
 			<StyledText look="68 semibold veryHard">Set up</StyledText>
 			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
-
-			<Gap size={35}/>
-			<HorizontalLine/>
-			<Gap size={35}/>
+			
+			<If condition={!keyboardVisible}>
+				<Gap size={35}/>
+				<HorizontalLine/>
+				<Gap size={35}/>
+			</If>
 
 			<FormCard>
 				<FormHeader>Login</FormHeader>

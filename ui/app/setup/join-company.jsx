@@ -9,10 +9,13 @@ import Gap from "@/components/utility-components/Gap.jsx";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
 import { validateInviteCode } from "@/utils/validation";
 import HorizontalLine from "@/components/utility-components/HorizontalLine.jsx";
-import { Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
+import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
+import If from "@/components/utility-components/If.jsx";
 
 
 export default function JoinCompany() {
+	
+	const keyboardVisible = useKeyboardVisible();
 	
 	
 	return (
@@ -23,10 +26,15 @@ export default function JoinCompany() {
 
 			<StyledText look="68 semibold veryHard">Set up</StyledText>
 			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
-
-			<Gap size={35}/>
-			<HorizontalLine/>
-			<Gap size={35}/>
+			
+			<If condition={!keyboardVisible}>
+				<Gap size={35}/>
+				<HorizontalLine/>
+				<Gap size={35}/>
+			</If>
+			<If condition={keyboardVisible}>
+				<Gap size={20}/>
+			</If>
 
 			<FormCard>
 				<FormHeader>Join company</FormHeader>

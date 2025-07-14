@@ -14,11 +14,14 @@ import ErrorMessages from "@/components/form-card/ErrorMessages";
 import HorizontalLine from "@/components/utility-components/HorizontalLine.jsx";
 import {storeCredentials} from "@/utils/AsyncStorageAuthentication";
 import {Keyboard, TouchableWithoutFeedback} from "react-native";
+import If from "@/components/utility-components/If.jsx";
+import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
 
 
 export default function PersonalInfo() {
 	
 	const { isCreatingCompany, inviteCode, email, password, companyName } = useLocalSearchParams();
+	const keyboardVisible = useKeyboardVisible();
 	
 	
 	async function signUpAndJoinOrCreateCompany({ firstName, lastName, phoneNumber }) {
@@ -49,10 +52,12 @@ export default function PersonalInfo() {
 
 			<StyledText look="68 semibold veryHard">Set up</StyledText>
 			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
-
-			<Gap size={35}/>
-			<HorizontalLine/>
-			<Gap size={35}/>
+			
+			<If condition={!keyboardVisible}>
+				<Gap size={35}/>
+				<HorizontalLine/>
+				<Gap size={35}/>
+			</If>
 
 			<FormCard>
 				<FormHeader>Personal info</FormHeader>

@@ -19,8 +19,6 @@ export default function GetStarted() {
 			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
 			
 			<Gap size={40}/>
-			<HorizontalLine/>
-			<Gap size={40}/>
 			
 			<FormCard>
 				<FormHeader>Get started</FormHeader>
