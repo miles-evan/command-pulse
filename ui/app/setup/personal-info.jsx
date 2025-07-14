@@ -42,30 +42,28 @@ export default function PersonalInfo() {
 	
 	
 	return (
-		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-			<SafeAreaViewWithBackground>
+		<SafeAreaViewWithBackground dismissKeyboardOnPress>
 			
-				<Gap size={8}/>
-				<BackButton/>
-				
-				<StyledText look="68 semibold veryHard">Set up</StyledText>
-				<StyledText look="44 medium veryHard">Command Pulse</StyledText>
-				
-				<Gap size={35}/>
-				<HorizontalLine/>
-				<Gap size={35}/>
-				
-				<FormCard>
-					<FormHeader>Personal info</FormHeader>
-					<InputBubble fieldName="firstName" placeholder="first name"/>
-					<InputBubble fieldName="lastName" placeholder="last name"/>
-					<InputBubble fieldName="phoneNumber" placeholder="phone number" submitOnEnter/>
-					<ErrorMessages validate={validatePersonalInfo}/>
-					<SubmitButton onSubmit={signUpAndJoinOrCreateCompany}>Finish</SubmitButton>
-				</FormCard>
+			<Gap size={8}/>
+			<BackButton/>
 
-			</SafeAreaViewWithBackground>
-		</TouchableWithoutFeedback>
+			<StyledText look="68 semibold veryHard">Set up</StyledText>
+			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
+
+			<Gap size={35}/>
+			<HorizontalLine/>
+			<Gap size={35}/>
+
+			<FormCard>
+				<FormHeader>Personal info</FormHeader>
+				<InputBubble fieldName="firstName" placeholder="first name"/>
+				<InputBubble fieldName="lastName" placeholder="last name"/>
+				<InputBubble fieldName="phoneNumber" placeholder="phone number" submitOnEnter/>
+				<ErrorMessages validate={validatePersonalInfo}/>
+				<SubmitButton onSubmit={signUpAndJoinOrCreateCompany}>Finish</SubmitButton>
+			</FormCard>
+
+		</SafeAreaViewWithBackground>
 	);
 	
 }

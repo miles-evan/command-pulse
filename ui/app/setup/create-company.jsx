@@ -15,28 +15,26 @@ import {Keyboard, TouchableWithoutFeedback} from "react-native";
 export default function CreateCompany() {
 	
 	return (
-		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-			<SafeAreaViewWithBackground>
-			
-				<Gap size={8}/>
-				<BackButton/>
-				
-				<StyledText look="68 semibold veryHard">Set up</StyledText>
-				<StyledText look="44 medium veryHard">Command Pulse</StyledText>
-				
-				<Gap size={35}/>
-				<HorizontalLine/>
-				<Gap size={35}/>
-				
-				<FormCard>
-					<FormHeader>Create company</FormHeader>
-					<InputBubble fieldName="companyName" placeholder={"Company name"} submitOnEnter/>
-					<ErrorMessages validate={validateCompanyName}/>
-					<SubmitButton to="/setup/create-account">Next</SubmitButton>
-				</FormCard>
+		<SafeAreaViewWithBackground dismissKeyboardOnPress>
 
-			</SafeAreaViewWithBackground>
-		</TouchableWithoutFeedback>
+			<Gap size={8}/>
+			<BackButton/>
+
+			<StyledText look="68 semibold veryHard">Set up</StyledText>
+			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
+
+			<Gap size={35}/>
+			<HorizontalLine/>
+			<Gap size={35}/>
+
+			<FormCard>
+				<FormHeader>Create company</FormHeader>
+				<InputBubble fieldName="companyName" placeholder={"Company name"} submitOnEnter/>
+				<ErrorMessages validate={validateCompanyName}/>
+				<SubmitButton to="/setup/create-account">Next</SubmitButton>
+			</FormCard>
+
+		</SafeAreaViewWithBackground>
 	);
 	
 }

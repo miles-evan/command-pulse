@@ -1,13 +1,14 @@
 import background from "@/assets/images/squares-background.png";
-import { View, Image, Dimensions } from "react-native";
+import {View, Image, Dimensions, Keyboard, TouchableWithoutFeedback} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import WrapChildrenIf from "@/components/WrapChildrenIf.jsx";
 
 
 const { width } = Dimensions.get("window");
 
 
-export default function SafeAreaViewWithBackground({ children }) {
+export default function SafeAreaViewWithBackground({ dismissKeyboardOnPress, children }) {
 	const insets = useSafeAreaInsets();
 	
 	return (
@@ -19,10 +20,21 @@ export default function SafeAreaViewWithBackground({ children }) {
 				position: "absolute", bottom: 0, width: width, height: undefined, aspectRatio: 598/984
 			}}/>
 
-			<View style={{ flex: 1, paddingTop: insets.top }}>
-				{children}
-			</View>
-		
+			<WrapChildrenIf
+				condition={dismissKeyboardOnPress}
+				wrapper={children => (
+					<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+						{children}
+					</TouchableWithoutFeedback>
+				)}
+				children={
+					<View style={{ flex: 1, paddingTop: insets.top }}>
+						{children}
+					</View>
+				}
+			/>
+
+
 		</View>
 	);
 	

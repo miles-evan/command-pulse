@@ -45,29 +45,27 @@ export default function Login() {
 	
 	
 	return (
-		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-			<SafeAreaViewWithBackground>
+		<SafeAreaViewWithBackground dismissKeyboardOnPress>
 			
-				<Gap size={8}/>
-				<BackButton/>
-				
-				<StyledText look="68 semibold veryHard">Set up</StyledText>
-				<StyledText look="44 medium veryHard">Command Pulse</StyledText>
-				
-				<Gap size={35}/>
-				<HorizontalLine/>
-				<Gap size={35}/>
-				
-				<FormCard>
-					<FormHeader>Login</FormHeader>
-					<InputBubble fieldName="email"/>
-					<InputBubble fieldName="password" secureTextEntry submitOnEnter/>
-					<ErrorMessages validate={validateLoginInfo} setErrorMessagesRef={setErrorMessagesRef}/>
-					<SubmitButton onSubmit={loginAndJoinOrCreateCompany}>Finish</SubmitButton>
-				</FormCard>
+			<Gap size={8}/>
+			<BackButton/>
 
-			</SafeAreaViewWithBackground>
-		</TouchableWithoutFeedback>
+			<StyledText look="68 semibold veryHard">Set up</StyledText>
+			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
+
+			<Gap size={35}/>
+			<HorizontalLine/>
+			<Gap size={35}/>
+
+			<FormCard>
+				<FormHeader>Login</FormHeader>
+				<InputBubble fieldName="email"/>
+				<InputBubble fieldName="password" secureTextEntry submitOnEnter/>
+				<ErrorMessages validate={validateLoginInfo} setErrorMessagesRef={setErrorMessagesRef}/>
+				<SubmitButton onSubmit={loginAndJoinOrCreateCompany}>Finish</SubmitButton>
+			</FormCard>
+
+		</SafeAreaViewWithBackground>
 	);
 	
 }
