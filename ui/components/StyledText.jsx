@@ -41,5 +41,5 @@ function getStyle(look, hCenter, vCenter, style) {
 	if(hCenter) result.marginHorizontal = "auto";
 	if(vCenter) result.marginVertical = "auto";
 	
-	return StyleSheet.create({ ...result, ...style });
+	return { ...result, ...style };
 }

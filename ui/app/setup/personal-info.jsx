@@ -42,8 +42,8 @@ export default function PersonalInfo() {
 	
 	
 	return (
-		<SafeAreaViewWithBackground>
-			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+			<SafeAreaViewWithBackground>
 			
 				<Gap size={8}/>
 				<BackButton/>
@@ -63,9 +63,9 @@ export default function PersonalInfo() {
 					<ErrorMessages validate={validatePersonalInfo}/>
 					<SubmitButton onSubmit={signUpAndJoinOrCreateCompany}>Finish</SubmitButton>
 				</FormCard>
-			
-			</TouchableWithoutFeedback>
-		</SafeAreaViewWithBackground>
+
+			</SafeAreaViewWithBackground>
+		</TouchableWithoutFeedback>
 	);
 	
 }

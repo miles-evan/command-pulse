@@ -27,8 +27,8 @@ export default function CreateAccount() {
 	
 	
 	return (
-		<SafeAreaViewWithBackground>
-			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+			<SafeAreaViewWithBackground>
 			
 				<Gap size={8}/>
 				<BackButton/>
@@ -56,9 +56,9 @@ export default function CreateAccount() {
 						Log in
 					</StyledText>
 				</StyledText>
-			
-			</TouchableWithoutFeedback>
-		</SafeAreaViewWithBackground>
+
+			</SafeAreaViewWithBackground>
+		</TouchableWithoutFeedback>
 	);
 	
 }

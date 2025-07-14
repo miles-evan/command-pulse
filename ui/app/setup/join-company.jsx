@@ -16,8 +16,8 @@ export default function JoinCompany() {
 	
 	
 	return (
-		<SafeAreaViewWithBackground>
-			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+			<SafeAreaViewWithBackground>
 					
 				<Gap size={8}/>
 				<BackButton/>
@@ -35,9 +35,9 @@ export default function JoinCompany() {
 					<ErrorMessages validate={validateInviteCode}/>
 					<SubmitButton to="/setup/create-account">Next</SubmitButton>
 				</FormCard>
-				
-			</TouchableWithoutFeedback>
-		</SafeAreaViewWithBackground>
+
+			</SafeAreaViewWithBackground>
+		</TouchableWithoutFeedback>
 	);
 	
 }
