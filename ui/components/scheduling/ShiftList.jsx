@@ -8,6 +8,8 @@ import Gap from "@/components/Gap";
 import {computeShiftStage} from "@/components/scheduling/computeShiftStage";
 
 
+// retrieves and shows list of shifts
+// dir (1 or -1) is direction to look for shifts (forward in time or backward)
 export default function ShiftList({ dir }) {
 	
 	const [shifts, setShifts] = useState([]);

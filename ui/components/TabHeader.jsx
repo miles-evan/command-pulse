@@ -6,6 +6,7 @@ import Gap from "@/components/Gap";
 import { router } from "expo-router";
 
 
+// shows the company name at the top
 export default function TabHeader() {
 	
 	const { companyName } = useContext(GlobalStateContext);

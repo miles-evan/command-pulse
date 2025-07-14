@@ -1,5 +1,5 @@
 import { usersInSameCompany } from "../queries/userQueries.js";
-import {userInSameCompanyAsShift, userInSameCompanyAsShiftRequest} from "../queries/shiftQueries.js";
+import { userInSameCompanyAsShift, userInSameCompanyAsShiftRequest } from "../queries/shiftQueries.js";
 import extractFromRequest from "../utils/extractFromRequest.js";
 
 

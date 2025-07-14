@@ -3,6 +3,7 @@ import * as userService from "@/services/userService";
 import * as companyService from "@/services/companyService";
 
 
+// gets credentials from async storage and logs in user
 // returns companyName if success and false if failure
 export async function asyncStorageAuthentication() {
 	const credentials = await asyncStorage.get("credentials");

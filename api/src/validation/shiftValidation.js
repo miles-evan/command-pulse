@@ -75,7 +75,7 @@ export const getMyShiftsValidation = [
 		.toInt(),
 	query("limit")
 		.optional()
-		.isInt({ min: 1 }).withMessage("limit must be a positive integer")
+		.isInt({ min: 1, max: 50 }).withMessage("limit must be an int from 1-50")
 		.toInt()
 ];
 

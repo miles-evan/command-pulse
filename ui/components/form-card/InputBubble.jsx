@@ -6,6 +6,14 @@ import { Colors } from "@/constants/Colors";
 import { LinearGradient } from "expo-linear-gradient";
 
 
+/**
+ * InputBubble component
+ * @param fieldName name of the field like username. used when passing into submit function
+ * @param placeholder text input placeholder, like "enter username"
+ * @param secureTextEntry hide password
+ * @param submitOnEnter calls submit function when you press enter while inside input
+ * @param style add or override style
+ */
 export default function InputBubble({ fieldName, placeholder, secureTextEntry, submitOnEnter, style={} }) {
 	
 	const { inputValuesRef, submitRef } = useContext(FormContext);

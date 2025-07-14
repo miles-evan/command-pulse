@@ -1,3 +1,4 @@
+// allows fetching to be easier. to use, import * as fetch, then do fetch.get or fetch.post
 
 
 export async function post(url, body={}) {
@@ -12,6 +13,9 @@ export async function get(url, queryObj) {
 	const fullUrl = (url) + toQueryString(queryObj);
 	return await fetchWithBody(fullUrl, "GET");
 }
+
+
+// --------------------------------
 
 
 function toQueryString(queryObj) {

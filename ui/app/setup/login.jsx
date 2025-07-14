@@ -14,6 +14,7 @@ import * as companyService from "@/services/companyService";
 import HorizontalLine from "@/components/HorizontalLine";
 import {useRef} from "react";
 import {storeCredentials} from "@/utils/AsyncStorageAuthentication";
+import {Keyboard, TouchableWithoutFeedback} from "react-native";
 
 
 export default function Login() {
@@ -45,25 +46,27 @@ export default function Login() {
 	
 	return (
 		<SafeAreaViewWithBackground>
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 			
-			<Gap size={8}/>
-			<BackButton/>
+				<Gap size={8}/>
+				<BackButton/>
+				
+				<StyledText look="68 semibold veryHard">Set up</StyledText>
+				<StyledText look="44 medium veryHard">Command Pulse</StyledText>
+				
+				<Gap size={35}/>
+				<HorizontalLine/>
+				<Gap size={35}/>
+				
+				<FormCard>
+					<FormHeader>Login</FormHeader>
+					<InputBubble fieldName="email"/>
+					<InputBubble fieldName="password" secureTextEntry submitOnEnter/>
+					<ErrorMessages validate={validateLoginInfo} setErrorMessagesRef={setErrorMessagesRef}/>
+					<SubmitButton onSubmit={loginAndJoinOrCreateCompany}>Finish</SubmitButton>
+				</FormCard>
 			
-			<StyledText look="68 semibold veryHard">Set up</StyledText>
-			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
-			
-			<Gap size={35}/>
-			<HorizontalLine/>
-			<Gap size={35}/>
-			
-			<FormCard>
-				<FormHeader>Login</FormHeader>
-				<InputBubble fieldName="email"/>
-				<InputBubble fieldName="password" secureTextEntry submitOnEnter/>
-				<ErrorMessages validate={validateLoginInfo} setErrorMessagesRef={setErrorMessagesRef}/>
-				<SubmitButton onSubmit={loginAndJoinOrCreateCompany}>Finish</SubmitButton>
-			</FormCard>
-		
+			</TouchableWithoutFeedback>
 		</SafeAreaViewWithBackground>
 	);
 	

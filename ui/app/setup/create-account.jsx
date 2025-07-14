@@ -10,6 +10,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
 import { validateSignupInfo } from "@/utils/validation";
 import HorizontalLine from "@/components/HorizontalLine";
+import {Keyboard, TouchableWithoutFeedback} from "react-native";
 
 
 export default function CreateAccount() {
@@ -27,34 +28,36 @@ export default function CreateAccount() {
 	
 	return (
 		<SafeAreaViewWithBackground>
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
 			
-			<Gap size={8}/>
-			<BackButton/>
-			
-			<StyledText look="68 semibold veryHard">Set up</StyledText>
-			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
-			
-			<Gap size={35}/>
-			<HorizontalLine/>
-			<Gap size={35}/>
-			
-			<FormCard>
-				<FormHeader>Create an account</FormHeader>
-				<InputBubble fieldName="email"/>
-				<InputBubble fieldName="password" secureTextEntry submitOnEnter/>
-				<ErrorMessages validate={validateSignupInfo}/>
-				<SubmitButton to="/setup/personal-info">Next</SubmitButton>
-			</FormCard>
-			
-			<Gap size={8}/>
-			
-			<StyledText look="18 regular veryHard">
-				Already have an account?{" "}
-				<StyledText look="18 regular accent" style={{ textDecorationLine: "underline" }} onPress={goToLogin}>
-					Log in
+				<Gap size={8}/>
+				<BackButton/>
+				
+				<StyledText look="68 semibold veryHard">Set up</StyledText>
+				<StyledText look="44 medium veryHard">Command Pulse</StyledText>
+				
+				<Gap size={35}/>
+				<HorizontalLine/>
+				<Gap size={35}/>
+				
+				<FormCard>
+					<FormHeader>Create an account</FormHeader>
+					<InputBubble fieldName="email"/>
+					<InputBubble fieldName="password" secureTextEntry submitOnEnter/>
+					<ErrorMessages validate={validateSignupInfo}/>
+					<SubmitButton to="/setup/personal-info">Next</SubmitButton>
+				</FormCard>
+				
+				<Gap size={8}/>
+				
+				<StyledText look="18 regular veryHard">
+					Already have an account?{" "}
+					<StyledText look="18 regular accent" style={{ textDecorationLine: "underline" }} onPress={goToLogin}>
+						Log in
+					</StyledText>
 				</StyledText>
-			</StyledText>
-		
+			
+			</TouchableWithoutFeedback>
 		</SafeAreaViewWithBackground>
 	);
 	

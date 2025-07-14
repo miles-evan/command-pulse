@@ -1,9 +1,14 @@
 import {useContext, useEffect, useState} from "react";
 import { FormContext } from "./FormCard.jsx";
-import {Text} from "react-native";
 import StyledText from "@/components/StyledText";
 
 
+/**
+ * ErrorMessages component displays validation errors like "password should be 5-20 characters"
+ * @param validate validation function. takes an object with keys being the field names, returns { passed, errorMessages }
+ * @param setErrorMessagesRef a reference whose .current will be set to the errorMessages setter. used in case you want
+ * to add additional error messages after validation, for example if the api call fails
+ */
 export default function ErrorMessages({ validate, setErrorMessagesRef }) {
 	
 	const [errorMessages, setErrorMessages] = useState([]);

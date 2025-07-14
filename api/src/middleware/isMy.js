@@ -1,5 +1,4 @@
 import extractFromRequest from "../utils/extractFromRequest.js";
-import { Shift } from "../mongoose/schemas/shiftSchema.js";
 import {userOwnsShift, userOwnsShiftRequest} from "../queries/shiftQueries.js";
 
 

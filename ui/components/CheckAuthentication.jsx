@@ -7,21 +7,22 @@ import { GlobalStateContext } from "@/utils/GlobalStateContext";
 import Gap from "@/components/Gap";
 
 
+// wrap this component around a screen that you need to be logged in to see. will show a loading screen while logging in
+// and then once logged in will show children
 export default function CheckAuthentication({ children }) {
 	
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const globalState = useContext(GlobalStateContext);
 	
 	useEffect(() => {
-		initializeSession();
+		// authenticate
+		(async () => {
+			const companyName = await asyncStorageAuthentication();
+			if(!companyName) return router.replace("/setup");
+			globalState.companyName = companyName;
+			setIsAuthenticated(true);
+		})();
 	}, []);
-	
-	async function initializeSession() {
-		const companyName = await asyncStorageAuthentication();
-		if(!companyName) return router.replace("/setup");
-		globalState.companyName = companyName;
-		setIsAuthenticated(true);
-	}
 	
 	
 	return isAuthenticated? children : (

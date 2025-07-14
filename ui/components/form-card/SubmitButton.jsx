@@ -5,6 +5,12 @@ import {router} from "expo-router";
 import { useLocalSearchParams } from "expo-router";
 
 
+/**
+ * SubmitButton component extracts values from InputBubbles to call submit function. calls validation function first
+ * @param onSubmit function that takes an object with keys being the field names
+ * @param to optional, path to route to with expo router. values from InputBubbles will be passed to next screen with route params
+ * @param children text to display on the button
+ */
 export default function SubmitButton({ onSubmit, to, children="Submit" }) {
 	
 	const { submitRef, inputValuesRef, checkValidationRef } = useContext(FormContext);

@@ -7,9 +7,9 @@ import InputBubble from "@/components/form-card/InputBubble";
 import SubmitButton from "@/components/form-card/SubmitButton";
 import Gap from "@/components/Gap";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
-import * as companyService from "@/services/companyService";
 import { validateInviteCode } from "@/utils/validation";
 import HorizontalLine from "@/components/HorizontalLine";
+import { Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 
 
 export default function JoinCompany() {
@@ -17,24 +17,26 @@ export default function JoinCompany() {
 	
 	return (
 		<SafeAreaViewWithBackground>
-			
-			<Gap size={8}/>
-			<BackButton/>
-			
-			<StyledText look="68 semibold veryHard">Set up</StyledText>
-			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
-			
-			<Gap size={35}/>
-			<HorizontalLine/>
-			<Gap size={35}/>
-			
-			<FormCard>
-				<FormHeader>Join company</FormHeader>
-				<InputBubble fieldName="inviteCode" placeholder={"Join code"} submitOnEnter/>
-				<ErrorMessages validate={validateInviteCode}/>
-				<SubmitButton to="/setup/create-account">Next</SubmitButton>
-			</FormCard>
-		
+			<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+					
+				<Gap size={8}/>
+				<BackButton/>
+				
+				<StyledText look="68 semibold veryHard">Set up</StyledText>
+				<StyledText look="44 medium veryHard">Command Pulse</StyledText>
+				
+				<Gap size={35}/>
+				<HorizontalLine/>
+				<Gap size={35}/>
+				
+				<FormCard>
+					<FormHeader>Join company</FormHeader>
+					<InputBubble fieldName="inviteCode" placeholder={"Join code"} submitOnEnter/>
+					<ErrorMessages validate={validateInviteCode}/>
+					<SubmitButton to="/setup/create-account">Next</SubmitButton>
+				</FormCard>
+				
+			</TouchableWithoutFeedback>
 		</SafeAreaViewWithBackground>
 	);
 	

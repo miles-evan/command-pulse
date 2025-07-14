@@ -11,7 +11,7 @@ export async function createAndAssignShift(
 	await newShift.save();
 	
 	if(userId) {
-		await assignShift(userId, newShift.id);
+		await assignShift(newShift.id, userId);
 	} else {
 		await createShiftRequest(newShift.id, shiftRequestMessage, false, companyId);
 	}
@@ -35,7 +35,7 @@ export async function reassignShift(shiftId, userId, shiftRequestMessage, compan
 	
 	// add connections
 	if(userId) {
-		await assignShift(userId, shiftId);
+		await assignShift(shiftId, userId);
 	} else {
 		await createShiftRequest(shiftId, shiftRequestMessage, false, companyId);
 	}
@@ -64,7 +64,7 @@ async function removeAllShiftConnections(shiftId) {
 }
 
 
-async function assignShift(userId, shiftId) {
+async function assignShift(shiftId, userId) {
 	await User.findByIdAndUpdate(userId, { $addToSet: { shiftIds: shiftId } });
 	await Shift.findByIdAndUpdate(shiftId, { $set: { userId: userId } });
 }
@@ -251,8 +251,8 @@ export async function userOwnsShiftRequest(userId, shiftRequestId) {
 
 
 export async function userOwnsShift(userId, shiftId) {
-	const shift = await Shift.findById(shiftId);
-	return shift.userId.equals(userId);
+	const user = await User.findOne({ _id: userId, shiftIds: shiftId });
+	return !!user;
 }
 
 

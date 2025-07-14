@@ -2,6 +2,9 @@ import * as companyService from "@/services/companyService";
 import * as userService from "@/services/userService";
 
 
+// functions used with ErrorMessages components
+
+
 export async function validateInviteCode({ inviteCode }) {
 	if(!/^\d{8}$/.test(inviteCode))
 		return { errorMessages: ["Must be an 8 digit number"], passed: false };

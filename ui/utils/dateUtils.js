@@ -11,7 +11,6 @@ export function getTodayString() {
 }
 
 
-
 export function getCurrentTimeString() {
 	const date = new Date();
 	let hours = date.getHours();
@@ -24,7 +23,6 @@ export function getCurrentTimeString() {
 	
 	return `${padZero(hours)}:${padZero(minutes)} ${ampm}`;
 }
-
 
 
 export function dayOfWeek(date) {
