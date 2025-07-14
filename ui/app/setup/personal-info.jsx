@@ -13,7 +13,6 @@ import { validatePersonalInfo } from "@/utils/validation";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
 import HorizontalLine from "@/components/utility-components/HorizontalLine.jsx";
 import {storeCredentials} from "@/utils/AsyncStorageAuthentication";
-import {Keyboard, TouchableWithoutFeedback} from "react-native";
 import If from "@/components/utility-components/If.jsx";
 import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
 

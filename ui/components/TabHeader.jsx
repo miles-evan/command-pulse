@@ -1,15 +1,15 @@
-import React, { useContext } from "react";
-import { GlobalStateContext } from "@/utils/GlobalStateContext";
+import React from "react";
 import StyledText from "@/components/utility-components/StyledText.jsx";
 import { Pressable } from "react-native";
 import Gap from "@/components/utility-components/Gap.jsx";
 import { router } from "expo-router";
+import { useGlobalState } from "@/hooks/useGlobalState.js";
 
 
 // shows the company name at the top
 export default function TabHeader() {
 	
-	const { companyName } = useContext(GlobalStateContext);
+	const { companyName } = useGlobalState();
 	
 	
 	return (

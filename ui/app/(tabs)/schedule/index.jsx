@@ -1,11 +1,11 @@
 import { useContext, useEffect } from "react";
-import { GlobalStateContext } from "@/utils/GlobalStateContext.js";
 import { router } from "expo-router";
+import { useGlobalState } from "@/hooks/useGlobalState.js";
 
 
 export default function ScheduleIndex() {
 	
-	const globalState = useContext(GlobalStateContext);
+	const globalState = useGlobalState();
 
 	
 	useEffect(() => {
