@@ -1,8 +1,8 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { Colors } from "@/constants/Colors";
-import StyledText from "@/components/StyledText";
+import { Colors } from "@/constants/Colors.js";
+import StyledText from "@/components/utility-components/StyledText.jsx";
 import { Pressable } from "react-native";
-import * as shiftService from "@/services/shiftService";
+import * as shiftService from "@/services/shiftService.js";
 
 
 export default function ClockInButton({ onPress }) {

@@ -1,17 +1,17 @@
 import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground";
-import StyledText from "@/components/StyledText";
+import StyledText from "@/components/utility-components/StyledText.jsx";
 import FormCard from "@/components/form-card/FormCard";
 import FormHeader from "@/components/form-card/FormHeader";
 import BackButton from "@/components/BackButton";
 import InputBubble from "@/components/form-card/InputBubble";
 import SubmitButton from "@/components/form-card/SubmitButton";
-import Gap from "@/components/Gap";
+import Gap from "@/components/utility-components/Gap.jsx";
 import {router, useLocalSearchParams} from "expo-router";
 import * as userService from "@/services/userService";
 import * as companyService from "@/services/companyService";
 import { validatePersonalInfo } from "@/utils/validation";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
-import HorizontalLine from "@/components/HorizontalLine";
+import HorizontalLine from "@/components/utility-components/HorizontalLine.jsx";
 import {storeCredentials} from "@/utils/AsyncStorageAuthentication";
 import {Keyboard, TouchableWithoutFeedback} from "react-native";
 

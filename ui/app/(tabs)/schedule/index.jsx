@@ -1,41 +1,21 @@
-import TabHeader from "@/components/TabHeader";
-import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground";
-import { useState } from "react";
-import StyledText from "@/components/StyledText";
-import FlexRowSpaceBetween from "@/components/FlexRowSpaceBetween";
-import Gap from "@/components/Gap";
-import ShiftList from "@/components/scheduling/ShiftList";
+import {useContext, useEffect} from "react";
+import { GlobalStateContext } from "@/utils/GlobalStateContext.js";
+import {router} from "expo-router";
 
 
-export default function Schedule() {
+export default function ScheduleIndex() {
 	
-	const [dir, setDir] = useState(1);
-	
-	
-	function toggleDir() {
-		setDir(prev => -prev);
-	}
-	
-	
-	return (
-		<SafeAreaViewWithBackground>
+	const globalState = useContext(GlobalStateContext);
 
-			<TabHeader />
+	useEffect(() => {
+		if(globalState.isSupervisor) {
+			router.replace("/(tabs)/schedule/company-schedule");
+		} else {
+			router.replace("/(tabs)/schedule/my-schedule");
+		}
+	}, []);
 
-			<FlexRowSpaceBetween>
-				<StyledText look="18 medium medium">
-					{dir === 1? "Upcoming shifts:" : "Past shifts:"}
-				</StyledText>
-				<StyledText look="18 medium accent" onPress={toggleDir}>
-					{dir === 1? "See past shifts" : "See upcoming shifts"}
-				</StyledText>
-			</FlexRowSpaceBetween>
-			
-			<Gap size={5}/>
 
-			<ShiftList dir={dir}/>
+	return null;
 
-		</SafeAreaViewWithBackground>
-	
-	);
 }

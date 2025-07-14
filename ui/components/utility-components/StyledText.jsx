@@ -1,6 +1,6 @@
 import { Text, StyleSheet } from "react-native";
-import { FontWeights } from "@/constants/Typography";
-import { Colors } from "@/constants/Colors";
+import { FontWeights } from "@/constants/Typography.js";
+import { Colors } from "@/constants/Colors.js";
 
 
 // lets you use a shortcut to style text with the look prop.

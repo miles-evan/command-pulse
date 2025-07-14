@@ -1,6 +1,6 @@
 import { View } from "react-native";
-import HorizontalLine from "@/components/HorizontalLine";
-import StyledText from "@/components/StyledText";
+import HorizontalLine from "@/components/utility-components/HorizontalLine.jsx";
+import StyledText from "@/components/utility-components/StyledText.jsx";
 
 
 export default function OrLine({ length="90%", thickness=1, color="mediumSoft", containerStyle, lineStyle, textStyle }) {

@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { GlobalStateContext } from "@/utils/GlobalStateContext";
-import StyledText from "@/components/StyledText";
+import StyledText from "@/components/utility-components/StyledText.jsx";
 import { Pressable } from "react-native";
-import Gap from "@/components/Gap";
+import Gap from "@/components/utility-components/Gap.jsx";
 import { router } from "expo-router";
 
 

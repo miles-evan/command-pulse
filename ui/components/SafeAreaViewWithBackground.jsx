@@ -2,7 +2,7 @@ import background from "@/assets/images/squares-background.png";
 import {View, Image, Dimensions, Keyboard, TouchableWithoutFeedback} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import WrapChildrenIf from "@/components/WrapChildrenIf.jsx";
+import WrapChildrenIf from "@/components/utility-components/WrapChildrenIf.jsx";
 
 
 const { width } = Dimensions.get("window");

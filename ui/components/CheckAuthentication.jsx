@@ -1,10 +1,11 @@
 import {useContext, useEffect, useState} from "react";
-import StyledText from "@/components/StyledText";
+import StyledText from "@/components/utility-components/StyledText.jsx";
 import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground";
-import { asyncStorageAuthentication } from "@/utils/AsyncStorageAuthentication";
-import { router } from "expo-router";
-import { GlobalStateContext } from "@/utils/GlobalStateContext";
-import Gap from "@/components/Gap";
+import {asyncStorageAuthentication} from "@/utils/AsyncStorageAuthentication";
+import {router} from "expo-router";
+import {GlobalStateContext} from "@/utils/GlobalStateContext";
+import Gap from "@/components/utility-components/Gap.jsx";
+import * as userService from "@/services/userService.js";
 
 
 // wrap this component around a screen that you need to be logged in to see. will show a loading screen while logging in
@@ -15,11 +16,14 @@ export default function CheckAuthentication({ children }) {
 	const globalState = useContext(GlobalStateContext);
 	
 	useEffect(() => {
-		// authenticate
+		// authenticate and store companyName and isSupervisor in global state
 		(async () => {
 			const companyName = await asyncStorageAuthentication();
 			if(!companyName) return router.replace("/setup");
 			globalState.companyName = companyName;
+
+			globalState.isSupervisor = (await userService.status()).body.isSupervisor;
+
 			setIsAuthenticated(true);
 		})();
 	}, []);

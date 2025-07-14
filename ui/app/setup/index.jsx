@@ -1,10 +1,10 @@
 import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground";
 import Button from "@/components/Button.jsx";
-import StyledText from "@/components/StyledText";
+import StyledText from "@/components/utility-components/StyledText.jsx";
 import FormHeader from "@/components/form-card/FormHeader";
 import FormCard from "@/components/form-card/FormCard";
-import Gap from "@/components/Gap";
-import HorizontalLine from "@/components/HorizontalLine";
+import Gap from "@/components/utility-components/Gap.jsx";
+import HorizontalLine from "@/components/utility-components/HorizontalLine.jsx";
 
 
 export default function GetStarted() {

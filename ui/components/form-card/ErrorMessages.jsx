@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import { FormContext } from "./FormCard.jsx";
-import StyledText from "@/components/StyledText";
+import StyledText from "@/components/utility-components/StyledText.jsx";
 
 
 /**

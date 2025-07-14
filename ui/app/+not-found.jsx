@@ -1,5 +1,5 @@
 import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground";
-import StyledText from "@/components/StyledText";
+import StyledText from "@/components/utility-components/StyledText.jsx";
 import BackButton from "@/components/BackButton";
 
 

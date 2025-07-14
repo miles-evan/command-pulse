@@ -4,8 +4,8 @@ import {removeCredentialsAndLogOut} from "@/utils/AsyncStorageAuthentication";
 import { router } from "expo-router";
 import Button from "@/components/Button";
 import BackButton from "@/components/BackButton";
-import Gap from "@/components/Gap";
-import StyledText from "@/components/StyledText";
+import Gap from "@/components/utility-components/Gap.jsx";
+import StyledText from "@/components/utility-components/StyledText.jsx";
 
 
 export default function Account() {
