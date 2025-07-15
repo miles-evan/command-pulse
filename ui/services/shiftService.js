@@ -7,6 +7,10 @@ const rootURL = "http://192.168.1.202:80/command-pulse/api/v1/shifts"
 export const getMy = (date, time, dir, skip, limit) =>
 	fetch.get(rootURL, { date, time, dir, skip, limit });
 
+// get all shifts
+export const getAll = (startDate, endDate) =>
+	fetch.get(rootURL + "/all", { startDate, endDate });
+
 // clock in
 export const clockIn = shiftId =>
 	fetch.post(rootURL + `/${shiftId}/clock/in`);

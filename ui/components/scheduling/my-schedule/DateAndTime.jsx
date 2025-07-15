@@ -19,7 +19,7 @@ export default function DateAndTime({ date, startTime, endTime }) {
 					adjustsFontSizeToFit
 					numberOfLines={1}
 				>
-					{dayOfWeek(date)}
+					{dayOfWeek(date, true)}
 				</StyledText>
 				
 				<StyledText

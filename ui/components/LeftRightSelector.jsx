@@ -9,10 +9,12 @@ import {Colors} from "@/constants/Colors.js";
 export default function LeftRightSelector({ onLeft, onRight, containerStyle={}, textStyle={}, children }) {
 	
 	return (
-		<FlexRowSpaceBetween style={containerStyle}>
+		<FlexRowSpaceBetween style={{ alignItems: "center", ...containerStyle }}>
 			
 			<Pressable onPress={onLeft}>
-				<MaterialIcons name="arrow-back-ios" size={24} color={Colors.accent} />
+				{({ pressed }) => (
+					<MaterialIcons name="arrow-back-ios" size={35} color={pressed? Colors.softAccent : Colors.accent}/>
+				)}
 			</Pressable>
 			
 			<StyledText look="34 medium veryHard" style={textStyle}>
@@ -20,7 +22,9 @@ export default function LeftRightSelector({ onLeft, onRight, containerStyle={}, 
 			</StyledText>
 			
 			<Pressable onPress={onRight}>
-				<MaterialIcons name="arrow-forward-ios" size={24} color={Colors.accent} />
+				{({ pressed }) => (
+					<MaterialIcons name="arrow-forward-ios" size={35} color={pressed? Colors.softAccent : Colors.accent} />
+				)}
 			</Pressable>
 			
 		</FlexRowSpaceBetween>

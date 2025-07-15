@@ -5,7 +5,6 @@ import StyledText from "@/components/utility-components/StyledText.jsx";
 import FlexRowSpaceBetween from "@/components/utility-components/FlexRowSpaceBetween.jsx";
 import Gap from "@/components/utility-components/Gap.jsx";
 import ShiftList from "@/components/scheduling/my-schedule/ShiftList.jsx";
-import BackButton from "@/components/BackButton.jsx";
 
 
 export default function MySchedule() {
@@ -21,9 +20,7 @@ export default function MySchedule() {
 	return (
 		<SafeAreaViewWithBackground>
 			
-			<TabHeader />
-			
-			<BackButton/>
+			<TabHeader/>
 			
 			<FlexRowSpaceBetween>
 				<StyledText look="18 medium medium">
@@ -39,6 +36,6 @@ export default function MySchedule() {
 			<ShiftList dir={dir}/>
 		
 		</SafeAreaViewWithBackground>
-	
 	);
+	
 }
