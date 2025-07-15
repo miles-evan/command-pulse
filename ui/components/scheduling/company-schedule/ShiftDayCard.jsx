@@ -3,34 +3,88 @@ import StyledText from "@/components/utility-components/StyledText.jsx";
 import {dayOfWeekShort, superShortenTime} from "@/utils/dateUtils.js";
 import FlexRowSpaceBetween from "@/components/utility-components/FlexRowSpaceBetween.jsx";
 import HorizontalLine from "@/components/utility-components/HorizontalLine.jsx";
+import { useMemo } from "react";
+import {StyleSheet, View} from "react-native";
+import If from "@/components/utility-components/If.jsx";
 
 
 export default function ShiftDayCard({ date, shifts }) {
-
+	
+	const sortedShifts = useMemo(() => [...shifts].sort((a, b) => a.startTime.localeCompare(b.startTime)), [shifts]);
+	
+	
 	return (
-		<Card style={{ paddingTop: 2, paddingHorizontal: 15, justifyContent: "flex-start", width: 125, height: 175, marginRight: 15 }}>
+		<Card style={styles.card}>
 		
 			<StyledText look="26 bold veryHard">
 				{dayOfWeekShort(date)}
 			</StyledText>
 			
-			<HorizontalLine color="soft" length="100%" style={{ marginVertical: 0 }}/>
+			<HorizontalLine color="soft" length="100%" style={styles.divider}/>
 			
-			{shifts.map(({ firstName, startTime, endTime }, index) => (
-				<FlexRowSpaceBetween key={index}>
+			{sortedShifts.map(({ firstName, startTime, endTime }, index) => (
+				<View key={index}>
 					
-					<StyledText look="18 light veryHard" numberOfLines={1} style={{ flexShrink: 1, flex: 1, marginRight: 5 }}>
-						{firstName}
-					</StyledText>
+					<If condition={index === 5}>
+						<StyledText look="18 light veryHard" style={{ marginTop: -10 }}>...</StyledText>
+					</If>
 					
-					<StyledText look="18 light veryHard" numberOfLines={1} style={{ flexShrink: 1 }}>
-						{superShortenTime(startTime) + "-" + superShortenTime(endTime)}
-					</StyledText>
+					<FlexRowSpaceBetween style={styles.shiftContainer}>
+						
+						<StyledText
+							look="18 light veryHard" numberOfLines={1} ellipsizeMode="clip" style={styles.name}>
+							{firstName}
+						</StyledText>
+						
+						<StyledText look="18 light veryHard" numberOfLines={1} style={styles.times}>
+							{superShortenTime(startTime) + "-" + superShortenTime(endTime)}
+						</StyledText>
 					
-				</FlexRowSpaceBetween>
+					</FlexRowSpaceBetween>
+					
+				</View>
 			))}
 			
 		</Card>
 	);
 	
 }
+
+
+// --------------------------------
+
+
+const styles = StyleSheet.create({
+	card: {
+		paddingTop: 2,
+		paddingBottom: 9,
+		paddingHorizontal: 15,
+		justifyContent: "flex-start",
+		width: 125,
+		height: 175,
+		marginRight: 15,
+		marginTop: 8,
+		overflow: "hidden",
+	},
+	
+	divider: {
+		marginTop: 0,
+		marginBottom: 3,
+	},
+	
+	shiftContainer: {
+		marginVertical: 1.5,
+	},
+	
+	name: {
+		flexShrink: 1,
+		flex: 1,
+		marginRight: 5,
+		marginVertical: 0,
+	},
+	
+	times: {
+		flexShrink: 1,
+		marginVertical: 0,
+	},
+})

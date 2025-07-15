@@ -9,6 +9,7 @@ export const Colors = {
 	
 	white: "#ffffff",
 	verySoft: "#fbfbfb",
+	softer: "#EAEAEA",
 	soft: "#c7c7c7",
 	mediumSoft: "#aaaaaa",
 	medium: "#797979",

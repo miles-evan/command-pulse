@@ -54,7 +54,7 @@ export default function ShiftList({ dir }) {
 	return (
 		<FlatList
 			data={shifts}
-			keyExtractor={(item, index) => index.toString()}
+			keyExtractor={(_, index) => index.toString()}
 			renderItem={({ item: shift }) => <ShiftCard shift={shift} />}
 			keyboardDismissMode="on-drag"
 			onEndReached={loadShifts}

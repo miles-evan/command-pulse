@@ -1,18 +1,21 @@
-import {FlatList, View} from "react-native";
+import { FlatList, Pressable, View } from "react-native";
 import StyledText from "@/components/utility-components/StyledText.jsx";
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import ShiftDayCard from "@/components/scheduling/company-schedule/ShiftDayCard.jsx";
 import { groupShiftsByDate } from "@/utils/groupShifts.js";
-import Gap from "@/components/utility-components/Gap.jsx";
+import { useGlobalState } from "@/hooks/useGlobalState.js";
+import {router} from "expo-router";
 
 export default function ShiftLocation({ locationName, shifts }) {
 	
-	const [shiftDays, setShiftDays] = useState([]);
+	const shiftDays = useMemo(() => groupShiftsByDate(shifts), [shifts]);
+	const globalState = useGlobalState();
 	
 	
-	useEffect(() => {
-		setShiftDays(groupShiftsByDate(shifts))
-	}, [shifts]);
+	function enlargeShiftDay(index) {
+		globalState.params = { shiftDays, index, locationName };
+		router.push("/(tabs)/schedule/day-shift-view-enlarged");
+	}
 	
 	
 	return (
@@ -24,8 +27,14 @@ export default function ShiftLocation({ locationName, shifts }) {
 			
 			<FlatList
 				data={shiftDays}
-				renderItem={({ item: { date, shifts } }) => <ShiftDayCard date={date} shifts={shifts}/>}
+				keyExtractor={(_, index) => index.toString()}
+				renderItem={({ item: { date, shifts }, index }) => (
+					<Pressable onPress={() => enlargeShiftDay(index)}>
+						<ShiftDayCard date={date} shifts={shifts}/>
+					</Pressable>
+				)}
 				horizontal
+				style={{ overflow: "visible" }}
 			/>
 			
 		</View>

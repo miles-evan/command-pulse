@@ -8,7 +8,7 @@ import WrapChildrenIf from "@/components/utility-components/WrapChildrenIf.jsx";
 const { width } = Dimensions.get("window");
 
 
-export default function SafeAreaViewWithBackground({ dismissKeyboardOnPress, children }) {
+export default function SafeAreaViewWithBackground({ dismissKeyboardOnPress, children, style }) {
 	const insets = useSafeAreaInsets();
 	
 	return (
@@ -28,7 +28,7 @@ export default function SafeAreaViewWithBackground({ dismissKeyboardOnPress, chi
 					</TouchableWithoutFeedback>
 				)}
 				children={
-					<View style={{ flex: 1, paddingTop: insets.top }}>
+					<View style={{ flex: 1, paddingTop: insets.top, ...style }}>
 						{children}
 					</View>
 				}

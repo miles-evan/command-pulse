@@ -9,7 +9,15 @@ import { Colors } from "@/constants/Colors.js";
 // color should be a key from Colors from constants/Colors
 export default function StyledText(
 	{
-		look="12 semibold black", hCenter=true, vCenter=false, style={}, children, adjustsFontSizeToFit, numberOfLines, onPress
+		look="12 semibold black",
+		hCenter=true,
+		vCenter=false,
+		style={},
+		children,
+		adjustsFontSizeToFit,
+		numberOfLines,
+		onPress,
+		ellipsizeMode
 	}
 ) {
 	
@@ -19,6 +27,7 @@ export default function StyledText(
 			adjustsFontSizeToFit={adjustsFontSizeToFit}
 			numberOfLines={numberOfLines}
 			onPress={onPress}
+			ellipsizeMode={ellipsizeMode}
 		>
 			{children}
 		</Text>
