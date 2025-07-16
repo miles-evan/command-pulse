@@ -1,5 +1,6 @@
 import { View } from "react-native";
 import { StyleSheet } from "react-native";
+import {Colors} from "@/constants/Colors.js";
 
 
 export default function Card({ children, style }) {
@@ -27,7 +28,7 @@ function getStyles(style) {
 			
 			borderRadius: 16,
 			borderWidth: 1,
-			borderColor: "#C7C7C7",
+			borderColor: Colors.soft,
 			
 			...style,
 		}

@@ -23,6 +23,10 @@ export const leave = async () =>
 export const companyNameIsAvailable = async companyName =>
 	await fetch.get(rootURL + `/check-name/${companyName}`);
 
+// get contacts
+export const getContacts = async () =>
+	await fetch.get(rootURL + "/contacts");
+
 // get company status
 export const status = async () =>
 	await fetch.get(rootURL + "/status");

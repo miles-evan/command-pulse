@@ -46,7 +46,7 @@ export default function CreateAccount() {
 			
 			<FormCard>
 				<FormHeader>Create an account</FormHeader>
-				<InputBubble fieldName="email"/>
+				<InputBubble fieldName="email" keyboardType="email-address"/>
 				<InputBubble fieldName="password" secureTextEntry submitOnEnter/>
 				<ErrorMessages validate={validateSignupInfo}/>
 				<SubmitButton to="/setup/personal-info">Next</SubmitButton>

@@ -64,7 +64,7 @@ export default function Login() {
 
 			<FormCard>
 				<FormHeader>Login</FormHeader>
-				<InputBubble fieldName="email"/>
+				<InputBubble fieldName="email" keyboardType="email-address"/>
 				<InputBubble fieldName="password" secureTextEntry submitOnEnter/>
 				<ErrorMessages validate={validateLoginInfo} setErrorMessagesRef={setErrorMessagesRef}/>
 				<SubmitButton onSubmit={loginAndJoinOrCreateCompany}>Finish</SubmitButton>

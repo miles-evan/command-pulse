@@ -30,7 +30,9 @@ export default function ShiftLocation({ locationName, shifts }) {
 				keyExtractor={(_, index) => index.toString()}
 				renderItem={({ item: { date, shifts }, index }) => (
 					<Pressable onPress={() => enlargeShiftDay(index)}>
-						<ShiftDayCard date={date} shifts={shifts}/>
+						{({ pressed }) => (
+							<ShiftDayCard date={date} shifts={shifts} showFeedback={pressed}/>
+						)}
 					</Pressable>
 				)}
 				horizontal

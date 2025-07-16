@@ -4,7 +4,10 @@ import ShiftDayCardEnlarged from "@/components/scheduling/company-schedule/Shift
 import StyledText from "@/components/utility-components/StyledText.jsx";
 import { useState } from "react";
 import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground.jsx";
-import {ScrollView} from "react-native";
+import { ScrollView } from "react-native";
+import PersonDropDown from "@/components/PersonDropDown.jsx";
+import TabHeader from "@/components/TabHeader.jsx";
+import Gap from "@/components/utility-components/Gap.jsx";
 
 
 export default function DayShiftViewEnlarged() {
@@ -19,7 +22,9 @@ export default function DayShiftViewEnlarged() {
 	
 	return (
 		<SafeAreaViewWithBackground>
+			<TabHeader/>
 			<BackButton/>
+			<Gap size={10}/>
 			<ScrollView>
 				<StyledText look="28 semibold veryHard" style={{ marginBottom: -10 }}>{locationName}</StyledText>
 				<ShiftDayCardEnlarged

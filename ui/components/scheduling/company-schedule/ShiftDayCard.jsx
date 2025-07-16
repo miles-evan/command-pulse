@@ -1,20 +1,21 @@
 import Card from "@/components/Card.jsx";
 import StyledText from "@/components/utility-components/StyledText.jsx";
-import {dayOfWeekShort, superShortenTime} from "@/utils/dateUtils.js";
+import { dayOfWeekShort, superShortenTime } from "@/utils/dateUtils.js";
 import FlexRowSpaceBetween from "@/components/utility-components/FlexRowSpaceBetween.jsx";
 import HorizontalLine from "@/components/utility-components/HorizontalLine.jsx";
 import { useMemo } from "react";
-import {StyleSheet, View} from "react-native";
+import { StyleSheet, View } from "react-native";
 import If from "@/components/utility-components/If.jsx";
+import {Colors} from "@/constants/Colors.js";
 
 
-export default function ShiftDayCard({ date, shifts }) {
+export default function ShiftDayCard({ date, shifts, showFeedback }) {
 	
 	const sortedShifts = useMemo(() => [...shifts].sort((a, b) => a.startTime.localeCompare(b.startTime)), [shifts]);
 	
 	
 	return (
-		<Card style={styles.card}>
+		<Card style={{ ...styles.card, ...(showFeedback? { borderColor: Colors.medium } : {}) }}>
 		
 			<StyledText look="26 bold veryHard">
 				{dayOfWeekShort(date)}
@@ -54,7 +55,7 @@ export default function ShiftDayCard({ date, shifts }) {
 // --------------------------------
 
 
-const styles = StyleSheet.create({
+const styles = {
 	card: {
 		paddingTop: 2,
 		paddingBottom: 9,
@@ -87,4 +88,4 @@ const styles = StyleSheet.create({
 		flexShrink: 1,
 		marginVertical: 0,
 	},
-})
+};

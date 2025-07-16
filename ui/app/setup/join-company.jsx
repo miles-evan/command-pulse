@@ -38,7 +38,7 @@ export default function JoinCompany() {
 
 			<FormCard>
 				<FormHeader>Join company</FormHeader>
-				<InputBubble fieldName="inviteCode" placeholder={"Join code"} submitOnEnter/>
+				<InputBubble fieldName="inviteCode" placeholder={"Join code"} keyboardType="number-pad" submitOnEnter/>
 				<ErrorMessages validate={validateInviteCode}/>
 				<SubmitButton to="/setup/create-account">Next</SubmitButton>
 			</FormCard>

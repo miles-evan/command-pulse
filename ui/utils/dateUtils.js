@@ -71,7 +71,7 @@ export function dateObjectToString(dateObject) {
 }
 
 
-// { startDate: "2025-07-14", endDate: "2025-07-27" } -> "7/14 - 7/27"
+// [ startDate: "2025-07-14", endDate: "2025-07-27" ] -> "7/14 - 7/27"
 export function formatWeekRange(weekRange) {
 	const [startDate, endDate] = weekRange;
 	return `${shortenDate(startDate)} - ${shortenDate(endDate)}`;
@@ -92,11 +92,12 @@ export function shortenTime(time) {
 }
 
 
-// "08:00 PM" -> "8", "08:00 AM" -> "8am"
-export function superShortenTime(time) {
+// "08:00 PM" -> "8"
+// "08:00 AM" -> "8am"
+export function superShortenTime(time, includePM=false) {
 	const parts = time.split(/[: ]/);
 	parts[1] = parts[1] === "00"? "" : ":" + parts[1];
-	parts[2] = parts[2] === "PM"? "" : "am";
+	parts[2] = parts[2] === "PM"? includePM? "pm" : "" : "am";
 	return removeZeroPad(parts[0]) + parts[1] + parts[2];
 }
 
@@ -118,6 +119,30 @@ function convertTo24(time) {
 	if (ampm === "PM" && hour !== 12) hour += 12;
 	if (ampm === "AM" && hour === 12) hour = 0;
 	return `${padZero(hour)}:${m}`;
+}
+
+
+// --------------------------------
+
+
+// "5am-6:30" -> ["05:00 AM", "06:30 PM"]
+export function parseTimeRange(timeRange) {
+	const result = timeRange
+		.replace(/\s/g, "")
+		.toUpperCase()
+		.split("-")
+		.map(time => {
+			let ampm = "PM";
+			if(/AM|PM/.test(time)) {
+				ampm = time.slice(-2);
+				time = time.slice(0, -2)
+			}
+			if(!time.includes(":")) time += ":00"
+			const [hour, minute] = time.split(":");
+			const result = `${padZero(hour)}:${minute} ${ampm}`;
+			return /^(0[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/.test(result)? result : null;
+		});
+	return result[0] && result[1]? result : null;
 }
 
 

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import {useMemo, useState} from "react";
 import Card from "@/components/Card.jsx";
 import LeftRightSelector from "@/components/LeftRightSelector.jsx";
 import {dayOfWeek, superShortenTime} from "@/utils/dateUtils.js";
@@ -9,73 +9,52 @@ import { StyleSheet, View } from "react-native";
 import If from "@/components/utility-components/If.jsx";
 import AddShiftButton from "@/components/scheduling/company-schedule/AddShiftButton.jsx";
 import Gap from "@/components/utility-components/Gap.jsx";
+import EditButton from "@/components/EditButton.jsx";
+import ShiftEntryEnlarged from "@/components/scheduling/company-schedule/ShiftEntryEnlarged.jsx";
 
 
 export default function ShiftDayCardEnlarged({ date, shifts, onLeft, onRight }) {
 	
 	const sortedShifts = useMemo(() => [...shifts].sort((a, b) => a.startTime.localeCompare(b.startTime)), [shifts]);
+	const [editing, setEditing] = useState(false);
+	
+	
+	function onEdit() {
+		setEditing(true);
+	}
+	
+	
+	function onDone() {
+		setEditing(false);
+		// send requests
+	}
 	
 	
 	return (
-		<Card>
+		<Card style={{ justifyContent: "flex-start", width: "90%", minHeight: "50%", paddingVertical: 12 }}>
 			
 			<LeftRightSelector onLeft={onLeft} onRight={onRight}>{dayOfWeek(date)}</LeftRightSelector>
-			
 			<HorizontalLine color="soft" length={"100%"}/>
+			<EditButton onEdit={onEdit} onDone={onDone} onCancel={() => setEditing(false)} withCancelButton/>
+			<Gap size={5}/>
 			
-			{sortedShifts.map(({ firstName, lastName, startTime, endTime }, index) => (
+			{sortedShifts.map((shift, index) => (
 				<View key={index}>
-					<FlexRowSpaceBetween style={styles.shiftContainer}>
-						
-						<StyledText
-							look="26 light veryHard" numberOfLines={1} ellipsizeMode="clip" style={styles.name}>
-							{firstName + " " + lastName}
-						</StyledText>
-						
-						<StyledText look="26 light veryHard" numberOfLines={1} style={styles.times}>
-							{superShortenTime(startTime) + "-" + superShortenTime(endTime)}
-						</StyledText>
+					<ShiftEntryEnlarged shift={shift} editing={editing}/>
 					
-					</FlexRowSpaceBetween>
-					
-					<If condition={index < sortedShifts.length - 1}>
+					<If condition={!editing && index < sortedShifts.length - 1}>
 						<HorizontalLine color="softer"/>
 					</If>
 				</View>
 			))}
 			
-			<Gap size={15}/>
-			<AddShiftButton/>
+			<If condition={editing}>
+				<Gap size={15}/>
+				<AddShiftButton/>
+				<Gap size={15}/>
+			</If>
 			
 		</Card>
 	);
 	
 }
-
-
-// --------------------------------
-
-
-const styles = StyleSheet.create({
-	card: {
-		justifyContent: "flex-start",
-		width: "90%",
-		minHeight: "75%",
-	},
-	
-	shiftContainer: {
-		marginVertical: 1.5,
-	},
-	
-	name: {
-		flexShrink: 1,
-		flex: 1,
-		marginRight: 5,
-		marginVertical: 0,
-	},
-	
-	times: {
-		flexShrink: 1,
-		marginVertical: 0,
-	},
-})

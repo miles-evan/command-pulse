@@ -62,7 +62,7 @@ export default function PersonalInfo() {
 				<FormHeader>Personal info</FormHeader>
 				<InputBubble fieldName="firstName" placeholder="first name"/>
 				<InputBubble fieldName="lastName" placeholder="last name"/>
-				<InputBubble fieldName="phoneNumber" placeholder="phone number" submitOnEnter/>
+				<InputBubble fieldName="phoneNumber" placeholder="phone number" keyboardType="phone-pad" submitOnEnter/>
 				<ErrorMessages validate={validatePersonalInfo}/>
 				<SubmitButton onSubmit={signUpAndJoinOrCreateCompany}>Finish</SubmitButton>
 			</FormCard>

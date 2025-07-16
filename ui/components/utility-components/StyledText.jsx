@@ -7,28 +7,10 @@ import { Colors } from "@/constants/Colors.js";
 // look prop format: fontSize fontWeight color. ex: "12 semibold black"
 // fontWeight should be a key from FontWeights from constants/Typography
 // color should be a key from Colors from constants/Colors
-export default function StyledText(
-	{
-		look="12 semibold black",
-		hCenter=true,
-		vCenter=false,
-		style={},
-		children,
-		adjustsFontSizeToFit,
-		numberOfLines,
-		onPress,
-		ellipsizeMode
-	}
-) {
+export default function StyledText({ look="12 semibold black", hCenter=true, vCenter=false, style={}, children, ...rest }) {
 	
 	return (
-		<Text
-			style={getStyle(look, hCenter, vCenter, style)}
-			adjustsFontSizeToFit={adjustsFontSizeToFit}
-			numberOfLines={numberOfLines}
-			onPress={onPress}
-			ellipsizeMode={ellipsizeMode}
-		>
+		<Text style={getStyle(look, hCenter, vCenter, style)} { ...rest }>
 			{children}
 		</Text>
 	);

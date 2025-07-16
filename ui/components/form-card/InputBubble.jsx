@@ -14,7 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
  * @param submitOnEnter calls submit function when you press enter while inside input
  * @param style add or override style
  */
-export default function InputBubble({ fieldName, placeholder, secureTextEntry, submitOnEnter, style={} }) {
+export default function InputBubble({ fieldName, placeholder, submitOnEnter, style={}, ...rest }) {
 	
 	const { inputValuesRef, submitRef } = useContext(FormContext);
 	
@@ -32,13 +32,13 @@ export default function InputBubble({ fieldName, placeholder, secureTextEntry, s
 			
 			<TextInput
 				placeholder={placeholder ?? fieldName}
-				secureTextEntry={secureTextEntry}
 				onChangeText={value => inputValuesRef.current[fieldName] = value}
 				onSubmitEditing={() => {
 					if(submitOnEnter) submitRef.current();
 				}}
 				placeholderTextColor={Colors.softAccent}
 				style={styles.inputBubble}
+				{...rest}
 			/>
 			
 			<LinearGradient
@@ -56,22 +56,18 @@ export default function InputBubble({ fieldName, placeholder, secureTextEntry, s
 function getStyles(style) {
 	return StyleSheet.create({
 		inputBubble: {
-			flex: 1, // new
-			width: "100%", // new
+			flex: 1,
+			width: "100%",
 			
 			fontSize: 20,
 			fontWeight: FontWeights.regular,
 			color: Colors.veryHard,
-			
-			// width: "90%",
-			// height: 44,
 			
 			paddingLeft: 15,
 			
 			borderRadius: 48,
 			
 			marginHorizontal: "auto",
-			// marginVertical: 8,
 			
 			backgroundColor: Colors.verySoft,
 			borderWidth: 1,
