@@ -3,9 +3,9 @@ import {FlatList} from "react-native";
 import {useEffect, useState} from "react";
 import * as shiftService from "@/services/shiftService.js";
 import {getCurrentTimeString, getTodayString} from "@/utils/dateUtils.js";
-import StyledText from "@/components/utility-components/StyledText.jsx";
-import Gap from "@/components/utility-components/Gap.jsx";
-import {computeShiftStage} from "@/components/scheduling/computeShiftStage.js";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
+import Gap from "@/components/general-utility-components/Gap.jsx";
+import {computeShiftStage} from "@/components/scheduling/my-schedule/computeShiftStage.js";
 
 
 // retrieves and shows list of shifts

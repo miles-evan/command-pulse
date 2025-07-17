@@ -1,8 +1,13 @@
-import IconAndTextButton from "@/components/IconAndTextButton.jsx";
+import IconAndTextButton from "@/components/project-specific-utility-components/IconAndTextButton.jsx";
 
 
 export default function AddShiftButton({ onPress }) {
 	
-	return <IconAndTextButton iconName="add-circle-outline" text="Add shift" onPress={onPress}/>;
+	return <IconAndTextButton
+		iconName="add-circle-outline"
+		text="Add shift"
+		onPress={onPress}
+		style={{ marginVertical: 15 }}
+	/>;
 	
 }

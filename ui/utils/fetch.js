@@ -1,8 +1,13 @@
-// allows fetching to be easier. to use, import * as fetch, then do fetch.get or fetch.post
+// allows fetching to be easier. to use, import * as fetch, then do fetch.get or fetch.post and so on
 
 
 export async function post(url, body={}) {
-	return await fetchWithBody((url), "POST", body);
+	return await fetchWithBody(url, "POST", body);
+}
+
+
+export async function put(url, body={}) {
+	return await fetchWithBody(url, "PUT", body);
 }
 
 
@@ -10,7 +15,7 @@ export async function get(url, queryObj) {
 	if(url.includes("?"))
 		throw new Error("Use queryObj argument for query parameters");
 	
-	const fullUrl = (url) + toQueryString(queryObj);
+	const fullUrl = url + toQueryString(queryObj);
 	return await fetchWithBody(fullUrl, "GET");
 }
 

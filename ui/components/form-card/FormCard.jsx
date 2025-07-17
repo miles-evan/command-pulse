@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import Card from "@/components/Card";
+import Card from "@/components/project-specific-utility-components/Card.jsx";
 
 
 export const FormContext = React.createContext();

@@ -1,17 +1,17 @@
-import Card from "@/components/Card.jsx";
+import Card from "@/components/project-specific-utility-components/Card.jsx";
 import DateAndTime from "@/components/scheduling/my-schedule/DateAndTime.jsx";
-import Gap from "@/components/utility-components/Gap.jsx";
-import HorizontalLine from "@/components/utility-components/HorizontalLine.jsx";
+import Gap from "@/components/general-utility-components/Gap.jsx";
+import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import LocationAndPayRate from "@/components/scheduling/my-schedule/LocationAndPayRate.jsx";
-import If from "@/components/utility-components/If.jsx";
+import If from "@/components/general-utility-components/If.jsx";
 import ClockInButton from "@/components/scheduling/my-schedule/ClockInButton.jsx";
 import ClockOutButton from "@/components/scheduling/my-schedule/ClockOutButton.jsx";
 import IncidentButton from "@/components/scheduling/my-schedule/IncidentButton.jsx";
-import FlexRowSpaceAround from "@/components/utility-components/FlexRowSpaceAround.jsx";
+import FlexRowSpaceAround from "@/components/general-utility-components/FlexRowSpaceAround.jsx";
 import { Colors } from "@/constants/Colors.js";
 import { useEffect, useState } from "react";
 import * as shiftService from "@/services/shiftService.js";
-import { computeShiftStage } from "@/components/scheduling/computeShiftStage.js";
+import { computeShiftStage } from "@/components/scheduling/my-schedule/computeShiftStage.js";
 
 
 export default function ShiftCard({ shift }) {

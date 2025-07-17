@@ -1,21 +1,21 @@
-import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground";
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import SafeAreaViewWithBackground from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import FormCard from "@/components/form-card/FormCard";
 import FormHeader from "@/components/form-card/FormHeader";
-import BackButton from "@/components/BackButton";
+import BackButton from "@/components/project-specific-utility-components/BackButton.jsx";
 import InputBubble from "@/components/form-card/InputBubble";
 import SubmitButton from "@/components/form-card/SubmitButton";
-import Gap from "@/components/utility-components/Gap.jsx";
+import Gap from "@/components/general-utility-components/Gap.jsx";
 import { router, useLocalSearchParams } from "expo-router";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
 import { validateLoginInfo } from "@/utils/validation";
 import * as userService from "@/services/userService.js";
 import * as companyService from "@/services/companyService";
-import HorizontalLine from "@/components/utility-components/HorizontalLine.jsx";
+import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import {useRef} from "react";
 import {storeCredentials} from "@/utils/AsyncStorageAuthentication";
 import {Keyboard, TouchableWithoutFeedback} from "react-native";
-import If from "@/components/utility-components/If.jsx";
+import If from "@/components/general-utility-components/If.jsx";
 import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
 
 

@@ -1,13 +1,13 @@
-import BackButton from "@/components/BackButton.jsx";
+import BackButton from "@/components/project-specific-utility-components/BackButton.jsx";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
 import ShiftDayCardEnlarged from "@/components/scheduling/company-schedule/ShiftDayCardEnlarged.jsx";
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { useState } from "react";
-import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground.jsx";
+import SafeAreaViewWithBackground from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
 import { ScrollView } from "react-native";
-import PersonDropDown from "@/components/PersonDropDown.jsx";
-import TabHeader from "@/components/TabHeader.jsx";
-import Gap from "@/components/utility-components/Gap.jsx";
+import PersonDropDown from "@/components/scheduling/company-schedule/PersonDropDown.jsx";
+import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
+import Gap from "@/components/general-utility-components/Gap.jsx";
 
 
 export default function DayShiftViewEnlarged() {
@@ -16,9 +16,10 @@ export default function DayShiftViewEnlarged() {
 	const [index, setIndex] = useState(startIndex);
 	
 	
-	const prevDay = () => setIndex(prev => (shiftDays.length + prev - 1) % shiftDays.length);
-	const nextDay = () => setIndex(prev => (prev + 1) % shiftDays.length);
+	const prevDay = () => setIndex(prev => prev - 1);
+	const nextDay = () => setIndex(prev => prev + 1);
 	
+	console.log({ index, length: shiftDays.length });
 	
 	return (
 		<SafeAreaViewWithBackground>
@@ -32,6 +33,8 @@ export default function DayShiftViewEnlarged() {
 					shifts={shiftDays[index].shifts}
 					onLeft={prevDay}
 					onRight={nextDay}
+					leftDisabled={index === 0}
+					rightDisabled={index === shiftDays.length - 1}
 				/>
 			</ScrollView>
 		</SafeAreaViewWithBackground>

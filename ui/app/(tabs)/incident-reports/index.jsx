@@ -1,7 +1,7 @@
 import { Text } from "react-native";
-import TabHeader from "@/components/TabHeader";
-import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground";
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
+import SafeAreaViewWithBackground from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 
 
 export default function IncidentReports() {

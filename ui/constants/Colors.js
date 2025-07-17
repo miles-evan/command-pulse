@@ -7,6 +7,8 @@ export const Colors = {
 	danger: "#F01111",
 	softDanger: "#ff7f7f",
 	
+	altAccent: "#4ba326",
+	
 	white: "#ffffff",
 	verySoft: "#fbfbfb",
 	softer: "#EAEAEA",
@@ -18,3 +20,5 @@ export const Colors = {
 	veryHard: "#161616",
 	black: "#000000",
 };
+
+Object.freeze(Colors)

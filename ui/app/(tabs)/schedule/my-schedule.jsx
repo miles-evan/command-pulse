@@ -1,9 +1,9 @@
-import TabHeader from "@/components/TabHeader";
-import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground";
+import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
+import SafeAreaViewWithBackground from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
 import { useState } from "react";
-import StyledText from "@/components/utility-components/StyledText.jsx";
-import FlexRowSpaceBetween from "@/components/utility-components/FlexRowSpaceBetween.jsx";
-import Gap from "@/components/utility-components/Gap.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
+import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
+import Gap from "@/components/general-utility-components/Gap.jsx";
 import ShiftList from "@/components/scheduling/my-schedule/ShiftList.jsx";
 
 

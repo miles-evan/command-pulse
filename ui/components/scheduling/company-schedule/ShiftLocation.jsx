@@ -1,5 +1,5 @@
 import { FlatList, Pressable, View } from "react-native";
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { useMemo } from "react";
 import ShiftDayCard from "@/components/scheduling/company-schedule/ShiftDayCard.jsx";
 import { groupShiftsByDate } from "@/utils/groupShifts.js";

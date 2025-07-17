@@ -1,18 +1,29 @@
-import { TextInput } from "react-native";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { parseTimeRange, superShortenTime } from "@/utils/dateUtils.js";
+import StyledTextInput from "@/components/project-specific-utility-components/StyledTextInput.jsx";
 import { Colors } from "@/constants/Colors.js";
 
 
-export default function TimeRangeInput({ initialValue, style, ...rest }) {
+export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, ...rest }) {
 	
 	const [timeRange, setTimeRange] = useState(initialValue ?? "");
 	useEffect(parseAndSetTimeRange, []);
+	const [isDifferent, setIsDifferent] = useState(false);
+	
+	
+	function checkIfDifferent() {
+		const parsedTimeRange = parseTimeRange(timeRange);
+		if(parsedTimeRange === null || parsedTimeRange.join("") === parseTimeRange(initialValue).join(""))
+			setIsDifferent(false);
+		else
+			setIsDifferent(true);
+	}
 	
 	
 	function parseAndSetTimeRange() {
 		setTimeRange(prev => {
 			const parsedTimeRange = parseTimeRange(prev);
+			onNewValue(parsedTimeRange); // call it here so we get non-stale value, and so it only calls on end editing
 			if(!parsedTimeRange) return "Invalid";
 			return parsedTimeRange.map(time => superShortenTime(time, true)).join("-");
 		});
@@ -25,23 +36,15 @@ export default function TimeRangeInput({ initialValue, style, ...rest }) {
 	
 	
 	return (
-		<TextInput
+		<StyledTextInput
 			placeholder="H:MM-H:MM"
-			placeholderTextColor={Colors.medium}
 			value={timeRange}
-			selectionColor={Colors.veryHard}
 			onChangeText={setTimeRange}
-			onEndEditing={parseAndSetTimeRange}
 			onFocus={shortenTimeRange}
-			style={{
-				borderWidth: 1,
-				borderColor: Colors.soft,
-				borderRadius: 8,
-				padding: 8,
-				height: 50,
-				textAlign: "center",
-				...style
-			}}
+			onEndEditing={parseAndSetTimeRange}
+			onBlur={checkIfDifferent}
+			selectTextOnFocus
+			color={isDifferent? Colors.altAccent : Colors.veryHard}
 			{...rest}
 		/>
 	);

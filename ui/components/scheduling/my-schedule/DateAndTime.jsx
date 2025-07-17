@@ -1,7 +1,7 @@
 import { View } from "react-native";
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { dayOfWeek, shortenTime, shortenDate } from "@/utils/dateUtils.js";
-import FlexRowSpaceBetween from "@/components/utility-components/FlexRowSpaceBetween.jsx";
+import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 
 
 export default function DateAndTime({ date, startTime, endTime }) {

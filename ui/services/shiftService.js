@@ -18,3 +18,7 @@ export const clockIn = shiftId =>
 // clock out
 export const clockOut = shiftId =>
 	fetch.post(rootURL + `/${shiftId}/clock/out`);
+
+// update shift(s)
+export const updateShifts = (shiftIds, updatedInfo) =>
+	fetch.put(rootURL, { shiftIds, updatedInfo });

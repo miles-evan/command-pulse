@@ -1,4 +1,4 @@
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 
 
 export default function FormHeader({ children }) {

@@ -1,6 +1,6 @@
 import { Pressable } from "react-native";
 import {Colors} from "@/constants/Colors.js";
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
 

@@ -1,8 +1,8 @@
-import TabHeader from "@/components/TabHeader";
-import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground";
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
+import SafeAreaViewWithBackground from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import TimeRangeInput from "@/components/scheduling/company-schedule/TimeRangeInput.jsx";
-import StyledTextInput from "@/components/StyledTextInput.jsx";
+import StyledTextInput from "@/components/project-specific-utility-components/StyledTextInput.jsx";
 
 
 export default function Announcements() {
@@ -11,8 +11,6 @@ export default function Announcements() {
 			
 			<TabHeader/>
 			<StyledText look="24 semibold hard">This is a placeholder page</StyledText>
-			
-			<StyledTextInput initialValue="hi"/>
 			
 		</SafeAreaViewWithBackground>
 	);

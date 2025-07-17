@@ -1,9 +1,9 @@
 import {useContext, useEffect, useState} from "react";
-import StyledText from "@/components/utility-components/StyledText.jsx";
-import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
+import SafeAreaViewWithBackground from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
 import {asyncStorageAuthentication} from "@/utils/AsyncStorageAuthentication";
 import {router} from "expo-router";
-import Gap from "@/components/utility-components/Gap.jsx";
+import Gap from "@/components/general-utility-components/Gap.jsx";
 import * as userService from "@/services/userService.js";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
 

@@ -1,6 +1,6 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import { Colors } from "@/constants/Colors";
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import { Colors } from "@/constants/Colors.js";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { Pressable } from "react-native";
 import { router } from "expo-router";
 

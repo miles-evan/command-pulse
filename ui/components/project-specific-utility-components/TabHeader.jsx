@@ -1,7 +1,7 @@
 import React from "react";
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { Pressable } from "react-native";
-import Gap from "@/components/utility-components/Gap.jsx";
+import Gap from "@/components/general-utility-components/Gap.jsx";
 import { router } from "expo-router";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
 

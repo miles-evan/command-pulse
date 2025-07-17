@@ -1,7 +1,7 @@
 import { Pressable } from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Colors } from "@/constants/Colors.js";
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import * as shiftService from "@/services/shiftService.js";
 

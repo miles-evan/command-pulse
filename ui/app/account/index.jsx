@@ -1,11 +1,11 @@
-import TabHeader from "@/components/TabHeader";
-import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground";
+import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
+import SafeAreaViewWithBackground from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
 import {removeCredentialsAndLogOut} from "@/utils/AsyncStorageAuthentication";
 import { router } from "expo-router";
-import Button from "@/components/Button";
-import BackButton from "@/components/BackButton";
-import Gap from "@/components/utility-components/Gap.jsx";
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import Button from "@/components/project-specific-utility-components/Button.jsx";
+import BackButton from "@/components/project-specific-utility-components/BackButton.jsx";
+import Gap from "@/components/general-utility-components/Gap.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 
 
 export default function Account() {

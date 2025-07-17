@@ -1,4 +1,4 @@
-import { compareDateTimes, getCurrentTimeString, getTodayString } from "@/utils/dateUtils";
+import { compareDateTimes, getCurrentTimeString, getTodayString } from "@/utils/dateUtils.js";
 
 
 // computes whether it should show the clock in button, clock out button, and so on

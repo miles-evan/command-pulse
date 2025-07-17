@@ -95,8 +95,7 @@ export async function deleteShiftRequest(shiftRequestId) {
 // --------------------------------
 
 
-// excludes any shifts at exactly that date and time
-// filters and sorts by endTime
+// excludes any shifts at exactly that date and time. filters and sorts by endTime
 export async function getShifts(userId, date, time=null, dir=1, skip=0, limit=20) {
 	if(!time)
 		return await getShiftsBasedOnDay(userId, date, dir, skip, limit);
@@ -166,22 +165,8 @@ export async function getAllShifts(companyId, startDate="0000-00-00", endDate="9
 	});
 	
 	shifts.push(...await Promise.all(shiftRequests.map(shiftRequest => Shift.findById(shiftRequest.shiftId))));
-	
-	sortShifts(shifts);
+
 	return projectShifts(shifts);
-}
-
-
-function sortShifts(shifts) {
-	shifts.sort((a, b) => {
-		if (a.date < b.date) return -1;
-		if (a.date > b.date) return 1;
-		
-		if (a.startTime < b.startTime) return -1;
-		if (a.startTime > b.startTime) return 1;
-		
-		return 0;
-	});
 }
 
 
@@ -193,6 +178,7 @@ async function projectShifts(shifts) {
 	
 	return shifts.map(shift => ({
 		shiftId: shift.id,
+		userId: shift.userId,
 		firstName: names[shift.userId].firstName,
 		lastName: names[shift.userId].lastName,
 		date: shift.date,
@@ -210,7 +196,7 @@ async function projectShifts(shifts) {
 
 
 export async function updateShiftInfos(shiftIds, updatedInfo) {
-	await Promise.all(shiftIds.map(shiftId => updateShiftInfo(shiftId, updatedInfo)));
+	await Shift.updateMany({ _id: { $in: { shiftIds } } }, updatedInfo)
 }
 
 

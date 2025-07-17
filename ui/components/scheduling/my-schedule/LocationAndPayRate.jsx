@@ -1,5 +1,5 @@
-import StyledText from "@/components/utility-components/StyledText.jsx";
-import FlexRowSpaceBetween from "@/components/utility-components/FlexRowSpaceBetween.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
+import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 
 
 export default function LocationAndPayRate({ location, payRate }) {

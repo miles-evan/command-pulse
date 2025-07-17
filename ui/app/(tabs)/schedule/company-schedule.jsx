@@ -1,6 +1,6 @@
-import TabHeader from "@/components/TabHeader.jsx";
-import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground.jsx";
-import LeftRightSelector from "@/components/LeftRightSelector.jsx";
+import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
+import SafeAreaViewWithBackground from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
+import LeftRightSelector from "@/components/project-specific-utility-components/LeftRightSelector.jsx";
 import { formatWeekRange, getWeekRange } from "@/utils/dateUtils.js";
 import { useState } from "react";
 import ShiftLocationList from "@/components/scheduling/company-schedule/ShiftLocationList.jsx";

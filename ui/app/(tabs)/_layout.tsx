@@ -5,7 +5,7 @@ import Feather from '@expo/vector-icons/Feather';
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Colors } from "@/constants/Colors";
 import Ionicons from '@expo/vector-icons/Ionicons';
-import TabTitle from "@/components/TabTitle";
+import TabTitle from "@/components/project-specific-utility-components/TabTitle";
 import CheckAuthentication from "@/components/CheckAuthentication";
 import { GlobalStateContext } from "@/utils/GlobalStateContext";
 

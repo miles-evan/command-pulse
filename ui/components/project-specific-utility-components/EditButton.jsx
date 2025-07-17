@@ -1,8 +1,8 @@
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { useState } from "react";
 import {Pressable, View} from "react-native";
-import FlexRowSpaceBetween from "@/components/utility-components/FlexRowSpaceBetween.jsx";
-import If from "@/components/utility-components/If.jsx";
+import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
+import If from "@/components/general-utility-components/If.jsx";
 
 
 export default function EditButton({ onEdit=()=>{}, onDone=()=>{}, withCancelButton=false, onCancel=()=>{} }) {

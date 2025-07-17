@@ -1,6 +1,6 @@
-import SafeAreaViewWithBackground from "@/components/SafeAreaViewWithBackground";
-import StyledText from "@/components/utility-components/StyledText.jsx";
-import BackButton from "@/components/BackButton";
+import SafeAreaViewWithBackground from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
+import BackButton from "@/components/project-specific-utility-components/BackButton.jsx";
 
 
 export default function NotFoundScreen() {

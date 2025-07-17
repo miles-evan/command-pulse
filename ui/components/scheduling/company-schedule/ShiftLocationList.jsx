@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import ShiftLocation from "@/components/scheduling/company-schedule/ShiftLocation.jsx";
 import * as shiftService from "@/services/shiftService.js";
 import {groupShiftsByLocation} from "@/utils/groupShifts.js";
-import Gap from "@/components/utility-components/Gap.jsx";
-import StyledText from "@/components/utility-components/StyledText.jsx";
+import Gap from "@/components/general-utility-components/Gap.jsx";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
 
 
 export default function ShiftLocationList({ weekRange }) {

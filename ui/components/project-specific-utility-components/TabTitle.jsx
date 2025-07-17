@@ -1,6 +1,6 @@
 import React from "react";
-import StyledText from "@/components/utility-components/StyledText.jsx";
-import { FontWeights as Weights } from "@/constants/Typography";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
+import { FontWeights as Weights } from "@/constants/Typography.js";
 
 
 // label under a tab icon
