@@ -14,14 +14,15 @@ import { router } from "expo-router";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 
 
-export default function ShiftDayCardEnlarged({ date, shifts, onLeft, onRight, leftDisabled, rightDisabled }) {
+export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLeft, onRight, leftDisabled, rightDisabled }) {
 	
 	const sortedShifts = useMemo(() => [...shifts].sort((a, b) => a.startTime.localeCompare(b.startTime)), [shifts]);
 	const [editing, setEditing] = useState(false);
 	const edits = useRef({});
 	const [loadingSubmit, setLoadingSubmit] = useState(false);
 	const [addingShifts, setAddingShifts] = useState(false);
-	const [newShifts, setNewShifts] = useState([]);
+	const newShifts = useRef([]);
+	console.log({ newShifts });
 	
 	
 	function onEdit() {
@@ -51,13 +52,11 @@ export default function ShiftDayCardEnlarged({ date, shifts, onLeft, onRight, le
 	
 	
 	function addShift() {
-		setEditing(true);
-		setNewShifts(prev => [...prev, {
-			userId: null,
-			payRate: null,
-			startTime: null,
-			endTime: null
-		}]);
+		setAddingShifts(true);
+		newShifts.current.push({
+			date: date,
+			location: locationName,
+		});
 	}
 	
 	
@@ -86,6 +85,7 @@ export default function ShiftDayCardEnlarged({ date, shifts, onLeft, onRight, le
 				<StyledText look="18 semibold hard">Loading...</StyledText>
 			</If>
 			
+			{/* Existing shifts */}
 			{sortedShifts.map((shift, index) => (
 				<View key={index}>
 					<ShiftEntryEnlarged
@@ -104,11 +104,28 @@ export default function ShiftDayCardEnlarged({ date, shifts, onLeft, onRight, le
 			))}
 			
 			<If condition={!editing}>
-				<Gap size={20}/>
+				
+				<Gap size={30}/>
 				<HorizontalLine color="soft" length={"100%"}/>
-				<Gap size={15}/>
-				<AddShiftButton onPress={addShift}/>
-				<Gap size={15}/>
+				
+				{/* New shifts */}
+				{newShifts.current.map((shift, index) => (
+					<View key={index}>
+						<ShiftEntryEnlarged
+							shift={shift}
+							editing
+							onChangeEdits={newEdits => {
+								newShifts.current[index] = { ...newShifts.current[index], newEdits }
+							}}
+						/>
+						
+						<If condition={!editing && index < newShifts.current.length - 1}>
+							<HorizontalLine color="softer"/>
+						</If>
+					</View>
+				))}
+				
+				<AddShiftButton onPress={addShift} style={{ marginVertical: 15 }}/>
 			</If>
 			
 		</Card>

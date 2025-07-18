@@ -6,7 +6,7 @@ import { Colors } from "@/constants/Colors.js";
 
 export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, ...rest }) {
 	
-	const [timeRange, setTimeRange] = useState(initialValue ?? "");
+	const [timeRange, setTimeRange] = useState(initialValue ?? "02:00 PM - 05:00 PM");
 	useEffect(parseAndSetTimeRange, []);
 	const [isDifferent, setIsDifferent] = useState(false);
 	

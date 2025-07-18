@@ -9,7 +9,7 @@ import Gap from "@/components/general-utility-components/Gap.jsx";
 import PayRateInput from "@/components/scheduling/company-schedule/PayRateInput.jsx";
 import { useEffect, useRef } from "react";
 
-export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits=()=>{} }) {
+export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits=_=>{} }) {
 	
 	const { userId, firstName, lastName, startTime, endTime, payRate } = shift;
 	const edits = useRef({}); // useRef so that it doesn't rerender
@@ -39,23 +39,20 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 	
 	
 	return (
-		<>
-			<If condition={!editing}>
-				<FlexRowSpaceBetween style={{ alignItems: "center", marginVertical: 1.5 }}>
-					
-					<StyledText look="26 light veryHard" numberOfLines={1} ellipsizeMode="clip" style={styles.name}>
-						{firstName + " " + lastName}
-					</StyledText>
-					
-					<StyledText look="26 light veryHard" numberOfLines={1} style={styles.times}>
-						{superShortenTime(startTime) + "-" + superShortenTime(endTime)}
-					</StyledText>
+		!editing? (
+			<FlexRowSpaceBetween style={{ alignItems: "center", marginVertical: 1.5 }}>
 				
-				</FlexRowSpaceBetween>
-			</If>
+				<StyledText look="26 light veryHard" numberOfLines={1} ellipsizeMode="clip" style={styles.name}>
+					{firstName + " " + lastName}
+				</StyledText>
+				
+				<StyledText look="26 light veryHard" numberOfLines={1} style={styles.times}>
+					{superShortenTime(startTime) + "-" + superShortenTime(endTime)}
+				</StyledText>
 			
-			
-			<If condition={editing}>
+			</FlexRowSpaceBetween>
+		) : (
+			<>
 				<FlexRowSpaceBetween style={{ alignItems: "center" }}>
 					
 					<PersonDropDown
@@ -70,14 +67,14 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 					/>
 					
 					<TimeRangeInput
-						initialValue={startTime + "-" + endTime}
+						initialValue={startTime? startTime + "-" + endTime : undefined}
 						onNewValue={newTimeRange => addEdit("timeRange", newTimeRange)}
 					/>
-					
+				
 				</FlexRowSpaceBetween>
 				<Gap size={8}/>
-			</If>
-		</>
+			</>
+		)
 	);
 	
 }

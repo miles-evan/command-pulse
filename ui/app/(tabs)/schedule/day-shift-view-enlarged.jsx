@@ -30,6 +30,7 @@ export default function DayShiftViewEnlarged() {
 					<StyledText look="28 semibold veryHard" style={{ marginBottom: -10 }}>{locationName}</StyledText>
 					<ShiftDayCardEnlarged
 						date={shiftDays[index].date}
+						locationName={locationName}
 						shifts={shiftDays[index].shifts}
 						onLeft={prevDay}
 						onRight={nextDay}
