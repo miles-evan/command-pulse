@@ -5,9 +5,10 @@ import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRow
 import If from "@/components/general-utility-components/If.jsx";
 
 
-export default function EditButton({ onEdit=()=>{}, onDone=()=>{}, withCancelButton=false, onCancel=()=>{} }) {
+export default function EditButton({ onEdit=()=>{}, onDone=()=>{}, withCancelButton=false, onCancel=()=>{}, disabled=false }) {
 	
 	const [editing, setEditing] = useState(false);
+	if(disabled) onEdit = onDone = onCancel = () => {};
 	
 	
 	function toggleEditing() {
@@ -28,7 +29,7 @@ export default function EditButton({ onEdit=()=>{}, onDone=()=>{}, withCancelBut
 			<If condition={withCancelButton && editing}>
 				<Pressable onPress={cancel}>
 					{({ pressed }) => (
-						<StyledText look={"18 regular " + (pressed ? "medium" : "mediumSoft")}>
+						<StyledText look={"18 regular " + (pressed || disabled ? "medium" : "mediumSoft")}>
 							Cancel
 						</StyledText>
 					)}
@@ -40,7 +41,7 @@ export default function EditButton({ onEdit=()=>{}, onDone=()=>{}, withCancelBut
 			
 			<Pressable onPress={toggleEditing}>
 				{({ pressed }) => (
-					<StyledText look={"18 regular " + (pressed ? "softAccent" : "accent")}>
+					<StyledText look={"18 regular " + (pressed || disabled ? "softAccent" : "accent")}>
 						{editing ? "Done" : "Edit"}
 					</StyledText>
 				)}

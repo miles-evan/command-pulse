@@ -22,3 +22,7 @@ export const clockOut = shiftId =>
 // update shift(s)
 export const updateShifts = (shiftIds, updatedInfo) =>
 	fetch.put(rootURL, { shiftIds, updatedInfo });
+
+// reassign shift
+export const reassignShift = (shiftId, userId) =>
+	fetch.post(rootURL + "/reassign", { shiftId, userId });

@@ -60,7 +60,6 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 					
 					<PersonDropDown
 						initialSelectionUserId={userId}
-						placeholder={firstName + " " + lastName}
 						onNewValue={newUserId => addEdit("userId", newUserId)}
 						style={{ flex: 2 }}
 					/>

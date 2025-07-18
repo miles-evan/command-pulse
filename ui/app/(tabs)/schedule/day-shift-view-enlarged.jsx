@@ -4,7 +4,7 @@ import ShiftDayCardEnlarged from "@/components/scheduling/company-schedule/Shift
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { useState } from "react";
 import SafeAreaViewWithBackground from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
-import { ScrollView } from "react-native";
+import { KeyboardAvoidingView, ScrollView } from "react-native";
 import PersonDropDown from "@/components/scheduling/company-schedule/PersonDropDown.jsx";
 import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
@@ -19,24 +19,25 @@ export default function DayShiftViewEnlarged() {
 	const prevDay = () => setIndex(prev => prev - 1);
 	const nextDay = () => setIndex(prev => prev + 1);
 	
-	console.log({ index, length: shiftDays.length });
 	
 	return (
 		<SafeAreaViewWithBackground>
 			<TabHeader/>
 			<BackButton/>
 			<Gap size={10}/>
-			<ScrollView>
-				<StyledText look="28 semibold veryHard" style={{ marginBottom: -10 }}>{locationName}</StyledText>
-				<ShiftDayCardEnlarged
-					date={shiftDays[index].date}
-					shifts={shiftDays[index].shifts}
-					onLeft={prevDay}
-					onRight={nextDay}
-					leftDisabled={index === 0}
-					rightDisabled={index === shiftDays.length - 1}
-				/>
-			</ScrollView>
+			<KeyboardAvoidingView behavior="padding">
+				<ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+					<StyledText look="28 semibold veryHard" style={{ marginBottom: -10 }}>{locationName}</StyledText>
+					<ShiftDayCardEnlarged
+						date={shiftDays[index].date}
+						shifts={shiftDays[index].shifts}
+						onLeft={prevDay}
+						onRight={nextDay}
+						leftDisabled={index === 0}
+						rightDisabled={index === shiftDays.length - 1}
+					/>
+				</ScrollView>
+			</KeyboardAvoidingView>
 		</SafeAreaViewWithBackground>
 	);
 	

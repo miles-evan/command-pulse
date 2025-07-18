@@ -7,7 +7,6 @@ export default function AddShiftButton({ onPress }) {
 		iconName="add-circle-outline"
 		text="Add shift"
 		onPress={onPress}
-		style={{ marginVertical: 15 }}
 	/>;
 	
 }
