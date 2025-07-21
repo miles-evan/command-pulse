@@ -163,6 +163,7 @@ shiftRouter.delete(
 		const { shiftIds } = request.body;
 		
 		await deleteAndUnassignShifts(shiftIds);
+		response.sendStatus(200);
 	}
 );
 

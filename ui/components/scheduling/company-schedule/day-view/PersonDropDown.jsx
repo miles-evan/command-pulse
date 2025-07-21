@@ -34,7 +34,7 @@ export default function PersonDropDown({ initialSelectionUserId, placeholder, on
 			valueField="value"
 			data={data}
 			value={initialSelectionUserId}
-			placeholder={initialSelectionUserId? "Loading..." : "-- Select Person --"}
+			placeholder={initialSelectionUserId? "Loading..." : "Select Person"}
 			searchPlaceholder="Search..."
 			onFocus={() => {}}
 			onBlur={() => {}}

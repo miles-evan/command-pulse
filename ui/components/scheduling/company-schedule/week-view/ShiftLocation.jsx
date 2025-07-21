@@ -58,9 +58,8 @@ export default function ShiftLocation({ locationName: initialLocationName, shift
 	
 	async function submitEdit() {
 		setEditing(false);
-		// show change
-		// submit changes to api
-		await shiftService.updateShifts(shifts.map(shift => shift.shiftId), { location: locationName })
+		if(shifts.length > 0)
+			await shiftService.updateShifts(shifts.map(shift => shift.shiftId), { location: locationName });
 	}
 	
 	

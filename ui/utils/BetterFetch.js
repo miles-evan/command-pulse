@@ -1,26 +1,28 @@
-// allows fetching to be easier. to use, import * as fetch, then do fetch.get or fetch.post and so on
 
-
-export async function post(url, body={}) {
-	return await fetchWithBody(url, "POST", body);
-}
-
-
-export async function put(url, body={}) {
-	return await fetchWithBody(url, "PUT", body);
-}
-
-
-export async function get(url, queryObj) {
-	if(url.includes("?"))
-		throw new Error("Use queryObj argument for query parameters");
+// Makes fetching easier
+export default class BetterFetch {
 	
-	const fullUrl = url + toQueryString(queryObj);
-	return await fetchWithBody(fullUrl, "GET");
-}
-
-
-// --------------------------------
+	static async post(url, body={}) {
+		return await fetchWithBody(url, "POST", body);
+	}
+	
+	static async put(url, body={}) {
+		return await fetchWithBody(url, "PUT", body);
+	}
+	
+	static async delete(url, body={}) {
+		return await fetchWithBody(url, "DELETE", body);
+	}
+	
+	static async get(url, queryObj) {
+		if(url.includes("?"))
+			throw new Error("Use queryObj argument for query parameters");
+		
+		const fullUrl = url + toQueryString(queryObj);
+		return await fetchWithBody(fullUrl, "GET");
+	}
+	
+};
 
 
 function toQueryString(queryObj) {

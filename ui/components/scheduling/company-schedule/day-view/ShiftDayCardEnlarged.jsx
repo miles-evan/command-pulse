@@ -17,6 +17,8 @@ import Button from "@/components/project-specific-utility-components/Button.jsx"
 
 export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLeft, onRight, leftDisabled, rightDisabled }) {
 	
+	const [deletedIndices, setDeletedIndices] = useState(new Set());
+	
 	const sortedShifts = useMemo(() => [...shifts].sort((a, b) => a.startTime.localeCompare(b.startTime)), [shifts]);
 	const [editing, setEditing] = useState(false);
 	const edits = useRef({});
@@ -28,6 +30,9 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 	const [loadingSubmitNewShifts, setLoadingSubmitNewShifts] = useState(false);
 	
 	
+	// --------------------------------
+	
+	
 	function onEdit() {
 		setEditing(true);
 	}
@@ -35,12 +40,13 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 	function cancelEdits() {
 		setEditing(false);
 		edits.current = {};
+		setDeletedIndices(new Set());
 	}
 	
 	async function submitEdits() {
 		setLoadingSubmitEdits(true);
-		await Promise.all(
-			Object.keys(edits.current).map(
+		await Promise.all([
+			...Object.keys(edits.current).map(
 				shiftId => {
 					const { reassignedUserId, ...updatedInfo } = edits.current[shiftId];
 					const responses = [shiftService.updateShifts([shiftId], updatedInfo)];
@@ -48,10 +54,14 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 						responses.push(shiftService.reassignShift(shiftId, reassignedUserId));
 					return Promise.all(responses);
 				}
-			)
-		);
+			),
+			shiftService.deleteShifts([...deletedIndices].map(index => sortedShifts[index].shiftId))
+		]);
 		router.back();
 	}
+	
+	
+	// --------------------------------
 	
 	
 	function addShift() {
@@ -84,6 +94,14 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 	// --------------------------------
 	
 	
+	function removeShift(index) {
+		setDeletedIndices(prev => new Set([...prev, index]));
+	}
+	
+	
+	// --------------------------------
+	
+	
 	return (
 		<Card style={{ justifyContent: "flex-start", width: "90%", minHeight: "50%", paddingVertical: 12 }}>
 			
@@ -108,20 +126,21 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 			
 			{/* Existing shifts */}
 			{sortedShifts.map((shift, index) => (
-				<View key={index}>
-					<ShiftEntryEnlarged
-						shift={shift}
-						editing={editing}
-						onChangeEdits={newEdits => {
-							if(Object.keys(newEdits).length === 0) delete edits.current[shift.shiftId];
-							else edits.current[shift.shiftId] = newEdits;
-						}}
-					/>
-					
-					<If condition={!editing && index < sortedShifts.length - 1}>
-						<HorizontalLine color="softer"/>
-					</If>
-				</View>
+				<If condition={!deletedIndices.has(index)} key={index}>
+						<ShiftEntryEnlarged
+							shift={shift}
+							editing={editing}
+							onChangeEdits={newEdits => {
+								if(Object.keys(newEdits).length === 0) delete edits.current[shift.shiftId];
+								else edits.current[shift.shiftId] = newEdits;
+							}}
+							onRemove={() => removeShift(index)}
+						/>
+						
+						<If condition={!editing && index < sortedShifts.length - 1}>
+							<HorizontalLine color="softer"/>
+						</If>
+				</If>
 			))}
 			
 			<If condition={!editing}>

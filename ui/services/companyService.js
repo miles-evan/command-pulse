@@ -1,32 +1,32 @@
-import * as fetch from "../utils/fetch.js";
+import BetterFetch from "../utils/BetterFetch.js";
 
 
 const rootURL = "http://192.168.1.202:80/command-pulse/api/v1/companies"
 
 // create company
 export const create = async companyName =>
-	await fetch.post(rootURL, { companyName });
+	await BetterFetch.post(rootURL, { companyName });
 
 // check invite code
 export const checkInviteCode = async inviteCode =>
-	await fetch.get(rootURL + `/invite-codes/check/${inviteCode}`);
+	await BetterFetch.get(rootURL + `/invite-codes/check/${inviteCode}`);
 
 // join company
 export const join = async inviteCode =>
-	await fetch.post(rootURL + "/join", { inviteCode });
+	await BetterFetch.post(rootURL + "/join", { inviteCode });
 
 // leave company
 export const leave = async () =>
-	await fetch.post(rootURL + "/leave");
+	await BetterFetch.post(rootURL + "/leave");
 
 // check company name availability
 export const companyNameIsAvailable = async companyName =>
-	await fetch.get(rootURL + `/check-name/${companyName}`);
+	await BetterFetch.get(rootURL + `/check-name/${companyName}`);
 
 // get contacts
 export const getContacts = async () =>
-	await fetch.get(rootURL + "/contacts");
+	await BetterFetch.get(rootURL + "/contacts");
 
 // get company status
 export const status = async () =>
-	await fetch.get(rootURL + "/status");
+	await BetterFetch.get(rootURL + "/status");
