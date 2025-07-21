@@ -1,11 +1,11 @@
 import BackButton from "@/components/project-specific-utility-components/BackButton.jsx";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
-import ShiftDayCardEnlarged from "@/components/scheduling/company-schedule/ShiftDayCardEnlarged.jsx";
+import ShiftDayCardEnlarged from "@/components/scheduling/company-schedule/day-view/ShiftDayCardEnlarged.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { useState } from "react";
 import SafeAreaViewWithBackground from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
 import { KeyboardAvoidingView, ScrollView } from "react-native";
-import PersonDropDown from "@/components/scheduling/company-schedule/PersonDropDown.jsx";
+import PersonDropDown from "@/components/scheduling/company-schedule/day-view/PersonDropDown.jsx";
 import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 

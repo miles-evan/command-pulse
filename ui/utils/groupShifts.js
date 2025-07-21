@@ -9,6 +9,7 @@ export function groupShiftsByLocation(shifts) {
 }
 
 
+// turns shifts into [{ date, shifts }, ...]
 export function groupShiftsByDate(shifts) {
 	const groupedShifts = groupBy(shifts, shift => shift.date);
 	const groupedAndSortedShifts = sortObjectByKeys(groupedShifts);

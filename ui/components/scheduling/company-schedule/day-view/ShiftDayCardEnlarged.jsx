@@ -5,10 +5,10 @@ import { dayOfWeek } from "@/utils/dateUtils.js";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import { View } from "react-native";
 import If from "@/components/general-utility-components/If.jsx";
-import AddShiftButton from "@/components/scheduling/company-schedule/AddShiftButton.jsx";
+import AddShiftButton from "@/components/scheduling/company-schedule/day-view/AddShiftButton.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import EditButton from "@/components/project-specific-utility-components/EditButton.jsx";
-import ShiftEntryEnlarged from "@/components/scheduling/company-schedule/ShiftEntryEnlarged.jsx";
+import ShiftEntryEnlarged from "@/components/scheduling/company-schedule/day-view/ShiftEntryEnlarged.jsx";
 import * as shiftService from "@/services/shiftService.js";
 import { router } from "expo-router";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
@@ -98,7 +98,7 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 			
 			<HorizontalLine color="soft" length={"100%"}/>
 			
-			<If condition={!loadingSubmitEdits}>
+			<If condition={!loadingSubmitEdits && sortedShifts.length > 0}>
 				<EditButton onEdit={onEdit} onDone={submitEdits} onCancel={cancelEdits} withCancelButton disabled={addingShifts}/>
 				<Gap size={5}/>
 			</If>
@@ -126,8 +126,12 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 			
 			<If condition={!editing}>
 				
-				<HorizontalLine color="soft" length={"100%"} style={{ marginTop: 30 }}/>
-				<If condition={addingShifts}><Gap size={30}/></If>
+				<If condition={sortedShifts.length > 0}>
+					<HorizontalLine color="soft" length={"100%"} style={{ marginTop: 30 }}/>
+				</If>
+				<If condition={addingShifts}>
+					<Gap size={30}/>
+				</If>
 					
 				{/* New shifts */}
 				{newShifts.current.map((shift, index) => (

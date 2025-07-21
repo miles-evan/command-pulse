@@ -2,6 +2,9 @@
 // we want to see "6/31" and "7:00PM" or sometimes just "7"
 
 
+// -------------------------------- Getting current info:
+
+
 export function getTodayString() {
 	const date = new Date();
 	const year = date.getFullYear();
@@ -62,7 +65,7 @@ export function getWeekRange(week=0) {
 }
 
 
-// --------------------------------
+// -------------------------------- Formatting to look good:
 
 
 // turns date object to date string
@@ -102,7 +105,7 @@ export function superShortenTime(time, includePM=false) {
 }
 
 
-// --------------------------------
+// -------------------------------- Comparisons:
 
 
 // difference in milliseconds
@@ -111,18 +114,19 @@ export function compareDateTimes(date1, time1, date2, time2) {
 }
 
 
-// "08:30 PM" -> "20:30"
-// "12:30 AM" -> "00:30"
-function convertTo24(time) {
-	const [h, m, ampm] = time.split(/[: ]/);
-	let hour = Number(h);
-	if (ampm === "PM" && hour !== 12) hour += 12;
-	if (ampm === "AM" && hour === 12) hour = 0;
-	return `${padZero(hour)}:${m}`;
+// getRelativeDate("2025-07-21", -2) -> "2025-07-19"
+export function getRelativeDate(date, offset) {
+	let [year, month, day] = date.split("-").map(Number);
+	const d = new Date(Date.UTC(year, month - 1, day));
+	d.setUTCDate(d.getUTCDate() + offset);
+	year = d.getUTCFullYear();
+	month = padZero(d.getUTCMonth() + 1);
+	day = padZero(d.getUTCDate());
+	return `${year}-${month}-${day}`;
 }
 
 
-// --------------------------------
+// -------------------------------- Parsing from formatted to internal representation:
 
 
 // "5am-6:30" -> ["05:00 AM", "06:30 PM"]
@@ -150,7 +154,7 @@ export function parseTimeRange(timeRange) {
 }
 
 
-// --------------------------------
+// -------------------------------- Helper functions:
 
 
 // "5" -> "05"
@@ -164,4 +168,15 @@ function padZero(num) {
 // "05" -> "5"
 function removeZeroPad(str) {
 	return String(Number(str));
+}
+
+
+// "08:30 PM" -> "20:30"
+// "12:30 AM" -> "00:30"
+function convertTo24(time) {
+	const [h, m, ampm] = time.split(/[: ]/);
+	let hour = Number(h);
+	if (ampm === "PM" && hour !== 12) hour += 12;
+	if (ampm === "AM" && hour === 12) hour = 0;
+	return `${padZero(hour)}:${m}`;
 }

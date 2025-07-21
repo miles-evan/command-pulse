@@ -1,10 +1,10 @@
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { superShortenTime } from "@/utils/dateUtils.js";
-import PersonDropDown from "@/components/scheduling/company-schedule/PersonDropDown.jsx";
+import PersonDropDown from "@/components/scheduling/company-schedule/day-view/PersonDropDown.jsx";
 import { StyleSheet } from "react-native";
-import TimeRangeInput from "@/components/scheduling/company-schedule/TimeRangeInput.jsx";
-import PayRateInput from "@/components/scheduling/company-schedule/PayRateInput.jsx";
+import TimeRangeInput from "@/components/scheduling/company-schedule/day-view/TimeRangeInput.jsx";
+import PayRateInput from "@/components/scheduling/company-schedule/day-view/PayRateInput.jsx";
 import { useEffect, useRef } from "react";
 
 export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits=_=>{} }) {
