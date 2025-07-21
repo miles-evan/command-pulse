@@ -1,13 +1,13 @@
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { useState } from "react";
-import {Pressable, View} from "react-native";
+import { Pressable, View } from "react-native";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import If from "@/components/general-utility-components/If.jsx";
 
 
-export default function EditButton({ onEdit=()=>{}, onDone=()=>{}, withCancelButton=false, onCancel=()=>{}, disabled=false }) {
+export default function EditButton({ initiallyEditing=false, onEdit=()=>{}, onDone=()=>{}, withCancelButton=false, onCancel=()=>{}, disabled=false, style={} }) {
 	
-	const [editing, setEditing] = useState(false);
+	const [editing, setEditing] = useState(initiallyEditing);
 	
 	
 	function toggleEditing() {
@@ -27,9 +27,9 @@ export default function EditButton({ onEdit=()=>{}, onDone=()=>{}, withCancelBut
 	
 	
 	return (
-		<FlexRowSpaceBetween>
+		<FlexRowSpaceBetween style={style}>
 			
-			<If condition={withCancelButton && editing}>
+			{withCancelButton && editing? (
 				<Pressable onPress={cancel}>
 					{({ pressed }) => (
 						<StyledText look={"18 regular " + (pressed || disabled ? "medium" : "mediumSoft")}>
@@ -37,10 +37,9 @@ export default function EditButton({ onEdit=()=>{}, onDone=()=>{}, withCancelBut
 						</StyledText>
 					)}
 				</Pressable>
-			</If>
-			<If condition={!(withCancelButton && editing)}>
+			) : (
 				<View/>
-			</If>
+			)}
 			
 			<Pressable onPress={toggleEditing}>
 				{({ pressed }) => (

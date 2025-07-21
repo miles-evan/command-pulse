@@ -90,8 +90,8 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 			<LeftRightSelector
 				onLeft={onLeft}
 				onRight={onRight}
-				leftDisabled={leftDisabled || editing}
-				rightDisabled={rightDisabled || editing}
+				leftDisabled={leftDisabled || editing || addingShifts}
+				rightDisabled={rightDisabled || editing || addingShifts}
 			>
 				{dayOfWeek(date)}
 			</LeftRightSelector>

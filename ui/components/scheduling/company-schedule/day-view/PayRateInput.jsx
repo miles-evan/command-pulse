@@ -58,7 +58,7 @@ export default function PayRateInput({ initialValue, onNewValue=_=>{} }) {
 			selection={selection}
 			onFocus={onFocus}
 			onEndEditing={onEndEditing}
-			color={isDifferent? Colors.altAccent : Colors.veryHard}
+			color={isDifferent? "altAccent" : "veryHard"}
 		/>
 	);
 	

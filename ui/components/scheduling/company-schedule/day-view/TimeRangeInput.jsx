@@ -45,7 +45,7 @@ export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, 
 			onEndEditing={parseAndSetTimeRange}
 			onBlur={checkIfDifferent}
 			selectTextOnFocus
-			color={isDifferent? Colors.altAccent : Colors.veryHard}
+			color={isDifferent? "altAccent" : "veryHard"}
 			{...rest}
 		/>
 	);

@@ -5,6 +5,7 @@ import { formatWeekRange, getWeekRange } from "@/utils/dateUtils.js";
 import { useMemo, useState } from "react";
 import ShiftLocationList from "@/components/scheduling/company-schedule/week-view/ShiftLocationList.jsx";
 import { useFocusEffect } from "expo-router";
+import Gap from "@/components/general-utility-components/Gap.jsx";
 
 
 export default function CompanySchedule() {
@@ -32,6 +33,8 @@ export default function CompanySchedule() {
 			>
 				{formatWeekRange(weekRange)}
 			</LeftRightSelector>
+			
+			<Gap size={15}/>
 			
 			<ShiftLocationList weekRange={weekRange} isFocused={isFocused}/>
 		

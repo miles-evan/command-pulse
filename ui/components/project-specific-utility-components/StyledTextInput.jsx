@@ -17,7 +17,7 @@ export default function StyledTextInput({ style, initialValue, color, ...rest })
 				borderRadius: 8,
 				paddingHorizontal: 8,
 				textAlign: "center",
-				color: color ?? Colors.veryHard,
+				color: Colors[color] ?? Colors.veryHard,
 				...style
 			}}
 			placeholderTextColor={Colors.medium}

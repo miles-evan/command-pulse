@@ -5,6 +5,7 @@ import * as shiftService from "@/services/shiftService.js";
 import { groupShiftsByLocation } from "@/utils/groupShifts.js";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
+import AddLocationButton from "@/components/scheduling/company-schedule/week-view/AddLocationButton.jsx";
 
 
 export default function ShiftLocationList({ weekRange, isFocused }) {
@@ -25,6 +26,11 @@ export default function ShiftLocationList({ weekRange, isFocused }) {
 	}, [weekRange, isFocused]);
 	
 	
+	function addLocation() {
+		setShiftLocations(prev => [...prev, { shifts: [] }])
+	}
+	
+	
 	return (
 		<FlatList
 			data={shiftLocations}
@@ -34,9 +40,11 @@ export default function ShiftLocationList({ weekRange, isFocused }) {
 			)}
 			ItemSeparatorComponent={() => <Gap size={16} />}
 			ListFooterComponent={(
-				<StyledText look="18 semibold hard">
-					{isLoading ? "Loading..." : " "}
-				</StyledText>
+				isLoading? (
+					<StyledText look="18 semibold hard">Loading...</StyledText>
+				) : (
+					<AddLocationButton onPress={addLocation} style={{ marginBottom: 16 }}/>
+				)
 			)}
 		/>
 	);

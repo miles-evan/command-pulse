@@ -8,15 +8,22 @@ import { router } from "expo-router";
 import AddDayButton from "@/components/scheduling/company-schedule/week-view/AddDayButton.jsx";
 import { getRelativeDate } from "@/utils/dateUtils.js";
 import If from "@/components/general-utility-components/If.jsx";
+import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
+import EditButton from "@/components/project-specific-utility-components/EditButton.jsx";
+import StyledTextInput from "@/components/project-specific-utility-components/StyledTextInput.jsx";
+import * as shiftService from "@/services/shiftService.js";
 
-export default function ShiftLocation({ locationName, shifts, weekRange: [startDate, endDate] }) {
+export default function ShiftLocation({ locationName: initialLocationName, shifts, weekRange: [startDate, endDate] }) {
 	
+	const [locationName, setLocationName] = useState(initialLocationName ?? "New location");
 	const [shiftDays, setShiftDays] = useState([]);
 	const globalState = useGlobalState();
+	const [editing, setEditing] = useState(!initialLocationName);
 	
 	
 	useEffect(() => {
-		setShiftDays(groupShiftsByDate(shifts));
+		if(initialLocationName) setShiftDays(groupShiftsByDate(shifts));
+		else showAllDays();
 	}, [shifts]);
 	
 	
@@ -44,12 +51,44 @@ export default function ShiftLocation({ locationName, shifts, weekRange: [startD
 	}
 	
 	
+	function onEdit() {
+		setEditing(true);
+	}
+	
+	
+	async function submitEdit() {
+		setEditing(false);
+		// show change
+		// submit changes to api
+		await shiftService.updateShifts(shifts.map(shift => shift.shiftId), { location: locationName })
+	}
+	
+	
 	return (
-		<View style={{ marginLeft: 15 }}>
+		<View style={{ paddingHorizontal: 15 }}>
 			
-			<StyledText look="24 regular veryHard" hCenter={false} style={{ marginBottom: 0 }}>
-				{locationName}
-			</StyledText>
+			<FlexRowSpaceBetween>
+				{!editing? (
+					<StyledText look="24 regular veryHard" hCenter={false} style={{ marginBottom: 0 }}>
+						{locationName}
+					</StyledText>
+				) : (
+					<StyledTextInput
+						initialValue={locationName}
+						value={locationName}
+						onChangeText={setLocationName}
+						selectTextOnFocus
+						style={{ flex: 0.9, height: 36, fontSize: 24 }}
+					/>
+				)}
+				
+				<EditButton
+					onEdit={onEdit}
+					onDone={submitEdit}
+					initiallyEditing={editing}
+					style={{ width: undefined, marginHorizontal: undefined, marginVertical: "auto" }}
+				/>
+			</FlexRowSpaceBetween>
 			
 			<FlatList
 				data={shiftDays}
@@ -69,7 +108,7 @@ export default function ShiftLocation({ locationName, shifts, weekRange: [startD
 				horizontal
 				style={{ overflow: "visible" }}
 			/>
-			
+	
 		</View>
 	);
 	
