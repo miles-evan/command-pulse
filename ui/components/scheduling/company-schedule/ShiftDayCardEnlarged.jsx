@@ -12,6 +12,7 @@ import ShiftEntryEnlarged from "@/components/scheduling/company-schedule/ShiftEn
 import * as shiftService from "@/services/shiftService.js";
 import { router } from "expo-router";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
+import Button from "@/components/project-specific-utility-components/Button.jsx";
 
 
 export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLeft, onRight, leftDisabled, rightDisabled }) {
@@ -19,10 +20,12 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 	const sortedShifts = useMemo(() => [...shifts].sort((a, b) => a.startTime.localeCompare(b.startTime)), [shifts]);
 	const [editing, setEditing] = useState(false);
 	const edits = useRef({});
-	const [loadingSubmit, setLoadingSubmit] = useState(false);
+	const [loadingSubmitEdits, setLoadingSubmitEdits] = useState(false);
+	
 	const [addingShifts, setAddingShifts] = useState(false);
 	const newShifts = useRef([]);
-	console.log({ newShifts });
+	const [, setNumNewShifts] = useState(0); // just used to rerender when adding new shifts
+	const [loadingSubmitNewShifts, setLoadingSubmitNewShifts] = useState(false);
 	
 	
 	function onEdit() {
@@ -35,7 +38,7 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 	}
 	
 	async function submitEdits() {
-		setLoadingSubmit(true);
+		setLoadingSubmitEdits(true);
 		await Promise.all(
 			Object.keys(edits.current).map(
 				shiftId => {
@@ -53,10 +56,28 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 	
 	function addShift() {
 		setAddingShifts(true);
+		setNumNewShifts(prev => prev + 1);
 		newShifts.current.push({
 			date: date,
 			location: locationName,
 		});
+	}
+	
+	function cancelAddingShifts() {
+		newShifts.current = [];
+		setAddingShifts(false);
+		setNumNewShifts(0);
+	}
+	
+	async function submitNewShifts() {
+		setLoadingSubmitNewShifts(true);
+		await Promise.all(
+			newShifts.current.map(
+				({ date, startTime, endTime, location, payRate, userId }) =>
+					shiftService.assignShift(date, startTime, endTime, location, payRate, userId)
+			)
+		);
+		router.back();
 	}
 	
 	
@@ -77,11 +98,11 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 			
 			<HorizontalLine color="soft" length={"100%"}/>
 			
-			<If condition={!loadingSubmit}>
+			<If condition={!loadingSubmitEdits}>
 				<EditButton onEdit={onEdit} onDone={submitEdits} onCancel={cancelEdits} withCancelButton disabled={addingShifts}/>
 				<Gap size={5}/>
 			</If>
-			<If condition={loadingSubmit}>
+			<If condition={loadingSubmitEdits}>
 				<StyledText look="18 semibold hard">Loading...</StyledText>
 			</If>
 			
@@ -105,27 +126,28 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 			
 			<If condition={!editing}>
 				
-				<Gap size={30}/>
-				<HorizontalLine color="soft" length={"100%"}/>
-				
+				<HorizontalLine color="soft" length={"100%"} style={{ marginTop: 30 }}/>
+				<If condition={addingShifts}><Gap size={30}/></If>
+					
 				{/* New shifts */}
 				{newShifts.current.map((shift, index) => (
-					<View key={index}>
-						<ShiftEntryEnlarged
-							shift={shift}
-							editing
-							onChangeEdits={newEdits => {
-								newShifts.current[index] = { ...newShifts.current[index], newEdits }
-							}}
-						/>
-						
-						<If condition={!editing && index < newShifts.current.length - 1}>
-							<HorizontalLine color="softer"/>
-						</If>
-					</View>
+					<ShiftEntryEnlarged
+						key={index}
+						shift={shift}
+						editing
+						onChangeEdits={newEdits => {
+							newShifts.current[index] = { ...newShifts.current[index], ...newEdits };
+						}}
+					/>
 				))}
 				
 				<AddShiftButton onPress={addShift} style={{ marginVertical: 15 }}/>
+				
+				<If condition={addingShifts}>
+					<Button onPress={submitNewShifts}>Submit</Button>
+					<Button look="white" onPress={cancelAddingShifts}>Cancel</Button>
+				</If>
+				
 			</If>
 			
 		</Card>

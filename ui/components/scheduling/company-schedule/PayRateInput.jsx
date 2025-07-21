@@ -21,34 +21,43 @@ export default function PayRateInput({ initialValue, onNewValue=_=>{} }) {
 	}, [payRate]);
 	
 	
+	function onChangeText(newText) {
+		setValue(newText);
+		setSelection(null);
+	}
+	
+	
+	function onFocus() {
+		const strValue = String(payRate);
+		setValue(strValue);
+		setSelection({ start: 0, end: strValue.length });
+	}
+	
+	
+	function onEndEditing() {
+		setSelection(null);
+		
+		const newPayRate = Number(value);
+		if (isNaN(newPayRate)) {
+			setValue(formatPayRate(payRate));
+		} else {
+			setPayRate(newPayRate);
+			setValue(formatPayRate(newPayRate));
+		}
+		
+		setIsDifferent(newPayRate !== initialValue);
+	}
+	
+	
 	return (
 		<StyledTextInput
 			keyboardType="numeric"
 			value={value}
-			onChangeText={newText => {
-				setValue(newText);
-				setSelection(null);
-			}}
+			onChangeText={onChangeText}
 			selectTextOnFocus={true}
 			selection={selection}
-			onFocus={() => {
-				const strValue = String(payRate);
-				setValue(strValue);
-				setSelection({ start: 0, end: strValue.length });
-			}}
-			onEndEditing={() => {
-				setSelection(null);
-				
-				const newPayRate = Number(value);
-				if (isNaN(newPayRate)) {
-					setValue(formatPayRate(payRate));
-				} else {
-					setPayRate(newPayRate);
-					setValue(formatPayRate(newPayRate));
-				}
-				
-				setIsDifferent(newPayRate !== initialValue);
-			}}
+			onFocus={onFocus}
+			onEndEditing={onEndEditing}
 			color={isDifferent? Colors.altAccent : Colors.veryHard}
 		/>
 	);

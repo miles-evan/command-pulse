@@ -1,11 +1,9 @@
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { superShortenTime } from "@/utils/dateUtils.js";
-import If from "@/components/general-utility-components/If.jsx";
 import PersonDropDown from "@/components/scheduling/company-schedule/PersonDropDown.jsx";
 import { StyleSheet } from "react-native";
 import TimeRangeInput from "@/components/scheduling/company-schedule/TimeRangeInput.jsx";
-import Gap from "@/components/general-utility-components/Gap.jsx";
 import PayRateInput from "@/components/scheduling/company-schedule/PayRateInput.jsx";
 import { useEffect, useRef } from "react";
 
@@ -52,28 +50,25 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 			
 			</FlexRowSpaceBetween>
 		) : (
-			<>
-				<FlexRowSpaceBetween style={{ alignItems: "center" }}>
-					
-					<PersonDropDown
-						initialSelectionUserId={userId}
-						onNewValue={newUserId => addEdit("userId", newUserId)}
-						style={{ flex: 2 }}
-					/>
-					
-					<PayRateInput
-						initialValue={payRate}
-						onNewValue={newPayRate => addEdit("payRate", newPayRate)}
-					/>
-					
-					<TimeRangeInput
-						initialValue={startTime? startTime + "-" + endTime : undefined}
-						onNewValue={newTimeRange => addEdit("timeRange", newTimeRange)}
-					/>
+			<FlexRowSpaceBetween style={{ alignItems: "center", marginBottom: 8 }}>
 				
-				</FlexRowSpaceBetween>
-				<Gap size={8}/>
-			</>
+				<PersonDropDown
+					initialSelectionUserId={userId}
+					onNewValue={newUserId => addEdit("userId", newUserId)}
+					style={{ flex: 2 }}
+				/>
+				
+				<PayRateInput
+					initialValue={payRate}
+					onNewValue={newPayRate => addEdit("payRate", newPayRate)}
+				/>
+				
+				<TimeRangeInput
+					initialValue={startTime? startTime + "-" + endTime : undefined}
+					onNewValue={newTimeRange => addEdit("timeRange", newTimeRange)}
+				/>
+			
+			</FlexRowSpaceBetween>
 		)
 	);
 	

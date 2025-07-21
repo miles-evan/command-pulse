@@ -8,18 +8,21 @@ import If from "@/components/general-utility-components/If.jsx";
 export default function EditButton({ onEdit=()=>{}, onDone=()=>{}, withCancelButton=false, onCancel=()=>{}, disabled=false }) {
 	
 	const [editing, setEditing] = useState(false);
-	if(disabled) onEdit = onDone = onCancel = () => {};
 	
 	
 	function toggleEditing() {
-		(editing? onDone : onEdit)();
-		setEditing(prev => !prev);
+		if(!disabled) {
+			(editing? onDone : onEdit)();
+			setEditing(prev => !prev);
+		}
 	}
 	
 	
 	function cancel() {
-		setEditing(false);
-		onCancel();
+		if(!disabled) {
+			setEditing(false);
+			onCancel();
+		}
 	}
 	
 	

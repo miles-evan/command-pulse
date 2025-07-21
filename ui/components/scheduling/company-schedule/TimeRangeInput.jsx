@@ -9,11 +9,12 @@ export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, 
 	const [timeRange, setTimeRange] = useState(initialValue ?? "02:00 PM - 05:00 PM");
 	useEffect(parseAndSetTimeRange, []);
 	const [isDifferent, setIsDifferent] = useState(false);
+	const parsedInitialValue = useMemo(() => parseTimeRange(initialValue))
 	
 	
 	function checkIfDifferent() {
 		const parsedTimeRange = parseTimeRange(timeRange);
-		if(parsedTimeRange === null || parsedTimeRange.join("") === parseTimeRange(initialValue).join(""))
+		if(parsedTimeRange?.join("") === parsedInitialValue?.join(""))
 			setIsDifferent(false);
 		else
 			setIsDifferent(true);
@@ -23,7 +24,7 @@ export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, 
 	function parseAndSetTimeRange() {
 		setTimeRange(prev => {
 			const parsedTimeRange = parseTimeRange(prev);
-			onNewValue(parsedTimeRange); // call it here so we get non-stale value, and so it only calls on end editing
+			onNewValue(parsedTimeRange); // call it here so we use non-stale value, and so it only calls on end editing
 			if(!parsedTimeRange) return "Invalid";
 			return parsedTimeRange.map(time => superShortenTime(time, true)).join("-");
 		});

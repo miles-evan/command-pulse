@@ -127,6 +127,9 @@ function convertTo24(time) {
 
 // "5am-6:30" -> ["05:00 AM", "06:30 PM"]
 export function parseTimeRange(timeRange) {
+	if(typeof timeRange !== "string")
+		return null;
+	
 	const result = timeRange
 		.replace(/\s/g, "")
 		.toUpperCase()
@@ -142,6 +145,7 @@ export function parseTimeRange(timeRange) {
 			const result = `${padZero(hour)}:${minute} ${ampm}`;
 			return /^(0[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/.test(result)? result : null;
 		});
+	
 	return result[0] && result[1]? result : null;
 }
 
