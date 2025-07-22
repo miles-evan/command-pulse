@@ -173,11 +173,13 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 					/>
 				))}
 				
-				<AddShiftButton onPress={addShift} style={{ marginVertical: 15 }}/>
-				
-				<If condition={addingShifts}>
-					<Button onPress={submitNewShifts} disabled={loadingSubmitNewShifts}>Submit</Button>
-					<Button look="white" onPress={cancelAddingShifts} disabled={loadingSubmitNewShifts}>Cancel</Button>
+				<If condition={!loadingSubmitNewShifts}>
+					<AddShiftButton onPress={addShift} style={{ marginVertical: 15 }}/>
+					
+					<If condition={addingShifts}>
+						<Button onPress={submitNewShifts} disabled={loadingSubmitNewShifts}>Submit</Button>
+						<Button look="white" onPress={cancelAddingShifts} disabled={loadingSubmitNewShifts}>Cancel</Button>
+					</If>
 				</If>
 				
 			</If>
