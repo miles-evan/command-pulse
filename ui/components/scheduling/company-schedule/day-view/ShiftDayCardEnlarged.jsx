@@ -26,7 +26,7 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 	
 	const [addingShifts, setAddingShifts] = useState(false);
 	const newShifts = useRef([]);
-	const [, setNumNewShifts] = useState(0); // just used to rerender when adding new shifts
+	const [numNewShifts, setNumNewShifts] = useState(0); // mainly used to rerender when adding new shifts
 	const [loadingSubmitNewShifts, setLoadingSubmitNewShifts] = useState(false);
 	
 	
@@ -73,6 +73,13 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 		});
 	}
 	
+	function removeNewShift(index) {
+		if(numNewShifts === 1)
+			setAddingShifts(false);
+		newShifts.current.splice(index, 1);
+		setNumNewShifts(prev => prev - 1);
+	}
+	
 	function cancelAddingShifts() {
 		newShifts.current = [];
 		setAddingShifts(false);
@@ -88,14 +95,6 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 			)
 		);
 		router.back();
-	}
-	
-	
-	// --------------------------------
-	
-	
-	function removeShift(index) {
-		setDeletedIndices(prev => new Set([...prev, index]));
 	}
 	
 	
@@ -134,7 +133,7 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 								if(Object.keys(newEdits).length === 0) delete edits.current[shift.shiftId];
 								else edits.current[shift.shiftId] = newEdits;
 							}}
-							onRemove={() => removeShift(index)}
+							onRemove={() => setDeletedIndices(prev => new Set([...prev, index]))}
 						/>
 						
 						<If condition={!editing && index < sortedShifts.length - 1}>
@@ -161,6 +160,7 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 						onChangeEdits={newEdits => {
 							newShifts.current[index] = { ...newShifts.current[index], ...newEdits };
 						}}
+						onRemove={() => removeNewShift(index)}
 					/>
 				))}
 				
