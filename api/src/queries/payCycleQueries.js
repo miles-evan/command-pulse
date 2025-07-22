@@ -16,12 +16,14 @@ export async function getPayCycleSummary(userId, startDate, endDate) {
 		{ totalHoursWorked: 0, totalEarning: 0 }
 	);
 	
-	const [payCycle] = await PayCycle.aggregate([
+	const [payCycle=null] = await PayCycle.aggregate([
 		{ $match: { userId, startDate, endDate } },
 		{ $project: {
 			_id: 0, payCycleId: "$_id", revisedHoursDifference: 1, paymentSent: 1, paymentReceived: 1, paymentMethod: 1
 		}}
 	]);
+	
+	console.log({ userId, startDate, endDate }, {payCycle})
 	
 	return {
 		hoursWorked: totalHoursWorked,
