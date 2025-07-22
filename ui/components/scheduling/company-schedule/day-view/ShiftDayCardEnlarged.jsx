@@ -73,7 +73,7 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 		});
 	}
 	
-	function removeNewShift(index) {
+	function deleteNewShift(index) {
 		if(numNewShifts === 1)
 			setAddingShifts(false);
 		newShifts.current.splice(index, 1);
@@ -133,7 +133,7 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 								if(Object.keys(newEdits).length === 0) delete edits.current[shift.shiftId];
 								else edits.current[shift.shiftId] = newEdits;
 							}}
-							onRemove={() => setDeletedIndices(prev => new Set([...prev, index]))}
+							onDelete={() => setDeletedIndices(prev => new Set([...prev, index]))}
 						/>
 						
 						<If condition={!editing && index < sortedShifts.length - 1}>
@@ -160,7 +160,7 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 						onChangeEdits={newEdits => {
 							newShifts.current[index] = { ...newShifts.current[index], ...newEdits };
 						}}
-						onRemove={() => removeNewShift(index)}
+						onDelete={() => deleteNewShift(index)}
 					/>
 				))}
 				

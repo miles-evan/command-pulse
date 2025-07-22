@@ -6,9 +6,9 @@ import { StyleSheet } from "react-native";
 import TimeRangeInput from "@/components/scheduling/company-schedule/day-view/TimeRangeInput.jsx";
 import PayRateInput from "@/components/scheduling/company-schedule/day-view/PayRateInput.jsx";
 import { useEffect, useRef } from "react";
-import RemoveButton from "@/components/scheduling/company-schedule/day-view/RemoveButton.jsx";
+import RemoveButton from "@/components/project-specific-utility-components/RemoveButton.jsx";
 
-export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits=_=>{}, onRemove=()=>{} }) {
+export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits=_=>{}, onDelete=()=>{} }) {
 	
 	const { userId, firstName, lastName, startTime, endTime, payRate } = shift;
 	const edits = useRef({}); // useRef so that it doesn't rerender
@@ -53,7 +53,7 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 		) : (
 			<FlexRowSpaceBetween style={{ alignItems: "center", marginBottom: 8 }}>
 				
-				<RemoveButton onPress={onRemove} style={{ marginRight: 5 }}/>
+				<RemoveButton onPress={onDelete} style={{ marginRight: 5 }}/>
 				
 				<PersonDropDown
 					initialSelectionUserId={userId}

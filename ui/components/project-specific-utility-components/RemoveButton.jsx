@@ -9,6 +9,7 @@ export default function RemoveButton({ onPress, ...rest }) {
 		onPress={onPress}
 		color="danger"
 		pressColor="softDanger"
+		innerContainerStyle={{ backgroundColor: "white" }}
 		{...rest}
 	/>;
 	

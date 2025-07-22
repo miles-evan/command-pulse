@@ -58,8 +58,15 @@ export default function ShiftLocation({ locationName: initialLocationName, shift
 	
 	async function submitEdit() {
 		setEditing(false);
-		if(shifts.length > 0)
-			await shiftService.updateShifts(shifts.map(shift => shift.shiftId), { location: locationName });
+		const nonDeletedShifts = shiftDays.flatMap(shiftDay => shiftDay.shifts);
+		if(nonDeletedShifts.length > 0)
+			await shiftService.updateShifts(nonDeletedShifts.map(shift => shift.shiftId), { location: locationName });
+	}
+	
+	
+	async function deleteDay(index) {
+		setShiftDays(prev => prev.filter((_, i) => i !== index));
+		await shiftService.deleteShifts(shiftDays[index].shifts.map(shift => shift.shiftId));
 	}
 	
 	
@@ -93,11 +100,13 @@ export default function ShiftLocation({ locationName: initialLocationName, shift
 				data={shiftDays}
 				keyExtractor={(_, index) => index.toString()}
 				renderItem={({ item: { date, shifts }, index }) => (
-					<Pressable onPress={() => enlargeShiftDay(index)}>
-						{({ pressed }) => (
-							<ShiftDayCard date={date} shifts={shifts} showFeedback={pressed}/>
-						)}
-					</Pressable>
+					<ShiftDayCard
+						date={date}
+						shifts={shifts}
+						onPress={() => enlargeShiftDay(index)}
+						editing={editing}
+						onDelete={() => deleteDay(index)}
+					/>
 				)}
 				ListFooterComponent={(
 					<If condition={shiftDays.length < 7}>
@@ -105,7 +114,7 @@ export default function ShiftLocation({ locationName: initialLocationName, shift
 					</If>
 				)}
 				horizontal
-				style={{ overflow: "visible" }}
+				style={{ overflow: "visible", marginVertical: 8 }}
 			/>
 	
 		</View>
