@@ -54,7 +54,6 @@ export default function PayRateInput({ initialValue, onNewValue=_=>{} }) {
 			keyboardType="numeric"
 			value={value}
 			onChangeText={onChangeText}
-			selectTextOnFocus={true}
 			selection={selection}
 			onFocus={onFocus}
 			onEndEditing={onEndEditing}

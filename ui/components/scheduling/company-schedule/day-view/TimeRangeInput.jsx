@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { parseTimeRange, superShortenTime } from "@/utils/dateUtils.js";
 import StyledTextInput from "@/components/project-specific-utility-components/StyledTextInput.jsx";
-import { Colors } from "@/constants/Colors.js";
 
 
 export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, ...rest }) {
@@ -9,7 +8,23 @@ export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, 
 	const [timeRange, setTimeRange] = useState(initialValue ?? "02:00 PM - 05:00 PM");
 	useEffect(parseAndSetTimeRange, []);
 	const [isDifferent, setIsDifferent] = useState(false);
-	const parsedInitialValue = useMemo(() => parseTimeRange(initialValue))
+	const parsedInitialValue = useMemo(() => parseTimeRange(initialValue));
+	const [selection, setSelection] = useState(null);
+	
+	
+	function onChangeText(newText) {
+		setTimeRange(newText);
+		setSelection(null);
+	}
+	
+	
+	function onFocus() {
+		setTimeRange(prev => {
+			const newTimeRange = prev.replace(/pm/g, "")
+			setSelection({ start: 0, end: newTimeRange.length });
+			return newTimeRange;
+		});
+	}
 	
 	
 	function checkIfDifferent() {
@@ -31,21 +46,16 @@ export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, 
 	}
 	
 	
-	function shortenTimeRange() {
-		setTimeRange(prev => prev.replace(/pm/g, ""));
-	}
-	
-	
 	return (
 		<StyledTextInput
 			placeholder="H:MM-H:MM"
 			value={timeRange}
-			onChangeText={setTimeRange}
-			onFocus={shortenTimeRange}
+			onChangeText={onChangeText}
+			onFocus={onFocus}
 			onEndEditing={parseAndSetTimeRange}
 			onBlur={checkIfDifferent}
-			selectTextOnFocus
-			color={isDifferent? "altAccent" : "veryHard"}
+			selection={selection}
+			color={timeRange === "Invalid"? "danger" : isDifferent? "altAccent" : "veryHard"}
 			{...rest}
 		/>
 	);
