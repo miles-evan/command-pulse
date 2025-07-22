@@ -12,8 +12,10 @@ import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRow
 import EditButton from "@/components/project-specific-utility-components/EditButton.jsx";
 import StyledTextInput from "@/components/project-specific-utility-components/StyledTextInput.jsx";
 import * as shiftService from "@/services/shiftService.js";
+import RemoveButton from "@/components/project-specific-utility-components/RemoveButton.jsx";
+import FlexRow from "@/components/general-utility-components/FlexRow.jsx";
 
-export default function ShiftLocation({ locationName: initialLocationName, shifts, weekRange: [startDate, endDate] }) {
+export default function ShiftLocation({ locationName: initialLocationName, shifts, weekRange: [startDate, endDate], onDelete=()=>{} }) {
 	
 	const [locationName, setLocationName] = useState(initialLocationName ?? "New location");
 	const [shiftDays, setShiftDays] = useState([]);
@@ -79,13 +81,16 @@ export default function ShiftLocation({ locationName: initialLocationName, shift
 						{locationName}
 					</StyledText>
 				) : (
-					<StyledTextInput
-						initialValue={locationName}
-						value={locationName}
-						onChangeText={setLocationName}
-						selectTextOnFocus
-						style={{ flex: 0.9, height: 36, fontSize: 24 }}
-					/>
+					<FlexRow style={{ flex: 1, alignItems: "center" }}>
+						<RemoveButton onPress={onDelete}/>
+						<StyledTextInput
+							initialValue={locationName}
+							value={locationName}
+							onChangeText={setLocationName}
+							selectTextOnFocus
+							style={{ flex: 1, marginHorizontal: 12, height: 36, fontSize: 24 }}
+						/>
+					</FlexRow>
 				)}
 				
 				<EditButton

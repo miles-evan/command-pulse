@@ -31,12 +31,23 @@ export default function ShiftLocationList({ weekRange, isFocused }) {
 	}
 	
 	
+	async function deleteLocation(index) {
+		setShiftLocations(prev => prev.filter((_, i) => i !== index));
+		await shiftService.deleteShifts(shiftLocations[index].shifts.map(shift => shift.shiftId));
+	}
+	
+	
 	return (
 		<FlatList
 			data={shiftLocations}
 			keyExtractor={(_, index) => index.toString()}
-			renderItem={({ item: { locationName, shifts } }) => (
-				<ShiftLocation locationName={locationName} shifts={shifts} weekRange={weekRange}/>
+			renderItem={({ item: { locationName, shifts }, index }) => (
+				<ShiftLocation
+					locationName={locationName}
+					shifts={shifts}
+					weekRange={weekRange}
+					onDelete={() => deleteLocation(index)}
+				/>
 			)}
 			ItemSeparatorComponent={() => <Gap size={16} />}
 			ListFooterComponent={(
