@@ -66,9 +66,10 @@ export default function ShiftLocation({ locationName: initialLocationName, shift
 	}
 	
 	
-	async function deleteDay(index) {
+	function deleteDay(index) {
+		if(shiftDays[index].shifts.length > 0)
+			shiftService.deleteShifts(shiftDays[index].shifts.map(shift => shift.shiftId));
 		setShiftDays(prev => prev.filter((_, i) => i !== index));
-		await shiftService.deleteShifts(shiftDays[index].shifts.map(shift => shift.shiftId));
 	}
 	
 	

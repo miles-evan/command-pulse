@@ -12,6 +12,7 @@ export default function ShiftLocationList({ weekRange, isFocused }) {
 	
 	const [shiftLocations, setShiftLocations] = useState([]);
 	const [isLoading, setIsLoading] = useState([]);
+	const [newLocationsNextKey, setNewLocationsNextKey] = useState(0);
 	
 	
 	useEffect(() => {
@@ -27,20 +28,22 @@ export default function ShiftLocationList({ weekRange, isFocused }) {
 	
 	
 	function addLocation() {
-		setShiftLocations(prev => [...prev, { shifts: [] }])
+		setShiftLocations(prev => [...prev, { shifts: [], key: newLocationsNextKey }]);
+		setNewLocationsNextKey(prev => prev + 1);
 	}
 	
 	
-	async function deleteLocation(index) {
+	function deleteLocation(index) {
+		if(shiftLocations[index].shifts.length > 0)
+			shiftService.deleteShifts(shiftLocations[index].shifts.map(shift => shift.shiftId));
 		setShiftLocations(prev => prev.filter((_, i) => i !== index));
-		await shiftService.deleteShifts(shiftLocations[index].shifts.map(shift => shift.shiftId));
 	}
 	
 	
 	return (
 		<FlatList
 			data={shiftLocations}
-			keyExtractor={(_, index) => index.toString()}
+			keyExtractor={shiftLocation => "key" in shiftLocation? shiftLocation.key : shiftLocation.locationName}
 			renderItem={({ item: { locationName, shifts }, index }) => (
 				<ShiftLocation
 					locationName={locationName}

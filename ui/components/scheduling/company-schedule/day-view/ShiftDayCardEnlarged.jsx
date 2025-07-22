@@ -13,6 +13,7 @@ import * as shiftService from "@/services/shiftService.js";
 import { router } from "expo-router";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import Button from "@/components/project-specific-utility-components/Button.jsx";
+import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
 
 
 export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLeft, onRight, leftDisabled, rightDisabled }) {
@@ -26,7 +27,8 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 	
 	const [addingShifts, setAddingShifts] = useState(false);
 	const newShifts = useRef([]);
-	const [numNewShifts, setNumNewShifts] = useState(0); // mainly used to rerender when adding new shifts
+	const [numNewShifts, setNumNewShifts] = useState(0);
+	const [newShiftsNextKey, setNewShiftsNextKey] = useState(0);
 	const [loadingSubmitNewShifts, setLoadingSubmitNewShifts] = useState(false);
 	
 	
@@ -70,7 +72,9 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 		newShifts.current.push({
 			date: date,
 			location: locationName,
+			key: newShiftsNextKey,
 		});
+		setNewShiftsNextKey(prev => prev + 1);
 	}
 	
 	function deleteNewShift(index) {
@@ -120,12 +124,12 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 				<Gap size={5}/>
 			</If>
 			<If condition={loadingSubmitEdits}>
-				<StyledText look="18 semibold hard">Loading...</StyledText>
+				<LoadingText/>
 			</If>
 			
 			{/* Existing shifts */}
 			{sortedShifts.map((shift, index) => (
-				<If condition={!deletedIndices.has(index)} key={index}>
+				<If condition={!deletedIndices.has(index)} key={shift.shiftId}>
 						<ShiftEntryEnlarged
 							shift={shift}
 							editing={editing}
@@ -144,17 +148,22 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 			
 			<If condition={!editing}>
 				
-				<If condition={sortedShifts.length > 0}>
+				<If condition={addingShifts && sortedShifts.length > 0}>
 					<HorizontalLine color="soft" length={"100%"} style={{ marginTop: 30 }}/>
 				</If>
 				<If condition={addingShifts}>
-					<Gap size={30}/>
+					<Gap size={20}/>
+				</If>
+				<Gap size={10}/>
+				
+				<If condition={loadingSubmitNewShifts}>
+					<LoadingText/>
 				</If>
 					
 				{/* New shifts */}
 				{newShifts.current.map((shift, index) => (
 					<ShiftEntryEnlarged
-						key={index}
+						key={shift.key}
 						shift={shift}
 						editing
 						onChangeEdits={newEdits => {
@@ -167,8 +176,8 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 				<AddShiftButton onPress={addShift} style={{ marginVertical: 15 }}/>
 				
 				<If condition={addingShifts}>
-					<Button onPress={submitNewShifts}>Submit</Button>
-					<Button look="white" onPress={cancelAddingShifts}>Cancel</Button>
+					<Button onPress={submitNewShifts} disabled={loadingSubmitNewShifts}>Submit</Button>
+					<Button look="white" onPress={cancelAddingShifts} disabled={loadingSubmitNewShifts}>Cancel</Button>
 				</If>
 				
 			</If>

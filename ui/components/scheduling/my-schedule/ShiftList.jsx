@@ -6,6 +6,7 @@ import {getCurrentTimeString, getTodayString} from "@/utils/dateUtils.js";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import {computeShiftStage} from "@/components/scheduling/my-schedule/computeShiftStage.js";
+import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
 
 
 // retrieves and shows list of shifts
@@ -61,9 +62,7 @@ export default function ShiftList({ dir }) {
 			onEndReachedThreshold={0.5}
 			ItemSeparatorComponent={() => <Gap size={32} />}
 			ListFooterComponent={() => (
-				<StyledText look="18 semibold hard">
-					{isLoading ? "Loading..." : " "}
-				</StyledText>
+				<LoadingText invisible={!isLoading}/>
 			)}
 		/>
 	);
