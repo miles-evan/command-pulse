@@ -17,7 +17,7 @@ export default function SafeAreaViewWithBackground({ dismissKeyboardOnPress, chi
 			<StatusBar style="dark" />
 
 			<Image source={background} resizeMode="cover" style={{
-				position: "absolute", bottom: 0, width: width, height: undefined, aspectRatio: 598/984
+				position: "absolute", bottom: 0, width: width, height: undefined, aspectRatio: 598/984, opacity: 0.5
 			}}/>
 
 			<WrapChildrenIf
