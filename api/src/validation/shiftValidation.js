@@ -60,7 +60,7 @@ export const getAllShiftsValidation = [
 
 export const getMyShiftsValidation = [
 	query("date")
-		.optional()
+		.exists().withMessage("date must be included")
 		.matches(dateRegex).withMessage(`date must be ${dateFormat}`),
 	query("time")
 		.optional()

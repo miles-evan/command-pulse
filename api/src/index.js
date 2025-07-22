@@ -7,6 +7,7 @@ import passport from "passport";
 import session from "express-session";
 import shiftRouter from "./routers/shiftRouter.js";
 import cors from "cors";
+import payCycleRouter from "./routers/payCycleRouter.js";
 
 
 const app = express();
@@ -45,6 +46,7 @@ app.use(passport.session());
 app.use("/command-pulse/api/v1/users", userRouter);
 app.use("/command-pulse/api/v1/companies", companyRouter);
 app.use("/command-pulse/api/v1/shifts", shiftRouter);
+app.use("/command-pulse/api/v1/pay-cycles", payCycleRouter);
 
 
 // test

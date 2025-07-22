@@ -7,7 +7,7 @@ import {
 	acceptShiftRequest, createAndAssignShift, createShiftRequest, deleteAndUnassignShifts, deleteShiftRequest,
 	getAllShifts, getShifts, reassignShift, updateShiftInfo, updateShiftInfos
 } from "../queries/shiftQueries.js";
-import {isMyShift, isMyShiftRequest} from "../middleware/isMy.js";
+import { isMyShift, isMyShiftRequest } from "../middleware/isMy.js";
 import { clockInOutPermission } from "../middleware/clockInOutPermission.js";
 import { validateRequest } from "../middleware/validate.js";
 import {
@@ -16,7 +16,7 @@ import {
 	getAllShiftsValidation, getMyShiftsValidation, getSomeonesShiftsValidation, makeCoverRequestValidation,
 	reassignShiftValidation, updateShiftInfoValidation
 } from "../validation/shiftValidation.js";
-import {matchedData} from "express-validator";
+import { matchedData } from "express-validator";
 
 const shiftRouter = Router();
 
