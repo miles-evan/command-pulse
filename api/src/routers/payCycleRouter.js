@@ -6,6 +6,14 @@ import {
 	getPayCycleSummary, reviseHours
 } from "../queries/payCycleQueries.js";
 import { payCyclePermissions, paymentNotYetSent } from "../middleware/payCyclePermissions.js";
+import { validateRequest } from "../middleware/validate.js";
+import { getMyShiftsValidation } from "../validation/shiftValidation.js";
+import {
+	confirmPaymentReceivedValidation,
+	confirmPaymentSentValidation,
+	getMyPayCycleSummaryValidation,
+	getSomeonesPayCycleSummaryValidation, reviseHoursValidation
+} from "../validation/payCycleValidation.js";
 
 const payCycleRouter = Router();
 
@@ -15,6 +23,7 @@ const payCycleRouter = Router();
 // Get my pay cycle summary
 payCycleRouter.get(
 	"/",
+	...validateRequest(getMyPayCycleSummaryValidation),
 	...permission("in company"),
 	async (request, response) => {
 		const { startDate, endDate } = request.query;
@@ -28,6 +37,7 @@ payCycleRouter.get(
 // Get someone's pay cycle summary
 payCycleRouter.get(
 	"/:userId",
+	...validateRequest(getSomeonesPayCycleSummaryValidation),
 	...permission("supervisor"),
 	async (request, response) => {
 		const { startDate, endDate } = request.query;
@@ -42,6 +52,7 @@ payCycleRouter.get(
 // Confirm payment sent
 payCycleRouter.post(
 	"/confirm-sent",
+	...validateRequest(confirmPaymentSentValidation),
 	...permission("supervisor"),
 	async (request, response) => {
 		let { userId, startDate, endDate, payCycleId } = request.body;
@@ -55,6 +66,7 @@ payCycleRouter.post(
 // Confirm payment received
 payCycleRouter.post(
 	"/confirm-received",
+	...validateRequest(confirmPaymentReceivedValidation),
 	...permission("supervisor"),
 	payCyclePermissions("body.payCycleId"),
 	async (request, response) => {
@@ -69,13 +81,14 @@ payCycleRouter.post(
 // Revise hours worked
 payCycleRouter.post(
 	"/revise-hours",
+	...validateRequest(reviseHoursValidation),
 	...permission("supervisor"),
 	paymentNotYetSent("body.payCycleId"),
 	async (request, response) => {
-		const { payCycleId, startDate, endDate, userId, hoursWorkedRevisions } = request.body;
+		let { payCycleId, startDate, endDate, userId, hoursWorkedRevisions } = request.body;
 		
-		await reviseHours(userId, startDate, endDate, payCycleId, hoursWorkedRevisions);
-		return response.sendStatus(200);
+		payCycleId = await reviseHours(userId, startDate, endDate, payCycleId, hoursWorkedRevisions);
+		return response.send({ payCycleId });
 	}
 );
 

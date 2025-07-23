@@ -62,9 +62,11 @@ export async function confirmPaymentReceived(payCycleId) {
 
 
 // either give userId, startDate, and endDate OR give payCycleId
+// overrides and replaces current revisions
 export async function reviseHours(userId, startDate, endDate, payCycleId=null, hoursWorkedRevisions) {
 	if(!payCycleId) payCycleId = await createPayCycle(userId, startDate, endDate);
-	await PayCycle.findByIdAndUpdate(payCycleId, { hoursWorkedRevisions: hoursWorkedRevisions });
+	await PayCycle.findByIdAndUpdate(payCycleId, { $set: { hoursWorkedRevisions: hoursWorkedRevisions } });
+	return payCycleId;
 }
 
 
