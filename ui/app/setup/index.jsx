@@ -5,6 +5,7 @@ import FormHeader from "@/components/form-card/FormHeader";
 import FormCard from "@/components/form-card/FormCard";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
+import OrLine from "@/components/general-utility-components/OrLine.jsx";
 
 
 export default function GetStarted() {
@@ -25,6 +26,11 @@ export default function GetStarted() {
 				<Button look="white" to="/setup/join-company">Join a company</Button>
 				<Button to="/setup/create-company" withParams={{ isCreatingCompany: true }}>Create a new company</Button>
 			</FormCard>
+			
+			<OrLine style={{ marginVertical: 28 }}/>
+			
+			<StyledText look="25 semibold mediumHard">Already in a company?</StyledText>
+			<Button look="lightBlue" to="/setup/login" withParams={{ alreadyInCompany: true }} style={{ width: "72%" }}>Log in</Button>
 			
 		</SafeAreaViewWithBackground>
 	);

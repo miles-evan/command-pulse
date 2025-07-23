@@ -5,7 +5,7 @@ import {router, useLocalSearchParams} from "expo-router";
 
 
 export default function Button(
-	{ look="blue", onPress=()=>{}, to, withParams={}, children, buttonStyle={}, textStyle={}, disabled }
+	{ look="blue", onPress=()=>{}, to, withParams={}, children, style={}, buttonStyle={}, textStyle={}, disabled }
 ) {
 	
 	const params = useLocalSearchParams();
@@ -22,7 +22,7 @@ export default function Button(
 	
 	return (
 		<Pressable
-			style={({ pressed }) => getButtonStyles(look, buttonStyle, disabled || pressed)}
+			style={({ pressed }) => getButtonStyles(look, {...style, ...buttonStyle}, disabled || pressed)}
 			onPress={onPress}
 		>
 			
@@ -65,7 +65,13 @@ function getButtonStyles(look, buttonStyle, showFeedback) {
 				backgroundColor: Colors.verySoft,
 				borderWidth: 1,
 				borderColor: Colors.soft,
-			}
+			},
+			"lightBlue" : {
+				backgroundColor: Colors.accent + "cc",
+				
+				borderWidth: 2,
+				borderColor: Colors.verySoft,
+			},
 		}[look],
 		
 		...buttonStyle
@@ -77,6 +83,7 @@ function getTextStyles(look, textStyle, showFeedback) {
 	return {
 		color: look === "blue"? showFeedback? Colors.soft : Colors.white
 			: look === "white"? showFeedback? Colors.softAccent : Colors.accent
+			: look === "lightBlue"? showFeedback? Colors.soft : Colors.white
 				: "#000000",
 		
 		...textStyle

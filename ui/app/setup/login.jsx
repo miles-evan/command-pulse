@@ -21,7 +21,7 @@ import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
 
 export default function Login() {
 	
-	const { isCreatingCompany, inviteCode, companyName } = useLocalSearchParams();
+	const { isCreatingCompany, inviteCode, companyName, alreadyInCompany } = useLocalSearchParams();
 	const setErrorMessagesRef = useRef(() => {});
 	const keyboardVisible = useKeyboardVisible();
 	
@@ -33,15 +33,14 @@ export default function Login() {
 		
 		await storeCredentials(email, password);
 		
-		await companyService.leave();
-		
-		if(isCreatingCompany) {
-			await companyService.create(companyName);
-		} else {
-			await companyService.join(inviteCode);
+		if(!alreadyInCompany) {
+			await companyService.leave();
+			if(isCreatingCompany) {
+				await companyService.create(companyName);
+			} else {
+				await companyService.join(inviteCode);
+			}
 		}
-		
-		console.log(await companyService.status());
 		
 		router.replace("/(tabs)/announcements");
 	}
