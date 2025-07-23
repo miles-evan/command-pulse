@@ -32,4 +32,6 @@ const payCycleSchema = new mongoose.Schema({
 	}
 });
 
+payCycleSchema.index({ userId: 1, startDate: 1, endDate: 1 }, { unique: true });
+
 export const PayCycle = mongoose.model("PayCycle", payCycleSchema);
