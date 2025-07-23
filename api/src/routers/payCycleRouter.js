@@ -4,9 +4,9 @@ import {
 	confirmPaymentReceived,
 	confirmPaymentSent,
 	getPayCycle,
-	getPayCycleSummary
+	getPayCycleSummary, reviseHours
 } from "../queries/payCycleQueries.js";
-import { paymentReceivedConfirmationPermission } from "../middleware/paymentReceivedConfirmationPermission.js";
+import { payCyclePermissions, paymentNotYetSent } from "../middleware/payCyclePermissions.js";
 
 const payCycleRouter = Router();
 
@@ -59,11 +59,25 @@ payCycleRouter.post(
 payCycleRouter.post(
 	"/confirm-received",
 	...permission("supervisor"),
-	paymentReceivedConfirmationPermission("body.payCycleId"),
+	payCyclePermissions("body.payCycleId"),
 	async (request, response) => {
-		let { userId, startDate, endDate, payCycleId } = request.body;
+		let { payCycleId } = request.body;
 		
-		await confirmPaymentReceived(userId, startDate, endDate, payCycleId);
+		await confirmPaymentReceived(payCycleId);
+		return response.sendStatus(200);
+	}
+);
+
+
+// Revise hours worked
+payCycleRouter.post(
+	"/revise-hours",
+	...permission("supervisor"),
+	paymentNotYetSent("body.payCycleId"),
+	async (request, response) => {
+		const { payCycleId, startDate, endDate, userId, hoursWorkedRevisions } = request.body;
+		
+		await reviseHours(userId, startDate, endDate, payCycleId, hoursWorkedRevisions);
 		return response.sendStatus(200);
 	}
 );

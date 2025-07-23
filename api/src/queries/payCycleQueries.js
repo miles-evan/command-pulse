@@ -42,6 +42,7 @@ export async function getPayCycleById(payCycleId) {
 }
 
 
+// either give userId, startDate, and endDate OR give payCycleId
 export async function confirmPaymentSent(userId, startDate, endDate, payCycleId=null) {
 	if(!payCycleId) payCycleId = await createPayCycle(userId, startDate, endDate);
 	await PayCycle.findByIdAndUpdate(payCycleId, { paymentSent: true });
@@ -49,8 +50,15 @@ export async function confirmPaymentSent(userId, startDate, endDate, payCycleId=
 }
 
 
-export async function confirmPaymentReceived(userId, startDate, endDate, payCycleId) {
+export async function confirmPaymentReceived(payCycleId) {
 	await PayCycle.findByIdAndUpdate(payCycleId, { paymentReceived: true });
+}
+
+
+// either give userId, startDate, and endDate OR give payCycleId
+export async function reviseHours(userId, startDate, endDate, payCycleId=null, hoursWorkedRevisions) {
+	if(!payCycleId) payCycleId = await createPayCycle(userId, startDate, endDate);
+	await PayCycle.findByIdAndUpdate(payCycleId, { hoursWorkedRevisions: hoursWorkedRevisions });
 }
 
 
