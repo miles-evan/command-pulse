@@ -141,7 +141,8 @@ async function getShiftsBasedOnDay(userId, date, dir=1, skip=0, limit=20) {
 
 export async function getShiftsInDateRange(userId, startDate, endDate) {
 	const user = await User.findById(userId);
-	return await Shift.find({ _id: { $in: user.shiftIds }, date: { $gte: startDate, $lte: endDate } });
+	const shifts = await Shift.find({ _id: { $in: user.shiftIds }, date: { $gte: startDate, $lte: endDate } });
+	return projectShifts(shifts);
 }
 
 

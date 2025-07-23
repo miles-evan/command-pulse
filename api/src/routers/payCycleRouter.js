@@ -3,7 +3,6 @@ import { permission } from "../middleware/permission.js";
 import {
 	confirmPaymentReceived,
 	confirmPaymentSent,
-	getPayCycle,
 	getPayCycleSummary, reviseHours
 } from "../queries/payCycleQueries.js";
 import { payCyclePermissions, paymentNotYetSent } from "../middleware/payCyclePermissions.js";
@@ -20,9 +19,8 @@ payCycleRouter.get(
 	async (request, response) => {
 		const { startDate, endDate } = request.query;
 		
-		const { hoursWorked, totalEarning, averagePayRate } = await getPayCycleSummary(request.user.id, startDate, endDate);
-		const payCycle = await getPayCycle(request.user.id, startDate, endDate);
-		return response.send({ hoursWorked, totalEarning, averagePayRate, payCycle });
+		const result = await getPayCycleSummary(request.user.id, startDate, endDate);
+		return response.send(result);
 	}
 );
 
@@ -35,9 +33,8 @@ payCycleRouter.get(
 		const { startDate, endDate } = request.query;
 		const { userId } = request.params;
 		
-		const { hoursWorked, totalEarning, averagePayRate } = await getPayCycleSummary(userId, startDate, endDate);
-		const payCycle = await getPayCycle(userId, startDate, endDate);
-		return response.send({ hoursWorked, totalEarning, averagePayRate, payCycle });
+		const result = await getPayCycleSummary(userId, startDate, endDate);
+		return response.send(result);
 	}
 );
 

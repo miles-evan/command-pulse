@@ -6,30 +6,36 @@ import mongoose from "mongoose";
 
 export async function getPayCycleSummary(userId, startDate, endDate) {
 	const shifts = await getShiftsInDateRange(userId, startDate, endDate);
+	const payCycle = await getPayCycle(userId, startDate, endDate);
 	
-	const { totalHoursWorked, totalEarning } = shifts.reduce(
-		(acc, shift) => {
-			const hoursWorked = compareTimes(shift.endTime, shift.startTime);
-			acc.totalHoursWorked += hoursWorked;
-			acc.totalEarning += hoursWorked * shift.payRate;
-			return acc;
-		},
-		{ totalHoursWorked: 0, totalEarning: 0 }
-	);
+	const summary = shifts.reduce((acc, shift) => {
+		shift.hoursWorked = shift.clockInTime? compareTimes(shift.endTime, shift.startTime) : 0;
+		acc.totalHoursWorked += shift.hoursWorked;
+		acc.totalEarning += shift.hoursWorked * shift.payRate;
+		
+		shift.hoursWorkedRevised = null;
+		for(const revision of payCycle?.hoursWorkedRevisions ?? []) {
+			if(revision.shiftId.toString() === shift.shiftId.toString())
+				shift.hoursWorkedRevised = revision.hoursWorked;
+		}
+		acc.totalHoursWorkedRevised += shift.hoursWorkedRevised ?? shift.hoursWorked;
+		acc.totalEarningRevised += (shift.hoursWorkedRevised ?? shift.hoursWorked) * shift.payRate;
+		
+		return acc;
+	},
+	{ totalHoursWorked: 0, totalHoursWorkedRevised: 0, totalEarning: 0, totalEarningRevised: 0 });
 	
-	return {
-		hoursWorked: totalHoursWorked,
-		totalEarning,
-		averagePayRate: totalHoursWorked === 0? 0 : totalEarning / totalHoursWorked
-	}
+	const { hoursWorkedRevisions, ...projectedPayCycle } = payCycle;
+	
+	return { ...summary, payCycle: projectedPayCycle, shifts };
 }
 
 
-export async function getPayCycle(userId, startDate, endDate) {
+async function getPayCycle(userId, startDate, endDate) {
 	const [payCycle=null] = await PayCycle.aggregate([
 		{ $match: { userId: new mongoose.Types.ObjectId(userId), startDate, endDate } },
 		{ $project: {
-			_id: 0, payCycleId: "$_id", revisedHoursDifference: 1, paymentSent: 1, paymentReceived: 1, paymentMethod: 1
+			_id: 0, payCycleId: "$_id", hoursWorkedRevisions: 1, paymentSent: 1, paymentReceived: 1, paymentMethod: 1
 		}}
 	]);
 	

@@ -16,6 +16,7 @@ const payCycleSchema = new mongoose.Schema({
 	},
 	hoursWorkedRevisions: {
 		type: [{
+			_id: false,
 			shiftId: mongoose.Schema.Types.ObjectId,
 			hoursWorked: Number
 		}],
