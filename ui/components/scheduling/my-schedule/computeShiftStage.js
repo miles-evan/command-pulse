@@ -3,11 +3,15 @@ import { compareDateTimes, getCurrentTimeString, getTodayString } from "@/utils/
 
 // computes whether it should show the clock in button, clock out button, and so on
 export function computeShiftStage({ date, startTime, endTime, clockInTime, clockOutTime }) {
+	console.log("computing shift stage")
+	
 	const todayDateString = getTodayString();
 	const currentTimeString = getCurrentTimeString();
 	
 	const minsUntilStartTime = compareDateTimes(date, startTime, todayDateString, currentTimeString) / (1000*60);
 	const minsUntilEndTime = compareDateTimes(date, endTime, todayDateString, currentTimeString) / (1000*60);
+	
+	console.log("computing shift stage")
 	
 	if(minsUntilStartTime > 30 || minsUntilEndTime < -1440) {
 		return 0;
@@ -18,4 +22,5 @@ export function computeShiftStage({ date, startTime, endTime, clockInTime, clock
 	} else {
 		return 3;
 	}
+	
 }

@@ -4,21 +4,15 @@ import LeftRightSelector from "@/components/project-specific-utility-components/
 import { formatWeekRange, getWeekRange } from "@/utils/dateUtils.js";
 import { useMemo, useState } from "react";
 import ShiftLocationList from "@/components/scheduling/company-schedule/week-view/ShiftLocationList.jsx";
-import { useFocusEffect } from "expo-router";
 import Gap from "@/components/general-utility-components/Gap.jsx";
+import { useIsScreenFocused } from "@/hooks/useIsScreenFocused.js";
 
 
 export default function CompanySchedule() {
 	
 	const [week, setWeek] = useState(0);
 	const weekRange = useMemo(() => getWeekRange(week), [week]);
-	const [isFocused, setIsFocused] = useState(false);
-	
-	
-	useFocusEffect(() => {
-		setIsFocused(true);
-		return () => setIsFocused(false);
-	});
+	const isFocused = useIsScreenFocused();
 	
 	
 	return (

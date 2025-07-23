@@ -5,11 +5,13 @@ import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import ShiftList from "@/components/scheduling/my-schedule/ShiftList.jsx";
+import { useIsScreenFocused } from "@/hooks/useIsScreenFocused.js";
 
 
 export default function MySchedule() {
 	
 	const [dir, setDir] = useState(1);
+	const isFocused = useIsScreenFocused();
 	
 	
 	function toggleDir() {
@@ -33,7 +35,7 @@ export default function MySchedule() {
 			
 			<Gap size={5}/>
 			
-			<ShiftList dir={dir}/>
+			<ShiftList dir={dir} isFocused={isFocused}/>
 		
 		</SafeAreaViewWithBackground>
 	);

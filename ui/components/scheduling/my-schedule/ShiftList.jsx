@@ -1,26 +1,26 @@
 import ShiftCard from "@/components/scheduling/my-schedule/ShiftCard.jsx";
-import {FlatList} from "react-native";
-import {useEffect, useState} from "react";
+import { FlatList } from "react-native";
+import { useEffect, useState } from "react";
 import * as shiftService from "@/services/shiftService.js";
-import {getCurrentTimeString, getTodayString} from "@/utils/dateUtils.js";
-import StyledText from "@/components/general-utility-components/StyledText.jsx";
+import { getCurrentTimeString, getTodayString } from "@/utils/dateUtils.js";
 import Gap from "@/components/general-utility-components/Gap.jsx";
-import {computeShiftStage} from "@/components/scheduling/my-schedule/computeShiftStage.js";
+import { computeShiftStage } from "@/components/scheduling/my-schedule/computeShiftStage.js";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
 
 
 // retrieves and shows list of shifts
 // dir (1 or -1) is direction to look for shifts (forward in time or backward)
-export default function ShiftList({ dir }) {
+export default function ShiftList({ dir, isFocused }) {
 	
 	const [shifts, setShifts] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
 	
 	
 	useEffect(() => {
+		if(!isFocused) return;
 		setShifts([]);
 		loadShifts();
-	}, [dir]);
+	}, [dir, isFocused]);
 	
 	
 	function loadShifts() {
@@ -39,6 +39,8 @@ export default function ShiftList({ dir }) {
 				if(dir === 1) {
 					response = await shiftService.getMy(getTodayString(), getCurrentTimeString(), -1, 0, 1);
 					const { shifts: pastShifts } = response.body;
+					if(pastShifts.length === 0)
+						return setIsLoading(false);
 					const pastShift = pastShifts[0];
 					if(computeShiftStage(pastShift) === 2 && pastShift.shiftId !== prev[0]?.shiftId)
 						setShifts([pastShift, ...prev, ...newShifts]);
@@ -58,7 +60,9 @@ export default function ShiftList({ dir }) {
 			keyExtractor={(_, index) => index.toString()}
 			renderItem={({ item: shift }) => <ShiftCard shift={shift} />}
 			keyboardDismissMode="on-drag"
-			onEndReached={loadShifts}
+			onEndReached={() => {if(shifts.length > 0) {
+				loadShifts();
+			}}}
 			onEndReachedThreshold={0.5}
 			ItemSeparatorComponent={() => <Gap size={32} />}
 			ListFooterComponent={() => (

@@ -14,7 +14,7 @@ export default function TabHeader() {
 	
 	return (
 		<Pressable onPress={() => router.push("/account")}>
-			<StyledText look="40 medium veryHard" adjustsFontSizeToFit>{companyName}</StyledText>
+			<StyledText look="40 medium veryHard" numberOfLines={1} adjustsFontSizeToFit>{companyName}</StyledText>
 			<Gap size={10}/>
 		</Pressable>
 	);
