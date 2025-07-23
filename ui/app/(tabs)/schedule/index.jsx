@@ -1,18 +1,13 @@
-import { useEffect, useState } from "react";
-import { router, useFocusEffect } from "expo-router";
+import { useEffect } from "react";
+import { router } from "expo-router";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
+import { useIsScreenFocused } from "@/hooks/useIsScreenFocused.js";
 
 
 export default function ScheduleIndex() {
 	
 	const globalState = useGlobalState();
-	const [isFocused, setIsFocused] = useState(false);
-	
-	
-	useFocusEffect(() => {
-		setIsFocused(true);
-		return () => setIsFocused(false);
-	});
+	const isFocused = useIsScreenFocused();
 	
 	
 	useEffect(() => {

@@ -89,7 +89,7 @@ export default function TabLayout() {
 						/>
 						
 						<Tabs.Screen
-							name="pay-cycles/index"
+							name="pay-cycles"
 							options={{
 								title: "Pay cycles",
 								tabBarIcon: ({ color, size }) => (
