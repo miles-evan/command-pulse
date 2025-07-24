@@ -1,7 +1,7 @@
 import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
 import SafeAreaViewWithBackground from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
 import LeftRightSelector from "@/components/project-specific-utility-components/LeftRightSelector.jsx";
-import { formatWeekRange, getWeekRange } from "@/utils/dateUtils.js";
+import { formatDateRange, getWeekRange } from "@/utils/dateUtils.js";
 import { useMemo, useState } from "react";
 import ShiftLocationList from "@/components/scheduling/company-schedule/week-view/ShiftLocationList.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
@@ -25,7 +25,7 @@ export default function CompanySchedule() {
 				onRight={() => setWeek(prev => prev + 1)}
 				containerStyle={{ width: "75%" }}
 			>
-				{formatWeekRange(weekRange)}
+				{formatDateRange(weekRange)}
 			</LeftRightSelector>
 			
 			<Gap size={15}/>

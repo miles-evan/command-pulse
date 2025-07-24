@@ -25,7 +25,8 @@ export async function getPayCycleSummary(userId, startDate, endDate) {
 	},
 	{ totalHoursWorked: 0, totalHoursWorkedRevised: 0, totalEarning: 0, totalEarningRevised: 0 });
 	
-	const { hoursWorkedRevisions, ...projectedPayCycle } = payCycle;
+	let { hoursWorkedRevisions, ...projectedPayCycle } = payCycle ?? {}; // pull hoursWorkedRevisions out of payCycle
+	if(!payCycle) projectedPayCycle = null;
 	
 	return { ...summary, payCycle: projectedPayCycle, shifts };
 }
@@ -49,9 +50,9 @@ export async function getPayCycleById(payCycleId) {
 
 
 // either give userId, startDate, and endDate OR give payCycleId
-export async function confirmPaymentSent(userId, startDate, endDate, payCycleId=null) {
+export async function confirmPaymentSent(userId, startDate, endDate, payCycleId=null, paymentMethod="cash") {
 	if(!payCycleId) payCycleId = await createPayCycle(userId, startDate, endDate);
-	await PayCycle.findByIdAndUpdate(payCycleId, { paymentSent: true });
+	await PayCycle.findByIdAndUpdate(payCycleId, { paymentSent: true, paymentMethod: paymentMethod });
 	return payCycleId
 }
 

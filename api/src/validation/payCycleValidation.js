@@ -18,7 +18,7 @@ export const getSomeonesPayCycleSummaryValidation = [
 	...getMyPayCycleSummaryValidation,
 	param("userId")
 		.optional()
-		.isString().withMessage("userId must be a string"),
+		.isString().withMessage("userId must be a string")
 ];
 
 
@@ -35,6 +35,9 @@ export const confirmPaymentSentValidation = [
 	body("payCycleId")
 		.exists().withMessage("payCycleId is required")
 		.custom(value => value === null || typeof value === "string").withMessage("payCycleId must be a string or null"),
+	body("paymentMethod")
+		.optional()
+		.isString().withMessage("userId must be a string"),
 	body().custom(body => {
 		const { startDate, endDate, userId, payCycleId } = body;
 		if(startDate && endDate && userId && !payCycleId || !startDate && !endDate && !userId && payCycleId)

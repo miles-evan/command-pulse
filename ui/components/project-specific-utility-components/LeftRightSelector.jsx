@@ -2,7 +2,7 @@ import { Pressable } from "react-native";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import {Colors} from "@/constants/Colors.js";
+import { Colors } from "@/constants/Colors.js";
 
 
 // children is a string of text to display in the selector

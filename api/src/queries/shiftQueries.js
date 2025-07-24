@@ -100,8 +100,6 @@ export async function getShifts(userId, date, time=null, dir=1, skip=0, limit=20
 	if(!time)
 		return await getShiftsBasedOnDay(userId, date, dir, skip, limit);
 	
-	console.log({ userId, date, time, dir, skip, limit });
-	
 	const user = await User.findById(userId);
 	
 	const shifts = await Shift.find({
