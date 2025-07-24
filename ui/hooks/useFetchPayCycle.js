@@ -19,8 +19,8 @@ export default function useFetchPayCycleSummary(userId=null) {
 		setDateRangeIndex(0);
 	}, [userId]);
 	
-	async function fetchPayCycleSummary() {
-		if(!(dateRangeIndex in payCycleSummaries)) {
+	async function fetchPayCycleSummary(refetch=false) {
+		if(!(dateRangeIndex in payCycleSummaries) || refetch) {
 			setIsLoading(true);
 			const payCycleSummary = (await payCycleService.getSummary(userId, ...dateRange)).body;
 			setPayCycleSummaries(prev => ({ ...prev, [String(dateRangeIndex)]: payCycleSummary }));
@@ -45,8 +45,9 @@ export default function useFetchPayCycleSummary(userId=null) {
 		payDay,
 		previousPayCycleSummary,
 		nextPayCycleSummary,
+		updatePayCycle: () => fetchPayCycleSummary(true),
 		payCycleSummary: payCycleSummaries[String(dateRangeIndex)] ?? {},
-		isLoading
+		isLoading,
 	}
 	
 }

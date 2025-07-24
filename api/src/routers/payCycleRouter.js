@@ -67,7 +67,7 @@ payCycleRouter.post(
 payCycleRouter.post(
 	"/confirm-received",
 	...validateRequest(confirmPaymentReceivedValidation),
-	...permission("supervisor"),
+	...permission("in company"),
 	payCyclePermissions("body.payCycleId"),
 	async (request, response) => {
 		let { payCycleId } = request.body;

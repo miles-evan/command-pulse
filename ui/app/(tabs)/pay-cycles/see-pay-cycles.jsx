@@ -13,9 +13,10 @@ import Contact from "@/components/contacts/Contact.jsx";
 
 export default function SeePayCycles() {
 	
-	const user = useLocalSearchParams();
+	let user = useLocalSearchParams();
+	if(Object.keys(user).length === 0) user = null;
 	const {
-		dateRange, payDay, previousPayCycleSummary, nextPayCycleSummary, payCycleSummary, isLoading
+		dateRange, payDay, previousPayCycleSummary, nextPayCycleSummary, updatePayCycle, payCycleSummary, isLoading
 	} = useFetchPayCycle(user?.userId);
 	
 	return (
@@ -41,6 +42,7 @@ export default function SeePayCycles() {
 					onRight={nextPayCycleSummary}
 					payCycleSummary={payCycleSummary}
 					user={user}
+					updatePayCycle={updatePayCycle}
 				/>
 			) : (
 				<LoadingText/>

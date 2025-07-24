@@ -7,9 +7,12 @@ import HorizontalLine from "@/components/general-utility-components/HorizontalLi
 import Button from "@/components/project-specific-utility-components/Button.jsx";
 import If from "@/components/general-utility-components/If.jsx";
 import Contact from "@/components/contacts/Contact.jsx";
+import * as payCycleService from "@/services/payCycleService.js";
 
 
-export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user, onLeft, onRight }) {
+export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user, onLeft, onRight, updatePayCycle }) {
+	
+	const isSupervisor = !!user;
 	
 	const {
 		totalHoursWorked,
@@ -19,12 +22,23 @@ export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user,
 		payCycle,
 		shifts,
 	} = payCycleSummary;
+	const { payCycleId=null, paymentSent=false, paymentReceived=false, paymentMethod=null } = payCycle ?? {};
 	
-	const { payCycleID=null, paymentSent=false, paymentReceived=false, paymentMethod=null } = payCycle ?? {};
+	
+	async function confirmSent() {
+		await payCycleService.confirmSent(user.userId, ...dateRange, payCycleId);
+		await updatePayCycle();
+	}
+	
+	async function confirmReceived() {
+		await payCycleService.confirmReceived(payCycleId);
+		await updatePayCycle();
+	}
+	
 	
 	return (
 		<Card>
-			<If condition={user}>
+			<If condition={isSupervisor}>
 				<Contact user={user} style={{ marginHorizontal: "auto", marginTop: -5, marginBottom: 5 }}/>
 			</If>
 			
@@ -51,10 +65,13 @@ export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user,
 			<HorizontalLine color="soft" length={"100%"}/>
 			
 			<StyledText look="25 light veryHard">
-				{paymentSent? `Payment sent. Method: ${paymentMethod}` : "Payment not yet sent"}
+				{paymentReceived? `Payment received (${paymentMethod})` : paymentSent? `Payment sent (${paymentMethod})` : "Payment not yet sent"}
 			</StyledText>
-			<If condition={paymentSent}>
-				<Button style={{ width: "100%" }}>Confirm received</Button>
+			<If condition={!isSupervisor && paymentSent && !paymentReceived}>
+				<Button style={{ width: "100%" }} onPress={confirmReceived}>Confirm received</Button>
+			</If>
+			<If condition={isSupervisor && !paymentSent}>
+				<Button style={{ width: "100%" }} onPress={confirmSent}>Confirm sent</Button>
 			</If>
 			
 		</Card>
