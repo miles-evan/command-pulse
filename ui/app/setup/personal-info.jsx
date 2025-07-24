@@ -6,7 +6,7 @@ import BackButton from "@/components/project-specific-utility-components/BackBut
 import InputBubble from "@/components/form-card/InputBubble";
 import SubmitButton from "@/components/form-card/SubmitButton";
 import Gap from "@/components/general-utility-components/Gap.jsx";
-import {router, useLocalSearchParams} from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import * as userService from "@/services/userService";
 import * as companyService from "@/services/companyService";
 import { validatePersonalInfo } from "@/utils/validation";

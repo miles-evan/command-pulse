@@ -7,7 +7,7 @@ export default function useContactsList() {
 	
 	const globalState = useGlobalState();
 	const [loading, setLoading] = useState(true);
-	const [contacts, setContacts] = useState({ supervisors: [], officers: [] });
+	const [contacts, setContacts] = useState(globalState.contacts ?? { supervisors: [], officers: [] });
 	
 	
 	useEffect(() => {

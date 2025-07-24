@@ -13,9 +13,9 @@ export default function PayCycleIndex() {
 	useEffect(() => {
 		if(!isFocused) return;
 		if(globalState.isSupervisor) {
-			router.replace("/(tabs)/pay-cycles/my-pay-cycles");
+			router.replace("/(tabs)/pay-cycles/contacts-list");
 		} else {
-			router.replace("/(tabs)/pay-cycles/my-pay-cycles");
+			router.replace("/(tabs)/pay-cycles/see-pay-cycles");
 		}
 	}, [isFocused]);
 	
