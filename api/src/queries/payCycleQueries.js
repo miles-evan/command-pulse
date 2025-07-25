@@ -8,27 +8,55 @@ export async function getPayCycleSummary(userId, startDate, endDate) {
 	const shifts = await getShiftsInDateRange(userId, startDate, endDate);
 	const payCycle = await getPayCycle(userId, startDate, endDate);
 	
-	const summary = shifts.reduce((acc, shift) => {
-		shift.hoursWorked = shift.clockInTime? compareTimes(shift.endTime, shift.startTime) : 0;
-		acc.totalHoursWorked += shift.hoursWorked;
-		acc.totalEarning += shift.hoursWorked * shift.payRate;
-		
-		shift.hoursWorkedRevised = null;
-		for(const revision of payCycle?.hoursWorkedRevisions ?? []) {
-			if(revision.shiftId.toString() === shift.shiftId.toString())
-				shift.hoursWorkedRevised = revision.hoursWorked;
-		}
-		acc.totalHoursWorkedRevised += shift.hoursWorkedRevised ?? shift.hoursWorked;
-		acc.totalEarningRevised += (shift.hoursWorkedRevised ?? shift.hoursWorked) * shift.payRate;
-		
-		return acc;
-	},
-	{ totalHoursWorked: 0, totalHoursWorkedRevised: 0, totalEarning: 0, totalEarningRevised: 0 });
+	const summary = computeSummary(shifts, payCycle);
 	
 	let { hoursWorkedRevisions, ...projectedPayCycle } = payCycle ?? {}; // pull hoursWorkedRevisions out of payCycle
 	if(!payCycle) projectedPayCycle = null;
 	
 	return { ...summary, payCycle: projectedPayCycle, shifts };
+}
+
+
+// computes totals and also cleans payCycle object
+async function computeSummary(shifts, payCycle) {
+	const redundancies = {};
+	
+	const revisionsMap = {};
+	for(const revision of payCycle?.hoursWorkedRevisions ?? []) {
+		revisionsMap[revision.shiftId.toString()] = revision.hoursWorked;
+	}
+	
+	// compute summary
+	const summary = { totalHoursWorked: 0, totalHoursWorkedRevised: 0, totalEarning: 0, totalEarningRevised: 0 };
+	for (const shift of shifts) {
+		shift.hoursWorked = shift.clockInTime? compareTimes(shift.endTime, shift.startTime) : 0;
+		summary.totalHoursWorked += shift.hoursWorked;
+		summary.totalEarning += shift.hoursWorked * shift.payRate;
+		
+		const shiftId = shift.shiftId.toString();
+		if (revisionsMap[shiftId] === shift.hoursWorked) {
+			delete revisionsMap[shiftId];
+			redundancies[shiftId] = true;
+		}
+		
+		shift.hoursWorkedRevised = revisionsMap[shiftId] ?? null;
+		const revised = shift.hoursWorkedRevised ?? shift.hoursWorked;
+		summary.totalHoursWorkedRevised += revised;
+		summary.totalEarningRevised += revised * shift.payRate;
+	}
+	
+	// clean payCycle
+	await PayCycle.findByIdAndUpdate(
+		payCycle?.payCycleId,
+		{ $pull: {
+			hoursWorkedRevisions: {
+				shiftId: { $in: Object.keys(redundancies) }
+			}
+		}}
+	);
+	
+	
+	return summary;
 }
 
 
@@ -44,12 +72,16 @@ async function getPayCycle(userId, startDate, endDate) {
 }
 
 
+// this is just so other files don't interact with the database directly
 export async function getPayCycleById(payCycleId) {
 	return PayCycle.findById(payCycleId);
 }
 
 
-// either give userId, startDate, and endDate OR give payCycleId
+// --------------------------------
+
+
+// either give (userId, startDate, and endDate) OR give (payCycleId)
 export async function confirmPaymentSent(userId, startDate, endDate, payCycleId=null, paymentMethod="cash") {
 	if(!payCycleId) payCycleId = await createPayCycle(userId, startDate, endDate);
 	await PayCycle.findByIdAndUpdate(payCycleId, { paymentSent: true, paymentMethod: paymentMethod });
@@ -62,7 +94,10 @@ export async function confirmPaymentReceived(payCycleId) {
 }
 
 
-// either give userId, startDate, and endDate OR give payCycleId
+// --------------------------------
+
+
+// either give (userId, startDate, and endDate) OR give (payCycleId)
 // overrides and replaces current revisions
 export async function reviseHours(userId, startDate, endDate, payCycleId=null, hoursWorkedRevisions) {
 	if(!payCycleId) payCycleId = await createPayCycle(userId, startDate, endDate);
