@@ -23,13 +23,13 @@ export default function Shifts() {
 	const [revisions, setRevisions] = useState({});
 	
 	// not the best practice, but I don't want to prop drill or use the context api
-	globalState.context = { revisions, setRevisions, paymentSent }
-	
+	globalState.context = { setRevisions, paymentSent }
+	console.log(revisions)
 	
 	async function submitRevisions() {
 		setLoadingSubmit(true);
 		const hoursWorkedRevisions =
-			labelKeysAndValues(breakUpKeyValuePairs(globalState.context.revisions), "shiftId", "hoursWorked");
+			labelKeysAndValues(breakUpKeyValuePairs(revisions), "shiftId", "hoursWorked");
 		if(payCycleId) await payCycleService.reviseHours(null, null, null, payCycleId, hoursWorkedRevisions);
 		else await payCycleService.reviseHours(user.userId, ...dateRange, null, hoursWorkedRevisions);
 		updatePayCycle();
@@ -48,11 +48,11 @@ export default function Shifts() {
 				Shifts
 			</StyledText>
 			
-			<If condition={isSupervisor && !paymentSent}>
+			<If condition={isSupervisor && !paymentSent && Object.keys(revisions).length !== 0}>
 				<Button
 					look="white"
 					onPress={submitRevisions}
-					disabled={loadingSubmit || Object.keys(revisions).length === 0}
+					disabled={loadingSubmit}
 					style={{ marginVertical: 15 }}
 				>
 					Submit revisions

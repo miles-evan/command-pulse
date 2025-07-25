@@ -49,8 +49,10 @@ export default function ShiftCard({ shift, mode="default" }) {
 		<Card style={{
 			paddingHorizontal: 25,
 			marginTop: 0,
-			...(stage > 0 && { borderColor: Colors.accent }),
-			...(stage === 3 && { borderColor: Colors.mediumHard }),
+			...(mode === "default" && {
+				...(stage > 0 && { borderColor: Colors.accent }),
+				...(stage === 3 && { borderColor: Colors.mediumHard }),
+			}),
 		}}>
 			
 			<DateAndTime date={date} startTime={startTime} endTime={endTime}/>

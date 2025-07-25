@@ -10,17 +10,11 @@ import EditButton from "@/components/project-specific-utility-components/EditBut
 
 export default function ShiftCardPayCycleExtension({ shift, isSupervisor }) {
 	
-	let {
-		clockInTime,
-		clockOutTime,
-		hoursWorked,
-		hoursWorkedRevised,
-		newHoursWorkedRevised=hoursWorkedRevised
-	} = shift;
+	let { clockInTime, clockOutTime, hoursWorked, hoursWorkedRevised } = shift;
 	
 	const [value, setValue] = useState();
 	const [revision, setRevision] = useState(null);
-	const { revisions, setRevisions, paymentSent } = useGlobalState().context;
+	const { setRevisions, paymentSent } = useGlobalState().context;
 	const [revising, setRevising] = useState(false);
 	
 	
@@ -57,26 +51,31 @@ export default function ShiftCardPayCycleExtension({ shift, isSupervisor }) {
 		<>
 			<HorizontalLine length="100%" style={{ marginVertical: 10 }}/>
 			
-			<If condition={isSupervisor && !paymentSent && revising}>
+			{/* Edit button */}
+			<If condition={isSupervisor && !paymentSent}>
 				<EditButton withCancelButton onEdit={onEdit} onDone={onDone} onCancel={onCancel}/>
 			</If>
 			
+			{/* Clock in/out */}
 			<StyledText look="24 light veryHard" hCenter={false}>
 				{"Clock in/out: "
 					+ (clockInTime? superShortenTime(clockInTime): "N/A") + "-"
 					+ (clockOutTime? superShortenTime(clockOutTime): "N/A")}
 			</StyledText>
 			
+			{/* Hours registered */}
 			<StyledText look="24 light veryHard" hCenter={false} style={{ marginTop: -3 }}>
-				{`Hours registered: ${!isSupervisor && newHoursWorkedRevised !== null? newHoursWorkedRevised : hoursWorked}hrs`}
+				{`Hours registered: ${!isSupervisor? hoursWorkedRevised ?? hoursWorked : hoursWorked}hrs`}
 			</StyledText>
 			
+			{/* Revised hours */}
 			<If condition={isSupervisor && (hoursWorkedRevised !== null || revision !== null)}>
 				<StyledText look="24 light altAccent veryHard" hCenter={false} style={{ marginTop: -3 }}>
 					{`Revised: ${revision === null? hoursWorkedRevised : revision}hrs`}
 				</StyledText>
 			</If>
 			
+			{/* Text box */}
 			<If condition={isSupervisor && !paymentSent && revising}>
 				<StyledTextInput
 					keyboardType="numeric"

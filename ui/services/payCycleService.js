@@ -8,7 +8,7 @@ export const getSummary = async (userId=null, startDate, endDate) =>
 	await BetterFetch.get(rootURL + (userId? `/${userId}` : ""), { startDate, endDate });
 
 // confirm payment sent
-export const confirmSent = async (userId=null, startDate=null, endDate=null, payCycleId=null) =>
+export const confirmSent = async (userId, startDate, endDate, payCycleId=null) =>
 	await BetterFetch.post(rootURL + `/confirm-sent`, { userId, startDate, endDate, payCycleId });
 
 // confirm payment received
@@ -16,5 +16,5 @@ export const confirmReceived = async payCycleId =>
 	await BetterFetch.post(rootURL + `/confirm-received`, { payCycleId });
 
 // revise hours worked
-export const reviseHours = async (userId=null, startDate=null, endDate=null, payCycleId=null, hoursWorkedRevisions) =>
+export const reviseHours = async (userId, startDate, endDate, payCycleId=null, hoursWorkedRevisions) =>
 	await BetterFetch.post(rootURL + `/revise-hours`, { userId, startDate, endDate, payCycleId, hoursWorkedRevisions });

@@ -8,9 +8,10 @@ export async function getPayCycleSummary(userId, startDate, endDate) {
 	const shifts = await getShiftsInDateRange(userId, startDate, endDate);
 	const payCycle = await getPayCycle(userId, startDate, endDate);
 	
-	const summary = computeSummary(shifts, payCycle);
+	const { summary, cleanedPayCycle  } = await computeSummary(shifts, payCycle);
 	
-	let { hoursWorkedRevisions, ...projectedPayCycle } = payCycle ?? {}; // pull hoursWorkedRevisions out of payCycle
+	// pull hoursWorkedRevisions out of cleanedPayCycle
+	let { hoursWorkedRevisions, ...projectedPayCycle } = cleanedPayCycle ?? {};
 	if(!payCycle) projectedPayCycle = null;
 	
 	return { ...summary, payCycle: projectedPayCycle, shifts };
@@ -54,9 +55,9 @@ async function computeSummary(shifts, payCycle) {
 			}
 		}}
 	);
+	const cleanedPayCycle = await getPayCycleById(payCycle?.payCycleId);
 	
-	
-	return summary;
+	return { summary, cleanedPayCycle };
 }
 
 
@@ -74,7 +75,10 @@ async function getPayCycle(userId, startDate, endDate) {
 
 // this is just so other files don't interact with the database directly
 export async function getPayCycleById(payCycleId) {
-	return PayCycle.findById(payCycleId);
+	const payCycle = await PayCycle.findById(payCycleId).lean();
+	if(!payCycle) return null;
+	const { _id, ...rest } = payCycle;
+	return { payCycleId: _id.toString(), ...rest }
 }
 
 

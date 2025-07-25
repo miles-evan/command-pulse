@@ -20,6 +20,7 @@ export function payCyclePermissions(pathFromRequestToPayCycleId, paymentSent=tru
 		const payCycleId = extractFromRequest(request, payCycleIdPathArray);
 		
 		const payCycle = await getPayCycleById(payCycleId);
+		console.log(payCycle)
 		if(payCycle.paymentSent !== paymentSent)
 			return response.status(403).send({ message: `payment must ${paymentSent? "" : "not "}have been sent` });
 		
