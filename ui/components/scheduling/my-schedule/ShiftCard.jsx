@@ -12,9 +12,13 @@ import { Colors } from "@/constants/Colors.js";
 import { useEffect, useState } from "react";
 import * as shiftService from "@/services/shiftService.js";
 import { computeShiftStage } from "@/components/scheduling/my-schedule/computeShiftStage.js";
+import StyledText from "@/components/general-utility-components/StyledText.jsx";
+import { superShortenTime } from "@/utils/dateUtils.js";
 
 
-export default function ShiftCard({ shift }) {
+// default mode shows the shifts like when you're viewing your schedule, lets you clock in and out
+// pay cycle modes ("pay cycle supervisor" and "pay cycle officer") show information like registered and revised hours
+export default function ShiftCard({ shift, mode="default" }) {
 	
 	const {
 		shiftId, firstName, lastName, date, startTime, endTime, location, payRate, clockInTime, clockOutTime
@@ -52,26 +56,41 @@ export default function ShiftCard({ shift }) {
 			<Gap size={5}/>
 			<LocationAndPayRate location={location} payRate={payRate}/>
 			
-			<If condition={stage > 0}>
+			{mode === "default"? (
 				
-				<Gap size={5}/>
-				<HorizontalLine length="100%"/>
-				<Gap size={5}/>
+				<If condition={stage > 0}>
+					<HorizontalLine length="100%" style={{ marginVertical: 5 }}/>
+					<FlexRowSpaceAround>
+						{stage === 1? (
+							<ClockInButton onPress={clockIn}/>
+						) : stage === 2? (<>
+							<IncidentButton/>
+							<ClockOutButton onPress={ clockOut }/>
+						</>) : stage === 3? (
+							<IncidentButton/>
+						) : null}
+					</FlexRowSpaceAround>
+				</If>
 				
-				<FlexRowSpaceAround>
-					<If condition={stage === 1}>
-						<ClockInButton onPress={clockIn}/>
-					</If>
-					<If condition={stage === 2}>
-						<IncidentButton/>
-						<ClockOutButton onPress={clockOut}/>
-					</If>
-					<If condition={stage === 3}>
-						<IncidentButton/>
-					</If>
-				</FlexRowSpaceAround>
+			) : mode === "pay cycle officer" || mode === "pay cycle supervisor"? (<>
 				
-			</If>
+				<HorizontalLine length="100%" style={{ marginVertical: 5 }}/>
+				<StyledText look="24 light veryHard" hCenter={false}>
+					{"Clock in/out: "
+					+ (clockInTime? superShortenTime(clockInTime): "N/A") + "-"
+					+ (clockOutTime? superShortenTime(clockOutTime): "N/A")}
+				</StyledText>
+				<StyledText look="24 light veryHard" hCenter={false}>
+					{`Hours registered: ${shift.hoursWorked}`}
+				</StyledText>
+				<If condition={shift.hoursWorkedRevised !== null}>
+					<StyledText look="24 light veryHard" hCenter={false}>
+						{`Revised: ${shift.hoursWorkedRevised}`}
+					</StyledText>
+				</If>
+				
+			</>) : null}
+			
 			
 		</Card>
 	);

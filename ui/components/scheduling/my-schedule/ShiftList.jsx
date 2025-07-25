@@ -57,12 +57,12 @@ export default function ShiftList({ dir, isFocused }) {
 	return (
 		<FlatList
 			data={shifts}
-			keyExtractor={(_, index) => index.toString()}
+			keyExtractor={shift => shift.shiftId}
 			renderItem={({ item: shift }) => <ShiftCard shift={shift} />}
 			keyboardDismissMode="on-drag"
-			onEndReached={() => {if(shifts.length > 0) {
-				loadShifts();
-			}}}
+			onEndReached={() => {
+				if(shifts.length > 0) loadShifts();
+			}}
 			onEndReachedThreshold={0.5}
 			ItemSeparatorComponent={() => <Gap size={32} />}
 			ListFooterComponent={() => (

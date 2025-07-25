@@ -8,7 +8,6 @@ import LoadingText from "@/components/project-specific-utility-components/Loadin
 import { useLocalSearchParams } from "expo-router";
 import BackButton from "@/components/project-specific-utility-components/BackButton.jsx";
 import If from "@/components/general-utility-components/If.jsx";
-import Contact from "@/components/contacts/Contact.jsx";
 
 
 export default function SeePayCycles() {

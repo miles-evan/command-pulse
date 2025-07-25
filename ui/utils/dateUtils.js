@@ -118,7 +118,7 @@ export function shortenDate(date) {
 }
 
 
-// "08:30 AM" -> "8:30am"
+// "08:00 PM" -> "8:00pm"
 export function shortenTime(time) {
 	const parts = time.split(/[: ]/);
 	return `${removeZeroPad(parts[0])}:${parts[1]}${parts[2].toLowerCase()}`;

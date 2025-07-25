@@ -5,10 +5,10 @@ import { Pressable } from "react-native";
 import { router } from "expo-router";
 
 
-export default function BackButton() {
+export default function BackButton({ style }) {
 	
 	return (
-		<Pressable onPress={router.back} style={{ flexDirection: "row", marginHorizontal: 10 }}>
+		<Pressable onPress={router.back} style={{ flexDirection: "row", width: "90%", marginHorizontal: "auto", ...style }}>
 			
 			<MaterialIcons name="arrow-back-ios" size={24} color={Colors.accent} />
 			

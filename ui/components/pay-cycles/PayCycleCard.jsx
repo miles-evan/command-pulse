@@ -8,12 +8,15 @@ import Button from "@/components/project-specific-utility-components/Button.jsx"
 import If from "@/components/general-utility-components/If.jsx";
 import Contact from "@/components/contacts/Contact.jsx";
 import * as payCycleService from "@/services/payCycleService.js";
+import { router } from "expo-router";
+import { useGlobalState } from "@/hooks/useGlobalState.js";
+import FlexRow from "@/components/general-utility-components/FlexRow.jsx";
 
 
 export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user, onLeft, onRight, updatePayCycle }) {
 	
+	const globalState = useGlobalState();
 	const isSupervisor = !!user;
-	
 	const {
 		totalHoursWorked,
 		totalHoursWorkedRevised,
@@ -36,6 +39,12 @@ export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user,
 	}
 	
 	
+	function seeShifts() {
+		globalState.params = { user, shifts }
+		router.push("/(tabs)/pay-cycles/shifts")
+	}
+	
+	
 	return (
 		<Card>
 			<If condition={isSupervisor}>
@@ -52,9 +61,15 @@ export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user,
 			
 			<HorizontalLine color="soft" length={"100%"}/>
 			
-			<StyledText look="25 light veryHard" hCenter={false}>
-				{`Worked: ${totalHoursWorkedRevised}hrs`}
-			</StyledText>
+			<FlexRow>
+				<StyledText look="25 light veryHard" hCenter={false}>
+					{"Worked: "}
+				</StyledText>
+				<StyledText look="25 light accent" hCenter={false} onPress={seeShifts}>
+					{`${totalHoursWorkedRevised}hrs`}
+				</StyledText>
+			</FlexRow>
+			
 			<StyledText look="25 light veryHard" hCenter={false}>
 				{`Average pay rate: $${totalHoursWorkedRevised === 0? 0 : totalEarningRevised / totalHoursWorkedRevised}/hr`}
 			</StyledText>
