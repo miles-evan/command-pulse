@@ -5,18 +5,14 @@ import PayCycleCard from "@/components/pay-cycles/PayCycleCard.jsx";
 import useFetchPayCycle from "@/hooks/useFetchPayCycle.js";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
-import { useLocalSearchParams } from "expo-router";
 import BackButton from "@/components/project-specific-utility-components/BackButton.jsx";
 import If from "@/components/general-utility-components/If.jsx";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
-import { useIsScreenFocused } from "@/hooks/useIsScreenFocused.js";
-import { useEffect } from "react";
 
 
 export default function SeePayCycles() {
 	
-	let { user } = useGlobalState().params;
-	if(Object.keys(user).length === 0) user = null;
+	let { user=null } = useGlobalState().params;
 	const isSupervisor = !!user;
 	const {
 		dateRange, payDay, previousPayCycleSummary, nextPayCycleSummary, updatePayCycle, payCycleSummary, isLoading

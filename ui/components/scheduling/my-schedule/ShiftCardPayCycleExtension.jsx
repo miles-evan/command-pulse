@@ -57,7 +57,9 @@ export default function ShiftCardPayCycleExtension({ shift, isSupervisor }) {
 		<>
 			<HorizontalLine length="100%" style={{ marginVertical: 10 }}/>
 			
-			<EditButton withCancelButton onEdit={onEdit} onDone={onDone} onCancel={onCancel}/>
+			<If condition={isSupervisor && !paymentSent && revising}>
+				<EditButton withCancelButton onEdit={onEdit} onDone={onDone} onCancel={onCancel}/>
+			</If>
 			
 			<StyledText look="24 light veryHard" hCenter={false}>
 				{"Clock in/out: "
@@ -75,17 +77,15 @@ export default function ShiftCardPayCycleExtension({ shift, isSupervisor }) {
 				</StyledText>
 			</If>
 			
-			<If condition={isSupervisor}>
-				<If condition={!paymentSent && revising}>
-					<StyledTextInput
-						keyboardType="numeric"
-						placeholder="Revise hours"
-						onChangeText={setValue}
-						value={value}
-						color="altAccent"
-						style={{ fontSize: 24, textAlign: undefined }}
-					/>
-				</If>
+			<If condition={isSupervisor && !paymentSent && revising}>
+				<StyledTextInput
+					keyboardType="numeric"
+					placeholder="Revise hours"
+					onChangeText={setValue}
+					value={value}
+					color="altAccent"
+					style={{ fontSize: 24, textAlign: undefined }}
+				/>
 			</If>
 		
 		</>

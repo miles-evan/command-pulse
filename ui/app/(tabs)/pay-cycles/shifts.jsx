@@ -29,7 +29,7 @@ export default function Shifts() {
 	async function submitRevisions() {
 		setLoadingSubmit(true);
 		const hoursWorkedRevisions =
-			labelKeysAndValues(breakUpKeyValuePairs(globalState.revisions), "shiftId", "hoursWorked");
+			labelKeysAndValues(breakUpKeyValuePairs(globalState.context.revisions), "shiftId", "hoursWorked");
 		if(payCycleId) await payCycleService.reviseHours(null, null, null, payCycleId, hoursWorkedRevisions);
 		else await payCycleService.reviseHours(user.userId, ...dateRange, null, hoursWorkedRevisions);
 		updatePayCycle();
@@ -48,7 +48,7 @@ export default function Shifts() {
 				Shifts
 			</StyledText>
 			
-			<If condition={!paymentSent}>
+			<If condition={isSupervisor && !paymentSent}>
 				<Button
 					look="white"
 					onPress={submitRevisions}

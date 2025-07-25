@@ -10,7 +10,7 @@ import CheckAuthentication from "@/components/CheckAuthentication";
 import { GlobalStateContext } from "@/utils/GlobalStateContext";
 
 
-const globalState = {};
+const globalState = { params: {}, context: {} };
 
 
 export default function TabLayout() {

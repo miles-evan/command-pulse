@@ -29,7 +29,8 @@ export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user,
 	
 	
 	async function confirmSent() {
-		await payCycleService.confirmSent(user.userId, ...dateRange, payCycleId);
+		if(payCycleId) await payCycleService.confirmSent(null, null, null, payCycleId);
+		else await payCycleService.confirmSent(user.userId, ...dateRange, null);
 		await updatePayCycle();
 	}
 	
@@ -47,9 +48,10 @@ export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user,
 	
 	return (
 		<Card>
-			<If condition={isSupervisor}>
+			{isSupervisor && (
 				<Contact user={user} style={{ marginHorizontal: "auto", marginTop: -5, marginBottom: 5 }}/>
-			</If>
+			)}
+			
 			
 			<LeftRightSelector onLeft={onLeft} onRight={onRight}>{formatDateRange(dateRange)}</LeftRightSelector>
 			
