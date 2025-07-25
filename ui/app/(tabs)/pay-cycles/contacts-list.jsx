@@ -4,15 +4,17 @@ import SafeAreaViewWithBackground
 import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import { router } from "expo-router";
+import { useGlobalState } from "@/hooks/useGlobalState.js";
 
 
 export default function PayCycleContactsList() {
 	
+	const globalState = useGlobalState();
+	
+	
 	function onPressContact(user) {
-		router.push({
-			pathname: "/(tabs)/pay-cycles/see-pay-cycles",
-			params: { ...user },
-		});
+		globalState.params = { user };
+		router.push("/(tabs)/pay-cycles/see-pay-cycles");
 	}
 	
 	

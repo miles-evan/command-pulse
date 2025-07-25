@@ -18,6 +18,12 @@ export function sortObjectByKeys(obj, compare) {
 }
 
 
+//  { z: 1, y: 2, x: 3 } -> [{ z: 1 }, { y: 2 }, { x: 3 }]
+export function breakUpKeyValuePairs(obj) {
+	return Object.keys(obj).map(key => ({ [key]: obj[key] }));
+}
+
+
 // arr should be an array of objects with only one key-value pair each
 export function labelKeysAndValues(arr, keyName, valueName) {
 	return arr.map(obj => labelKeyAndValue(obj, keyName, valueName));

@@ -14,6 +14,7 @@ import * as shiftService from "@/services/shiftService.js";
 import { computeShiftStage } from "@/components/scheduling/my-schedule/computeShiftStage.js";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { superShortenTime } from "@/utils/dateUtils.js";
+import ShiftCardPayCycleExtension from "@/components/scheduling/my-schedule/ShiftCardPayCycleExtension.jsx";
 
 
 // default mode shows the shifts like when you're viewing your schedule, lets you clock in and out
@@ -71,25 +72,12 @@ export default function ShiftCard({ shift, mode="default" }) {
 						) : null}
 					</FlexRowSpaceAround>
 				</If>
-				
-			) : mode === "pay cycle officer" || mode === "pay cycle supervisor"? (<>
-				
-				<HorizontalLine length="100%" style={{ marginVertical: 5 }}/>
-				<StyledText look="24 light veryHard" hCenter={false}>
-					{"Clock in/out: "
-					+ (clockInTime? superShortenTime(clockInTime): "N/A") + "-"
-					+ (clockOutTime? superShortenTime(clockOutTime): "N/A")}
-				</StyledText>
-				<StyledText look="24 light veryHard" hCenter={false}>
-					{`Hours registered: ${shift.hoursWorked}`}
-				</StyledText>
-				<If condition={shift.hoursWorkedRevised !== null}>
-					<StyledText look="24 light veryHard" hCenter={false}>
-						{`Revised: ${shift.hoursWorkedRevised}`}
-					</StyledText>
-				</If>
-				
-			</>) : null}
+			
+			) : mode === "pay cycle supervisor"? (
+				<ShiftCardPayCycleExtension shift={shift} isSupervisor={true}/>
+			) : mode === "pay cycle officer"? (
+				<ShiftCardPayCycleExtension shift={shift} isSupervisor={false}/>
+			) : null}
 			
 			
 		</Card>

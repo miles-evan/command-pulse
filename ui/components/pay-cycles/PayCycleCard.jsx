@@ -40,7 +40,7 @@ export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user,
 	
 	
 	function seeShifts() {
-		globalState.params = { user, shifts }
+		globalState.params = { user, shifts, dateRange, payCycleId, paymentSent, updatePayCycle }
 		router.push("/(tabs)/pay-cycles/shifts")
 	}
 	
@@ -71,7 +71,7 @@ export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user,
 			</FlexRow>
 			
 			<StyledText look="25 light veryHard" hCenter={false}>
-				{`Average pay rate: $${totalHoursWorkedRevised === 0? 0 : totalEarningRevised / totalHoursWorkedRevised}/hr`}
+				{`Average pay rate: $${totalHoursWorkedRevised === 0? 0 : (totalEarningRevised / totalHoursWorkedRevised).toFixed(2)}/hr`}
 			</StyledText>
 			<StyledText look="25 semibold veryHard" hCenter={false}>
 				{`Total: $${totalEarningRevised}`}

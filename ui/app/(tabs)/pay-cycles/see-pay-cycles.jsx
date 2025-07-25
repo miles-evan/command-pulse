@@ -8,15 +8,20 @@ import LoadingText from "@/components/project-specific-utility-components/Loadin
 import { useLocalSearchParams } from "expo-router";
 import BackButton from "@/components/project-specific-utility-components/BackButton.jsx";
 import If from "@/components/general-utility-components/If.jsx";
+import { useGlobalState } from "@/hooks/useGlobalState.js";
+import { useIsScreenFocused } from "@/hooks/useIsScreenFocused.js";
+import { useEffect } from "react";
 
 
 export default function SeePayCycles() {
 	
-	let user = useLocalSearchParams();
+	let { user } = useGlobalState().params;
 	if(Object.keys(user).length === 0) user = null;
+	const isSupervisor = !!user;
 	const {
 		dateRange, payDay, previousPayCycleSummary, nextPayCycleSummary, updatePayCycle, payCycleSummary, isLoading
 	} = useFetchPayCycle(user?.userId);
+	
 	
 	return (
 		<SafeAreaViewWithBackground>
@@ -24,7 +29,7 @@ export default function SeePayCycles() {
 			<TabHeader/>
 			
 			<Gap size={5}/>
-			<If condition={user}>
+			<If condition={isSupervisor}>
 				<BackButton/>
 				<Gap size={15}/>
 			</If>
