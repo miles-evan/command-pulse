@@ -63,8 +63,10 @@ async function computeSummary(shifts, payCycle) {
 
 
 async function getPayCycle(userId, startDate, endDate) {
+	const user = await User.findById(userId).select("payCycleIds").lean();
+	
 	const [payCycle=null] = await PayCycle.aggregate([
-		{ $match: { userId: new mongoose.Types.ObjectId(userId), startDate, endDate } },
+		{ $match: { _id: { $in: user.payCycleIds }, startDate, endDate } },
 		{ $project: {
 			_id: 0, payCycleId: "$_id", hoursWorkedRevisions: 1, paymentSent: 1, paymentReceived: 1, paymentMethod: 1
 		}}
