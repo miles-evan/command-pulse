@@ -5,15 +5,34 @@ import TabHeader from "@/components/project-specific-utility-components/TabHeade
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import { router } from "expo-router";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
+import { useEffect, useMemo, useState } from "react";
+import useContactsList from "@/hooks/useContactsList.js";
+import { getPayCycleRange } from "@/utils/dateUtils.js";
+import * as payCycleService from "@/services/payCycleService.js";
 
 
 export default function PayCycleContactsList() {
 	
 	const globalState = useGlobalState();
+	const { contacts, loading: loadingContacts } = useContactsList();
+	const flatContacts = useMemo(() => [...contacts.supervisors, ...contacts.officers], [contacts])
+	const [currentPayCycles, setCurrentPayCycles] = useState({});
+	
+	
+	useEffect(() => {
+		if(loadingContacts) return;
+		
+		const dateRange = getPayCycleRange().dateRange;
+		flatContacts.forEach(async user => {
+			const payCycleSummary =
+				(await payCycleService.getSummary(user.userId, ...dateRange)).body;
+			setCurrentPayCycles(prev => ({ ...prev, [user.userId]: payCycleSummary }));
+		});
+	}, [loadingContacts]);
 	
 	
 	function onPressContact(user) {
-		globalState.params = { user };
+		globalState.params = { user, currentPayCycles };
 		router.push("/(tabs)/pay-cycles/see-pay-cycles");
 	}
 	

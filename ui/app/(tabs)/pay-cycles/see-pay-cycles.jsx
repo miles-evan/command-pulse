@@ -12,11 +12,11 @@ import { useGlobalState } from "@/hooks/useGlobalState.js";
 
 export default function SeePayCycles() {
 	
-	let { user=null } = useGlobalState().params;
+	let { user=null, currentPayCycles=null } = useGlobalState().params;
 	const isSupervisor = !!user;
 	const {
-		dateRange, payDay, previousPayCycleSummary, nextPayCycleSummary, updatePayCycle, payCycleSummary, isLoading
-	} = useFetchPayCycle(user?.userId);
+		dateRange, payDay, previousPayCycleSummary, nextPayCycleSummary, updatePayCycle, payCycleSummary, loading
+	} = useFetchPayCycle(user?.userId, currentPayCycles[user?.userId]);
 	
 	
 	return (
@@ -34,7 +34,7 @@ export default function SeePayCycles() {
 				Pay cycle summary
 			</StyledText>
 			
-			{!isLoading? (
+			{!loading? (
 				<PayCycleCard
 					dateRange={dateRange}
 					payDay={payDay}

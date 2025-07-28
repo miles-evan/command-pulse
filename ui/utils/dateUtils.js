@@ -90,7 +90,10 @@ export function getPayCycleRange(offset=0) {
 	payDay.setDate(end.getDate() + 5);
 	payDay.setHours(0, 0, 0, 0);
 	
-	return [[dateObjectToString(start), dateObjectToString(end)], dateObjectToString(payDay)];
+	return {
+		dateRange: [dateObjectToString(start), dateObjectToString(end)],
+		payDay: dateObjectToString(payDay),
+	};
 }
 
 

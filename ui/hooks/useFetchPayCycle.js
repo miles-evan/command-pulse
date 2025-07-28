@@ -3,11 +3,13 @@ import * as payCycleService from "@/services/payCycleService.js";
 import { getPayCycleRange } from "@/utils/dateUtils.js";
 
 
-export default function useFetchPayCycleSummary(userId=null) {
+export default function useFetchPayCycleSummary(userId=null, currentPayCycle=null) {
+	
+	console.log({ currentPayCycle })
 	
 	const [dateRangeIndex, setDateRangeIndex] = useState(0);
-	const [dateRange, payDay] = useMemo(() => getPayCycleRange(dateRangeIndex), [dateRangeIndex]);
-	const [isLoading, setIsLoading] = useState(true);
+	const { dateRange, payDay } = useMemo(() => getPayCycleRange(dateRangeIndex), [dateRangeIndex]);
+	const [loading, setLoading] = useState(true);
 	const [payCycleSummaries, setPayCycleSummaries] = useState({});
 	
 	useEffect(() => {
@@ -15,28 +17,28 @@ export default function useFetchPayCycleSummary(userId=null) {
 	}, [dateRangeIndex, userId]);
 	
 	useEffect(() => {
-		setPayCycleSummaries({});
+		setPayCycleSummaries(currentPayCycle? { 0: currentPayCycle } : {});
 		setDateRangeIndex(0);
 	}, [userId]);
 	
 	async function fetchPayCycleSummary(refetch=false) {
 		if(!(dateRangeIndex in payCycleSummaries) || refetch) {
-			setIsLoading(true);
+			setLoading(true);
 			const payCycleSummary = (await payCycleService.getSummary(userId, ...dateRange)).body;
 			setPayCycleSummaries(prev => ({ ...prev, [String(dateRangeIndex)]: payCycleSummary }));
 		}
-		setIsLoading(false);
+		setLoading(false);
 	}
 	
 	function previousPayCycleSummary() {
 		if(!(dateRangeIndex - 1 in payCycleSummaries))
-			setIsLoading(true);
+			setLoading(true);
 		setDateRangeIndex(prev => prev - 1);
 	}
 	
 	function nextPayCycleSummary() {
 		if(!(dateRangeIndex + 1 in payCycleSummaries))
-			setIsLoading(true);
+			setLoading(true);
 		setDateRangeIndex(prev => prev + 1);
 	}
 	
@@ -47,7 +49,7 @@ export default function useFetchPayCycleSummary(userId=null) {
 		nextPayCycleSummary,
 		updatePayCycle: () => fetchPayCycleSummary(true),
 		payCycleSummary: payCycleSummaries[String(dateRangeIndex)] ?? {},
-		isLoading,
+		loading,
 	}
 	
 }
