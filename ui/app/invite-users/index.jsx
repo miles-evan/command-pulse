@@ -14,6 +14,8 @@ import useInviteCodes from "@/hooks/useInviteCodes.js";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
 import Button from "@/components/project-specific-utility-components/Button.jsx";
 import OrLine from "@/components/general-utility-components/OrLine.jsx";
+import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
+import CopyButton from "@/components/project-specific-utility-components/CopyButton.jsx";
 
 
 export default function InviteUsers() {
@@ -71,7 +73,10 @@ export default function InviteUsers() {
 				<Gap size={10}/>
 				<StyledText look="32 medium mediumHard" hCenter={false}>Invite code</StyledText>
 				{!(loading || loadingReset)? (
-					<StyledText look="22 light medium" hCenter={false}>{inviteCodes[invitingWho]}</StyledText>
+					<FlexRowSpaceBetween style={{ alignItems: "center" }}>
+						<StyledText look="22 light medium" hCenter={false}>{inviteCodes[invitingWho]}</StyledText>
+						<CopyButton textToCopy={inviteCodes[invitingWho]}/>
+					</FlexRowSpaceBetween>
 				) : (
 					<LoadingText hCenter={false}/>
 				)}
