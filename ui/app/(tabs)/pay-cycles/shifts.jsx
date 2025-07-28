@@ -41,8 +41,7 @@ export default function Shifts() {
 		<SafeAreaViewWithBackground>
 			
 			<TabHeader/>
-			
-			<BackButton style={{ marginVertical: 5 }}/>
+			<BackButton/>
 			
 			<StyledText look="22 medium veryHard" hCenter={false} style={{ width: "90%", marginHorizontal: "auto" }}>
 				Shifts

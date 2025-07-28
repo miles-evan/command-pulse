@@ -8,7 +8,13 @@ import { router } from "expo-router";
 export default function BackButton({ style }) {
 	
 	return (
-		<Pressable onPress={router.back} style={{ flexDirection: "row", width: "90%", marginHorizontal: "auto", ...style }}>
+		<Pressable onPress={router.back} style={{
+			flexDirection: "row",
+			width: "90%",
+			marginHorizontal: "auto",
+			marginVertical: 5,
+			...style
+		}}>
 			
 			<MaterialIcons name="arrow-back-ios" size={24} color={Colors.accent} />
 			

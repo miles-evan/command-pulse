@@ -5,17 +5,35 @@ import { Pressable, View } from "react-native";
 import If from "@/components/general-utility-components/If.jsx";
 
 
+// shows a material icon with pressing changing the style
 export default function IconAndTextButton({
-	onPress, color="accent", pressColor="softAccent", text, iconName, size=54, style, innerContainerStyle={}, outerContainerStyle={}
+	onPress,
+    color="accent",
+    pressColor="softAccent",
+	text,
+	IconFamily=MaterialIcons,
+	iconName,
+	size=54,
+	style={}, // shortcut for outer style
+	innerContainerStyle={},
+	outerContainerStyle={},
+	fontSize,
+	fontWeight,
+	textStyle={},
 }) {
 	
 	return (
 		<Pressable style={{ alignItems: "center", ...style, ...outerContainerStyle }} onPress={onPress}>
 			{({ pressed }) => (
 				<View style={{ alignItems: "center", ...innerContainerStyle }}>
-					<MaterialIcons name={iconName} size={size} color={pressed? Colors[pressColor] : Colors[color]} />
+					<IconFamily name={iconName} size={size} color={pressed? Colors[pressColor] : Colors[color]} />
 					<If condition={text}>
-						<StyledText look={`24 medium ${pressed? pressColor : color}`} style={{ marginVertical: -3 }}>{text}</StyledText>
+						<StyledText
+							look={`${fontSize ?? 24} ${fontWeight ?? "medium"} ${pressed? pressColor : color}`}
+							style={{ marginVertical: -3, ...textStyle }}
+						>
+							{text}
+						</StyledText>
 					</If>
 				</View>
 			)}

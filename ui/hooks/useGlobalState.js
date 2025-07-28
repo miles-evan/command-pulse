@@ -1,7 +1,5 @@
-import { useContext } from "react";
-import { GlobalStateContext } from "@/utils/GlobalStateContext.js";
-
+const globalState = { params: {}, context: {}, companyName: "Loading..." }
 
 export function useGlobalState() {
-	return useContext(GlobalStateContext);
+	return globalState;
 }

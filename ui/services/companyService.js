@@ -27,6 +27,14 @@ export const companyNameIsAvailable = async companyName =>
 export const getContacts = async () =>
 	await BetterFetch.get(rootURL + "/contacts");
 
+// get invite codes
+export const getInviteCodes = async () =>
+	await BetterFetch.get(rootURL + "/invite-codes");
+
+// reset invite codes
+export const resetInviteCodes = async () =>
+	await BetterFetch.post(rootURL + "/invite-codes/reset");
+
 // get company status
 export const status = async () =>
 	await BetterFetch.get(rootURL + "/status");
