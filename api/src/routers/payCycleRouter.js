@@ -14,6 +14,8 @@ import {
 	getMyPayCycleSummaryValidation,
 	getSomeonesPayCycleSummaryValidation, reviseHoursValidation
 } from "../validation/payCycleValidation.js";
+import { sameCompanyAsUser } from "../middleware/sameCompanyAs.js";
+import { isMyPayCycle } from "../middleware/isMy.js";
 
 const payCycleRouter = Router();
 
@@ -39,6 +41,7 @@ payCycleRouter.get(
 	"/:userId",
 	...validateRequest(getSomeonesPayCycleSummaryValidation),
 	...permission("supervisor"),
+	sameCompanyAsUser("params.userId"),
 	async (request, response) => {
 		const { startDate, endDate } = request.query;
 		const { userId } = request.params;
@@ -54,6 +57,7 @@ payCycleRouter.post(
 	"/confirm-sent",
 	...validateRequest(confirmPaymentSentValidation),
 	...permission("supervisor"),
+	sameCompanyAsUser("body.userId"),
 	async (request, response) => {
 		let { userId, startDate, endDate, payCycleId, paymentMethod="cash" } = request.body;
 		
@@ -68,6 +72,7 @@ payCycleRouter.post(
 	"/confirm-received",
 	...validateRequest(confirmPaymentReceivedValidation),
 	...permission("in company"),
+	isMyPayCycle("body.payCycleId"),
 	payCyclePermissions("body.payCycleId"),
 	async (request, response) => {
 		let { payCycleId } = request.body;
@@ -83,6 +88,7 @@ payCycleRouter.post(
 	"/revise-hours",
 	...validateRequest(reviseHoursValidation),
 	...permission("supervisor"),
+	sameCompanyAsUser("body.userId"),
 	paymentNotYetSent("body.payCycleId"),
 	async (request, response) => {
 		let { payCycleId, startDate, endDate, userId, hoursWorkedRevisions } = request.body;

@@ -2,6 +2,7 @@ import extractFromRequest from "../utils/extractFromRequest.js";
 import { getPayCycleById } from "../queries/payCycleQueries.js";
 
 
+// ensures either the payment was not sent yet OR no payCycleId was given
 export function paymentNotYetSent(pathFromRequestToPayCycleId) {
 	const payCycleIdPathArray = pathFromRequestToPayCycleId.split(".");
 	
@@ -13,6 +14,7 @@ export function paymentNotYetSent(pathFromRequestToPayCycleId) {
 }
 
 
+// checks whether the payment was sent or not
 export function payCyclePermissions(pathFromRequestToPayCycleId, paymentSent=true) {
 	const payCycleIdPathArray = pathFromRequestToPayCycleId.split(".");
 	
@@ -20,7 +22,6 @@ export function payCyclePermissions(pathFromRequestToPayCycleId, paymentSent=tru
 		const payCycleId = extractFromRequest(request, payCycleIdPathArray);
 		
 		const payCycle = await getPayCycleById(payCycleId);
-		console.log(payCycle)
 		if(payCycle.paymentSent !== paymentSent)
 			return response.status(403).send({ message: `payment must ${paymentSent? "" : "not "}have been sent` });
 		

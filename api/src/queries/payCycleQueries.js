@@ -2,6 +2,7 @@ import { PayCycle } from "../mongoose/schemas/payCycleSchema.js"
 import { getShiftsInDateRange } from "./shiftQueries.js";
 import { compareTimes } from "../utils/dateUtils.js";
 import mongoose from "mongoose";
+import { User } from "../mongoose/schemas/userSchema.js";
 
 
 export async function getPayCycleSummary(userId, startDate, endDate) {
@@ -73,7 +74,7 @@ async function getPayCycle(userId, startDate, endDate) {
 }
 
 
-// this is just so other files don't interact with the database directly
+// gets pay cycle by id and projects it (renames _id to payCycleId)
 export async function getPayCycleById(payCycleId) {
 	const payCycle = await PayCycle.findById(payCycleId).lean();
 	if(!payCycle) return null;
@@ -98,9 +99,6 @@ export async function confirmPaymentReceived(payCycleId) {
 }
 
 
-// --------------------------------
-
-
 // either give (userId, startDate, and endDate) OR give (payCycleId)
 // overrides and replaces current revisions
 export async function reviseHours(userId, startDate, endDate, payCycleId=null, hoursWorkedRevisions) {
@@ -113,5 +111,17 @@ export async function reviseHours(userId, startDate, endDate, payCycleId=null, h
 export async function createPayCycle(userId, startDate, endDate) {
 	const newPayCycle = new PayCycle({ userId, startDate, endDate });
 	await newPayCycle.save();
+	
+	await User.findByIdAndUpdate(userId, { $push: { payCycleIds: newPayCycle._id } })
+	
 	return newPayCycle.id;
+}
+
+
+// --------------------------------
+
+
+export async function userOwnsPayCycle(userId, payCycleId) {
+	const user = await User.findOne({ _id: userId, payCycleIds: payCycleId });
+	return !!user;
 }

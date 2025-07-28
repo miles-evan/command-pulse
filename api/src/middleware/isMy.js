@@ -1,5 +1,6 @@
 import extractFromRequest from "../utils/extractFromRequest.js";
 import {userOwnsShift, userOwnsShiftRequest} from "../queries/shiftQueries.js";
+import { userOwnsPayCycle } from "../queries/payCycleQueries.js";
 
 
 export function isMyShift(pathFromRequestToShiftId) {
@@ -21,6 +22,18 @@ export function isMyShiftRequest(pathFromRequestToShiftRequestId) {
 		const shiftRequestId = extractFromRequest(request, pathArray);
 		
 		if(await userOwnsShiftRequest(request.user.id, shiftRequestId)) return next();
+		return response.status(403).send({ message: "shift must belong to you" });
+	}
+}
+
+
+export function isMyPayCycle(pathFromRequestToPayCycleId) {
+	const pathArray = pathFromRequestToPayCycleId.split(".");
+	
+	return async (request, response, next) => {
+		const payCycleId = extractFromRequest(request, pathArray);
+		
+		if(await userOwnsPayCycle(request.user.id, payCycleId)) return next();
 		return response.status(403).send({ message: "shift must belong to you" });
 	}
 }
