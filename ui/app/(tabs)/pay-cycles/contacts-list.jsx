@@ -11,6 +11,7 @@ import { getPayCycleRange } from "@/utils/dateUtils.js";
 import * as payCycleService from "@/services/payCycleService.js";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Colors } from "@/constants/Colors.js";
+import { useIsScreenFocused } from "@/hooks/useIsScreenFocused.js";
 
 
 export default function PayCycleContactsList() {
@@ -19,10 +20,11 @@ export default function PayCycleContactsList() {
 	const { contacts, loading: loadingContacts } = useContactsList();
 	const flatContacts = useMemo(() => [...contacts.supervisors, ...contacts.officers], [contacts])
 	const [currentPayCycles, setCurrentPayCycles] = useState({});
+	const isScreenFocused = useIsScreenFocused();
 	
 	
 	useEffect(() => {
-		if(loadingContacts) return;
+		if(loadingContacts || !isScreenFocused) return;
 		
 		const dateRange = getPayCycleRange().dateRange;
 		flatContacts.forEach(async user => {
@@ -30,7 +32,7 @@ export default function PayCycleContactsList() {
 				(await payCycleService.getSummary(user.userId, ...dateRange)).body;
 			setCurrentPayCycles(prev => ({ ...prev, [user.userId]: payCycleSummary }));
 		});
-	}, [loadingContacts]);
+	}, [loadingContacts, isScreenFocused]);
 	
 	
 	function onPressContact(user) {

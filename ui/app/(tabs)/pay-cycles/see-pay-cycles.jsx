@@ -16,7 +16,7 @@ export default function SeePayCycles() {
 	const isSupervisor = !!user;
 	const {
 		dateRange, payDay, previousPayCycleSummary, nextPayCycleSummary, updatePayCycle, payCycleSummary, loading
-	} = useFetchPayCycle(user?.userId, currentPayCycles[user?.userId]);
+	} = useFetchPayCycle(user?.userId, currentPayCycles?.[user?.userId]);
 	
 	
 	return (
