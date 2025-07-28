@@ -14,6 +14,7 @@ export default function useInviteCodes() {
 	async function reset() {
 		setLoadingReset(true);
 		await companyService.resetInviteCodes();
+		delete globalState.inviteCodes;
 		setLoadingReset(false);
 	}
 	
@@ -27,7 +28,6 @@ export default function useInviteCodes() {
 		
 		companyService.getInviteCodes()
 			.then(({ body }) => {
-				console.log(body);
 				const newInviteCodes = {
 					officer: body.officerInviteCode,
 					supervisor: body.supervisorInviteCode
@@ -36,7 +36,7 @@ export default function useInviteCodes() {
 				setInviteCodes(newInviteCodes)
 				setLoading(false);
 			});
-	}, []);
+	}, [loadingReset]);
 	
 	
 	return { inviteCodes, loading, reset, loadingReset };

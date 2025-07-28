@@ -7,6 +7,7 @@ import LoadingText from "@/components/project-specific-utility-components/Loadin
 import If from "@/components/general-utility-components/If.jsx";
 import InviteUserButton from "@/components/contacts/InviteUserButton.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
+import Button from "@/components/project-specific-utility-components/Button.jsx";
 
 
 export default function ContactsList({

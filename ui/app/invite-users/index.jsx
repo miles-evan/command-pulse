@@ -12,6 +12,8 @@ import Gap from "@/components/general-utility-components/Gap.jsx";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import useInviteCodes from "@/hooks/useInviteCodes.js";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
+import Button from "@/components/project-specific-utility-components/Button.jsx";
+import OrLine from "@/components/general-utility-components/OrLine.jsx";
 
 
 export default function InviteUsers() {
@@ -29,7 +31,7 @@ export default function InviteUsers() {
 			<View style={{ width: "90%", marginHorizontal: "auto" }}>
 				
 				<Gap size={10}/>
-				<StyledText look="32 medium medium" hCenter={false}>Invite new user</StyledText>
+				<StyledText look="32 medium mediumHard" hCenter={false}>Invite new user</StyledText>
 				
 				<Gap size={10}/>
 				<Dropdown
@@ -52,11 +54,11 @@ export default function InviteUsers() {
 					onChange={({ value }) => setInvitingWho(value)}
 				/>
 				
-				<Gap size={10}/>
+				<Gap size={25}/>
 				<HorizontalLine length={"100%"} color="soft"/>
 				
 				<Gap size={10}/>
-				<StyledText look="32 medium medium" hCenter={false}>Invite link</StyledText>
+				<StyledText look="32 medium mediumHard" hCenter={false}>Invite link</StyledText>
 				{!(loading || loadingReset)? (
 					<StyledText look="16 light medium" hCenter={false}>Feature coming soon</StyledText>
 				) : (
@@ -64,12 +66,18 @@ export default function InviteUsers() {
 				)}
 				
 				<Gap size={10}/>
-				<StyledText look="32 medium medium" hCenter={false}>Invite code</StyledText>
+				<OrLine length="100%"/>
+				
+				<Gap size={10}/>
+				<StyledText look="32 medium mediumHard" hCenter={false}>Invite code</StyledText>
 				{!(loading || loadingReset)? (
 					<StyledText look="22 light medium" hCenter={false}>{inviteCodes[invitingWho]}</StyledText>
 				) : (
 					<LoadingText hCenter={false}/>
 				)}
+				
+				<Gap size={12}/>
+				<Button look="graySmall" onPress={reset} disabled={loadingReset}>Reset codes</Button>
 				
 			</View>
 			
