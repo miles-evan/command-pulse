@@ -9,6 +9,8 @@ import { useEffect, useMemo, useState } from "react";
 import useContactsList from "@/hooks/useContactsList.js";
 import { getPayCycleRange } from "@/utils/dateUtils.js";
 import * as payCycleService from "@/services/payCycleService.js";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { Colors } from "@/constants/Colors.js";
 
 
 export default function PayCycleContactsList() {
@@ -43,7 +45,14 @@ export default function PayCycleContactsList() {
 			<TabHeader/>
 			<Gap size={16}/>
 			
-			<ContactsList onPressContact={onPressContact}/>
+			<ContactsList
+				onPressContact={onPressContact}
+				iconAfterContact={user => (
+					currentPayCycles[user.userId]?.payCycle?.paymentSent?
+						<MaterialIcons name="check" size={32} color={Colors.accent} style={{ marginVertical: "auto" }}/>
+						: null
+				)}
+			/>
 			
 		</SafeAreaViewWithBackground>
 	);

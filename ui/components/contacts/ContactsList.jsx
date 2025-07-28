@@ -11,16 +11,24 @@ import Button from "@/components/project-specific-utility-components/Button.jsx"
 
 
 export default function ContactsList({
-	onPressContact =_=>{},
+	onPressContact=user=>{},
 	showSupervisors=true,
 	showOfficers=true,
+	iconAfterContact=user=>null,
 	showInviteButton=true
 }) {
 	
 	const { contacts: { supervisors, officers }, loading } = useContactsList();
 	
 	
-	const formatUsers = users => users.map(user => <Contact key={user.userId} user={user} onPress={() => onPressContact(user)}/>);
+	const formatUsers = users => users.map(user => (
+		<Contact
+			key={user.userId}
+			user={user}
+			onPress={() => onPressContact(user)}
+			iconAfterContact={iconAfterContact(user)}
+		/>
+	));
 	
 	
 	return (

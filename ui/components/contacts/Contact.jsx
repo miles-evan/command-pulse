@@ -3,20 +3,28 @@ import FlexRow from "@/components/general-utility-components/FlexRow.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import { Pressable } from "react-native";
+import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 
 
-export default function Contact({ user, onPress, style={} }) {
+export default function Contact({ user, onPress, style={}, iconAfterContact }) {
 	
 	return (
 		<Pressable onPress={onPress} style={style}>
 			{({ pressed }) => (
-				<FlexRow>
-					<PersonIcon/>
-					<Gap horizontal size={12}/>
-					<StyledText look={`22 regular ${pressed? "mediumSoft" : "veryHard"}`} hCenter={false} vCenter>
-						{user.firstName + " " + user.lastName}
-					</StyledText>
-				</FlexRow>
+				<FlexRowSpaceBetween>
+					
+					<FlexRow>
+						<PersonIcon/>
+						<Gap horizontal size={12}/>
+						<StyledText look={`22 regular ${pressed? "mediumSoft" : "veryHard"}`} hCenter={false} vCenter>
+							{user.firstName + " " + user.lastName}
+						</StyledText>
+					</FlexRow>
+					
+					{iconAfterContact}
+					
+				</FlexRowSpaceBetween>
+				
 			)}
 		</Pressable>
 	);
