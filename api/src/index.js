@@ -8,6 +8,7 @@ import session from "express-session";
 import shiftRouter from "./routers/shiftRouter.js";
 import cors from "cors";
 import payCycleRouter from "./routers/payCycleRouter.js";
+import incidentReportRouter from "./routers/incidentReportRouter.js";
 
 
 const app = express();
@@ -47,6 +48,7 @@ app.use("/command-pulse/api/v1/users", userRouter);
 app.use("/command-pulse/api/v1/companies", companyRouter);
 app.use("/command-pulse/api/v1/shifts", shiftRouter);
 app.use("/command-pulse/api/v1/pay-cycles", payCycleRouter);
+app.use("/command-pulse/api/v1/incident-reports", incidentReportRouter);
 
 
 // test

@@ -113,10 +113,7 @@ export async function getShifts(userId, date, time=null, dir=1, skip=0, limit=20
 				]}
 			]}
 		]
-	})
-		.sort({ date: dir, endTime: dir })
-		.skip(skip)
-		.limit(limit);
+	}).sort({ date: dir, endTime: dir }).skip(skip).limit(limit);
 	
 	return projectShifts(shifts);
 }
@@ -128,10 +125,7 @@ async function getShiftsBasedOnDay(userId, date, dir=1, skip=0, limit=20) {
 	const shifts = await Shift.find({
 		_id: { $in: user.shiftIds },
 		date: dir === 1? { $gte: date } : { $lte: date }
-	})
-		.sort({ date: dir, startTime: dir })
-		.skip(skip)
-		.limit(limit);
+	}).sort({ date: dir, startTime: dir }).skip(skip).limit(limit);
 	
 	return projectShifts(shifts);
 }
@@ -175,7 +169,7 @@ export async function getAllShifts(companyId, startDate="0000-00-00", endDate="9
 }
 
 
-async function projectShifts(shifts) {
+export async function projectShifts(shifts) {
 	const userIds = [...new Set(shifts.map(shift => shift.userId))];
 	const users = await User.find({ _id: { $in: userIds } });
 	const names = {};

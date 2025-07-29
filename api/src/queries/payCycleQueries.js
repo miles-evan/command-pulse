@@ -1,7 +1,6 @@
 import { PayCycle } from "../mongoose/schemas/payCycleSchema.js"
 import { getShiftsInDateRange } from "./shiftQueries.js";
 import { compareTimes } from "../utils/dateUtils.js";
-import mongoose from "mongoose";
 import { User } from "../mongoose/schemas/userSchema.js";
 
 
@@ -110,11 +109,12 @@ export async function reviseHours(userId, startDate, endDate, payCycleId=null, h
 }
 
 
+// creates pay cycle document and adds it to users pay cycle array
 export async function createPayCycle(userId, startDate, endDate) {
 	const newPayCycle = new PayCycle({ userId, startDate, endDate });
 	await newPayCycle.save();
 	
-	await User.findByIdAndUpdate(userId, { $push: { payCycleIds: newPayCycle._id } })
+	await User.findByIdAndUpdate(userId, { $push: { payCycleIds: newPayCycle._id } });
 	
 	return newPayCycle.id;
 }

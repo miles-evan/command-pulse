@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
         }],
         default: []
     },
-    incidentReports: {
+    incidentReportIds: {
         type: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "IncidentReport"

@@ -34,6 +34,18 @@ export function isMyPayCycle(pathFromRequestToPayCycleId) {
 		const payCycleId = extractFromRequest(request, pathArray);
 		
 		if(await userOwnsPayCycle(request.user.id, payCycleId)) return next();
-		return response.status(403).send({ message: "shift must belong to you" });
+		return response.status(403).send({ message: "pay cycle must belong to you" });
+	}
+}
+
+
+export function isMyIncidentReport(pathFromRequestToIncidentReportId) {
+	const pathArray = pathFromRequestToIncidentReportId.split(".");
+	
+	return async (request, response, next) => {
+		const incidentReportId = extractFromRequest(request, pathArray);
+		
+		if(await userOwnsIncidentReport(request.user.id, incidentReportId)) return next();
+		return response.status(403).send({ message: "incident report must belong to you" });
 	}
 }

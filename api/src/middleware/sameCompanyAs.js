@@ -3,6 +3,7 @@ import { userInSameCompanyAsShift, userInSameCompanyAsShiftRequest } from "../qu
 import extractFromRequest from "../utils/extractFromRequest.js";
 
 
+// ensures users are in same company or userId not given
 export function sameCompanyAsUser(pathFromRequestToUserId) {
 	const pathArray = pathFromRequestToUserId.split(".");
 	

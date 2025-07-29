@@ -1,4 +1,12 @@
 
+export function getTodayString() {
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = padZero(date.getMonth() + 1);
+	const day = padZero(date.getDate())
+	return `${year}-${month}-${day}`;
+}
+
 
 // difference in hours
 export function compareTimes(time1, time2) {
