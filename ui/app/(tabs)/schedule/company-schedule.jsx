@@ -12,7 +12,6 @@ export default function CompanySchedule() {
 	
 	const [week, setWeek] = useState(0);
 	const weekRange = useMemo(() => getWeekRange(week), [week]);
-	const isFocused = useIsScreenFocused();
 	
 	
 	return (
@@ -30,7 +29,7 @@ export default function CompanySchedule() {
 			
 			<Gap size={15}/>
 			
-			<ShiftLocationList weekRange={weekRange} isFocused={isFocused}/>
+			<ShiftLocationList weekRange={weekRange}/>
 		
 		</SafeAreaViewWithBackground>
 	);

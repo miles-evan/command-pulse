@@ -6,20 +6,22 @@ import { groupShiftsByLocation } from "@/utils/groupShifts.js";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import AddLocationButton from "@/components/scheduling/company-schedule/week-view/AddLocationButton.jsx";
+import { useIsScreenFocused } from "@/hooks/useIsScreenFocused.js";
+import If from "@/components/general-utility-components/If.jsx";
 
 
-export default function ShiftLocationList({ weekRange, isFocused }) {
+export default function ShiftLocationList({ weekRange }) {
 	
 	const [shiftLocations, setShiftLocations] = useState([]);
 	const [isLoading, setIsLoading] = useState([]);
 	const [newLocationsNextKey, setNewLocationsNextKey] = useState(0);
+	const isFocused = useIsScreenFocused();
 	
 	
 	useEffect(() => {
 		if(!isFocused) return;
 		(async () => {
 			setIsLoading(true);
-			setShiftLocations([]);
 			const shifts = (await shiftService.getAll(...weekRange)).body.shifts;
 			setShiftLocations(groupShiftsByLocation(shifts));
 			setIsLoading(false);
@@ -53,12 +55,11 @@ export default function ShiftLocationList({ weekRange, isFocused }) {
 				/>
 			)}
 			ItemSeparatorComponent={() => <Gap size={16} />}
+			ListHeaderComponent={(
+				<StyledText look="18 semibold hard" style={{ marginVertical: 0 }}>{isLoading? "Loading..." : " "}</StyledText>
+			)}
 			ListFooterComponent={(
-				isLoading? (
-					<StyledText look="18 semibold hard">Loading...</StyledText>
-				) : (
-					<AddLocationButton onPress={addLocation} style={{ marginBottom: 16 }}/>
-				)
+				<AddLocationButton onPress={addLocation} style={{ marginBottom: 16 }}/>
 			)}
 		/>
 	);
