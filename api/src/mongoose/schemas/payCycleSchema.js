@@ -20,7 +20,7 @@ const payCycleSchema = new mongoose.Schema({
 			shiftId: mongoose.Schema.Types.ObjectId,
 			hoursWorked: Number
 		}],
-		default: []
+		default: () => []
 	},
 	paymentSent: {
 		type: Boolean,

@@ -176,8 +176,6 @@ shiftRouter.put(
 	sameCompanyAsShifts("body.shiftIds"),
 	async (request, response) => {
 		const { shiftIds, updatedInfo } = matchedData(request);
-		console.log("shiftIds", shiftIds)
-		console.log("updatedInfo", updatedInfo)
 		
 		await updateShiftInfos(shiftIds, updatedInfo);
 		response.sendStatus(200);

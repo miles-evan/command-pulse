@@ -36,21 +36,21 @@ const userSchema = new mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: "Shift"
         }],
-        default: []
+        default: () => []
     },
     payCycleIds: {
         type: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "PayCycle"
         }],
-        default: []
+        default: () => []
     },
     incidentReportIds: {
         type: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: "IncidentReport"
         }],
-        default: []
+        default: () => []
     }
 });
 
