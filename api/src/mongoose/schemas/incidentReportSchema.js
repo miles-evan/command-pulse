@@ -1,23 +1,28 @@
 import mongoose from "mongoose";
 
 const incidentReportSchema = new mongoose.Schema({
+	userId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User",
+		required: true,
+	},
 	title: {
 		type: String,
-		required: true
+		required: true,
 	},
 	shiftId: {
 		type:  mongoose.Schema.Types.ObjectId,
 		ref: "Shift",
-		required: true
+		required: true,
 	},
 	dateCreated: {
 		type: String,
-		required: true
+		required: true,
 	},
 	report: {
 		type: String,
-		default: null
-	}
+		default: null,
+	},
 });
 
 incidentReportSchema.index({ dateCreated: 1 });
