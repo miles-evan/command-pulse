@@ -68,8 +68,6 @@ incidentReportRouter.get(
 );
 
 
-
-
 // --------------------------------
 
 export default incidentReportRouter;

@@ -195,7 +195,7 @@ export async function projectShifts(shifts) {
 
 
 export async function updateShiftInfos(shiftIds, updatedInfo) {
-	await Shift.updateMany({ _id: { $in: shiftIds } }, updatedInfo)
+	await Shift.updateMany({ _id: { $in: shiftIds } }, updatedInfo);
 }
 
 

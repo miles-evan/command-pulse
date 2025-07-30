@@ -65,7 +65,7 @@ export async function leaveCompany(userId) {
     await Company.findByIdAndUpdate(companyId, { $pull: { [roleField]: userId } });
 
     await User.findByIdAndUpdate(userId, { $set: {
-        companyId: null, isSupervisor: false, shiftIds: [], payCycleIds: []
+        companyId: null, isSupervisor: false, shiftIds: [], payCycleIds: [], incidentReportIds: []
     }});
 }
 

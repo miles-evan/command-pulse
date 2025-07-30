@@ -50,8 +50,13 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 		await Promise.all([
 			...Object.keys(edits.current).map(
 				shiftId => {
-					const { reassignedUserId, ...updatedInfo } = edits.current[shiftId];
-					const responses = [shiftService.updateShifts([shiftId], updatedInfo)];
+					console.log("\nedits.current[shiftId]", edits.current[shiftId])
+					const { userId: reassignedUserId, ...updatedInfo } = edits.current[shiftId];
+					console.log("reassignedUserId", reassignedUserId)
+					console.log("updatedInfo", updatedInfo)
+					const responses = [];
+					if(Object.keys(updatedInfo).length > 0)
+						responses.push(shiftService.updateShifts([shiftId], updatedInfo));
 					if(reassignedUserId)
 						responses.push(shiftService.reassignShift(shiftId, reassignedUserId));
 					return Promise.all(responses);

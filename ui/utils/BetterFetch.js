@@ -44,7 +44,7 @@ async function fetchWithBody(url, method, body) {
 	
 	const response = await fetch(url, options);
 	
-	if(!response.ok) console.log("NOT OKAY!!    " + response.status);
+	if(!response.ok) console.log("NOT OKAY!!    " + response.status + "    " + JSON.stringify(await response.json()));
 	
 	return {
 		status: response.status,

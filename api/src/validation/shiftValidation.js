@@ -130,7 +130,15 @@ export const updateShiftInfoValidation = [
 		.isString().withMessage("Each shiftId must be a string"),
 	body("updatedInfo")
 		.exists().withMessage("updatedInfo must be included")
-		.isObject().withMessage("updatedInfo must be an object"),
+		.isObject().withMessage("updatedInfo must be an object")
+		.custom(obj => {
+			const keys = Object.keys(obj)
+			if(keys.some(key => !["date", "location", "startTime", "endTime", "payRate"].includes(key)))
+				throw new Error("updatedInfo can only include date, location, startTime, endTime, payRate");
+			if(keys.length === 0)
+				throw new Error("updatedInfo must have at least one valid field");
+			return true;
+		}),
 	body("updatedInfo.date")
 		.optional()
 		.matches(dateRegex).withMessage(`Date must be in ${dateFormat} format`),
@@ -146,7 +154,7 @@ export const updateShiftInfoValidation = [
 		.matches(timeRegex).withMessage(`End time must be in ${timeFormat} format`),
 	body("updatedInfo.payRate")
 		.optional()
-		.isFloat({ min: 0 }).withMessage("Pay rate must be a positive number")
+		.isFloat({ min: 0 }).withMessage("Pay rate must be a positive number"),
 ];
 
 
