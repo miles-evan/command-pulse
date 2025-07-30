@@ -40,6 +40,8 @@ async function joinCompanyById(userId, companyId, role="officer") {
 
     const roleField = role + "Ids";
     await Company.findByIdAndUpdate(companyId, { $addToSet: { [roleField]: userId } });
+    
+    // TODO pull from archive and add to user if possible
 }
 
 
@@ -62,7 +64,14 @@ export async function leaveCompany(userId) {
     const companyId = user.companyId;
     const roleField = user.isSupervisor? "supervisorIds" : "officerIds";
 
-    await Company.findByIdAndUpdate(companyId, { $pull: { [roleField]: userId } });
+    await Company.findByIdAndUpdate(companyId, {
+        $pull: { [roleField]: userId },
+        $push: {
+            "archive.shiftIds": { $each: user.shiftIds },
+            "archive.payCycleIds": { $each: user.payCycleIds },
+            "archive.incidentReportIds": { $each: user.incidentReportIds },
+        },
+    });
 
     await User.findByIdAndUpdate(userId, { $set: {
         companyId: null, isSupervisor: false, shiftIds: [], payCycleIds: [], incidentReportIds: []
