@@ -59,6 +59,8 @@ const companySchema = new mongoose.Schema({
 		}],
 		default: () => [],
 	},
+	
+	// the archive is where user owned entities are saved once a user leaves a company
 	archive: {
 		type: {
 			shiftIds: [{
