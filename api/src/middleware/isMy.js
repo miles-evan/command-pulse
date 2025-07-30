@@ -1,6 +1,7 @@
 import extractFromRequest from "../utils/extractFromRequest.js";
 import {userOwnsShift, userOwnsShiftRequest} from "../queries/shiftQueries.js";
 import { userOwnsPayCycle } from "../queries/payCycleQueries.js";
+import { userOwnsIncidentReport } from "../queries/incidentReportQueries.js";
 
 
 export function isMyShift(pathFromRequestToShiftId) {

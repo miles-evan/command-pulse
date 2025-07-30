@@ -3,19 +3,19 @@ import { getPayCycleById } from "../queries/payCycleQueries.js";
 
 
 // ensures either the payment was not sent yet OR no payCycleId was given
-export function paymentNotYetSent(pathFromRequestToPayCycleId) {
+export function paymentNotYetSentOrNull(pathFromRequestToPayCycleId) {
 	const payCycleIdPathArray = pathFromRequestToPayCycleId.split(".");
 	
 	return async (request, response, next) => {
 		const payCycleId = extractFromRequest(request, payCycleIdPathArray);
 		if(payCycleId === null) return next();
-		await payCyclePermissions(pathFromRequestToPayCycleId, false)(request, response, next);
+		await payCyclePayedOrNot(pathFromRequestToPayCycleId, false)(request, response, next);
 	}
 }
 
 
 // checks whether the payment was sent or not
-export function payCyclePermissions(pathFromRequestToPayCycleId, paymentSent=true) {
+export function payCyclePayedOrNot(pathFromRequestToPayCycleId, paymentSent=true) {
 	const payCycleIdPathArray = pathFromRequestToPayCycleId.split(".");
 	
 	return async (request, response, next) => {

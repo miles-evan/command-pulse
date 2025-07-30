@@ -72,6 +72,11 @@ export async function getAllIncidents(companyId, skip, limit) {
 }
 
 
+export async function getIncidentReport(incidentReportId) {
+	return (await IncidentReport.findById(incidentReportId)).report;
+}
+
+
 // --------------------------------
 
 

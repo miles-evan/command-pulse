@@ -1,11 +1,12 @@
 import { Router } from "express";
 import {
-	getAllIncidents,
+	getAllIncidents, getIncidentReport,
 	getIncidents,
 	initializeIncidentReport
 } from "../queries/incidentReportQueries.js";
 import { permission } from "../middleware/permission.js";
 import { isMyShift } from "../middleware/isMy.js";
+import { isMyIncidentReportOrImSupervisor } from "../middleware/incidentReportPermissions.js";
 
 
 const incidentReportRouter = Router();
@@ -49,6 +50,20 @@ incidentReportRouter.get(
 		
 		const incidents = await getAllIncidents(request.user.companyId, Number(skip), Number(limit));
 		return response.send({ incidents });
+	}
+);
+
+
+// Get incident report
+incidentReportRouter.get(
+	"/:incidentReportId",
+	...permission("in company"),
+	isMyIncidentReportOrImSupervisor("params.incidentReportId"),
+	async (request, response) => {
+		const { incidentReportId } = request.params;
+		
+		const report = await getIncidentReport(incidentReportId);
+		return response.send({ report });
 	}
 );
 

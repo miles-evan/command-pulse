@@ -1,3 +1,5 @@
+
+// when using permission, spread it like ...permission("supervisor")
 export function permission(permission) {
     switch(permission) {
         case "logged in":

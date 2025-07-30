@@ -5,7 +5,7 @@ import {
 	confirmPaymentSent,
 	getPayCycleSummary, reviseHours
 } from "../queries/payCycleQueries.js";
-import { payCyclePermissions, paymentNotYetSent } from "../middleware/payCyclePermissions.js";
+import { payCyclePayedOrNot, paymentNotYetSentOrNull } from "../middleware/payCyclePermissions.js";
 import { validateRequest } from "../middleware/validate.js";
 import { getMyShiftsValidation } from "../validation/shiftValidation.js";
 import {
@@ -73,7 +73,7 @@ payCycleRouter.post(
 	...validateRequest(confirmPaymentReceivedValidation),
 	...permission("in company"),
 	isMyPayCycle("body.payCycleId"),
-	payCyclePermissions("body.payCycleId"),
+	payCyclePayedOrNot("body.payCycleId"),
 	async (request, response) => {
 		let { payCycleId } = request.body;
 		
@@ -89,7 +89,7 @@ payCycleRouter.post(
 	...validateRequest(reviseHoursValidation),
 	...permission("supervisor"),
 	sameCompanyAsUser("body.userId"),
-	paymentNotYetSent("body.payCycleId"),
+	paymentNotYetSentOrNull("body.payCycleId"),
 	async (request, response) => {
 		let { payCycleId, startDate, endDate, userId, hoursWorkedRevisions } = request.body;
 		
