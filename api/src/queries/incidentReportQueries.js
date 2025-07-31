@@ -39,13 +39,13 @@ export async function generateIncidentReport(incidentReportId, incidentInfo) {
 			report, followUpQuestions
 		} = await promptGenerateIncidentReport(user, company, shift, incidentReport.dateCreated, incidentInfo);
 		
-		await IncidentReport.findByIdAndUpdate(incidentReportId, { report: report });
+		if(report) await IncidentReport.findByIdAndUpdate(incidentReportId, { report: report });
 		
 		return { report, followUpQuestions };
 	} else {
 		console.log("revising")
 		const { report } = await promptReviseIncidentReport(incidentReport.report, incidentInfo);
-		await IncidentReport.findByIdAndUpdate(incidentReportId, { report: report });
+		if(report) await IncidentReport.findByIdAndUpdate(incidentReportId, { report: report });
 		return { report };
 	}
 }
