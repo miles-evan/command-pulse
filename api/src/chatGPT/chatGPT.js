@@ -16,5 +16,10 @@ export async function chatGPTPrompt(prompt) {
 		model: "gpt-4.1",
 		input: prompt,
 	});
-	return response.output_text;
+	
+	try {
+		return JSON.parse(response.output_text);
+	} catch {
+		return response.output_text;
+	}
 }

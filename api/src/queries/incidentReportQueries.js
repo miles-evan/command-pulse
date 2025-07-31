@@ -27,7 +27,7 @@ export async function initializeIncidentReport(userId, title, shiftId) {
 
 
 export async function generateIncidentReport(incidentReportId, incidentInfo) {
-	const incidentReport = await IncidentReport.findById(incidentReportId).lean();
+	const incidentReport = await IncidentReport.findById(incidentReportId);
 	const user = await User.findById(incidentReport.userId).lean();
 	const company = await Company.findById(user.companyId).lean();
 	const shift = await Shift.findById(incidentReport.shiftId).lean();
@@ -35,7 +35,7 @@ export async function generateIncidentReport(incidentReportId, incidentInfo) {
 	const response = await promptGenerateIncidentReport(user, company, shift, incidentInfo);
 	
 	incidentReport.report = response;
-	incidentReport.save();
+	await incidentReport.save();
 	
 	return {
 		report: response
