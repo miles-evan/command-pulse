@@ -5,6 +5,7 @@ import { Shift } from "../mongoose/schemas/shiftSchema.js";
 import { projectShifts } from "./shiftQueries.js";
 import { Company } from "../mongoose/schemas/companySchema.js";
 import mongoose from "mongoose";
+import { promptGenerateIncidentReport } from "../chatGPT/incidentReportPrompts.js";
 
 
 export async function initializeIncidentReport(userId, title, shiftId) {
@@ -19,6 +20,26 @@ export async function initializeIncidentReport(userId, title, shiftId) {
 	await User.findByIdAndUpdate(userId, { $push: { incidentReportIds: newIncidentReport._id } });
 	
 	return newIncidentReport.id;
+}
+
+
+// --------------------------------
+
+
+export async function generateIncidentReport(incidentReportId, incidentInfo) {
+	const incidentReport = await IncidentReport.findById(incidentReportId).lean();
+	const user = await User.findById(incidentReport.userId).lean();
+	const company = await Company.findById(user.companyId).lean();
+	const shift = await Shift.findById(incidentReport.shiftId).lean();
+	
+	const response = await promptGenerateIncidentReport(user, company, shift, incidentInfo);
+	
+	incidentReport.report = response;
+	incidentReport.save();
+	
+	return {
+		report: response
+	};
 }
 
 

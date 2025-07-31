@@ -1,11 +1,12 @@
 import { Router } from "express";
 import {
+	generateIncidentReport,
 	getAllIncidents, getIncidentReport,
 	getIncidents,
 	initializeIncidentReport
 } from "../queries/incidentReportQueries.js";
 import { permission } from "../middleware/permission.js";
-import { isMyShift } from "../middleware/isMy.js";
+import { isMyIncidentReport, isMyShift } from "../middleware/isMy.js";
 import { isMyIncidentReportOrImSupervisor } from "../middleware/incidentReportPermissions.js";
 
 
@@ -26,6 +27,20 @@ incidentReportRouter.post(
 		return response.send({ incidentReportId });
 	}
 );
+
+
+// Generate / revise incident report
+incidentReportRouter.post(
+	"/generate",
+	...permission("in company"),
+	isMyIncidentReport("body.incidentReportId"),
+	async (request, response) => {
+		const { incidentReportId, incidentInfo } = request.body;
+		
+		const { followupQuestions, report } = await generateIncidentReport(incidentReportId, incidentInfo);
+		return response.send({ followupQuestions, report });
+	}
+)
 
 
 // Get my incidents
