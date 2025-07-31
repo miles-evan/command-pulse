@@ -60,7 +60,6 @@ export function validatePersonalInfo({ firstName, lastName, phoneNumber }) {
 
 export async function validateCompanyName({ companyName }) {
 	
-	console.log("hi 1")
 	const errorMessages = [];
 	
 	if (companyName.length < 2 || companyName.length > 50)

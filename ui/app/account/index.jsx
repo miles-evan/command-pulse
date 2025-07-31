@@ -6,12 +6,20 @@ import Button from "@/components/project-specific-utility-components/Button.jsx"
 import BackButton from "@/components/project-specific-utility-components/BackButton.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
+import { useGlobalState } from "@/hooks/useGlobalState.js";
+import { useState } from "react";
 
 
 export default function Account() {
 	
+	const globalState = useGlobalState();
+	const [loading, setLoading] = useState(false);
+	
+	
 	async function logout() {
+		setLoading(true);
 		await removeCredentialsAndLogOut();
+		globalState.reset();
 		router.replace("/setup")
 	}
 	
@@ -22,7 +30,7 @@ export default function Account() {
 			<StyledText look="24 semibold hard">This is a placeholder page</StyledText>
 			<BackButton/>
 			<Gap size={50}/>
-			<Button onPress={logout}>Log out</Button>
+			<Button onPress={logout} disabled={loading}>Log out</Button>
 		</SafeAreaViewWithBackground>
 	);
 	

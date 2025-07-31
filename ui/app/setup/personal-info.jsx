@@ -12,7 +12,7 @@ import * as companyService from "@/services/companyService";
 import { validatePersonalInfo } from "@/utils/validation";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
-import {storeCredentials} from "@/utils/AsyncStorageAuthentication";
+import { storeCredentials } from "@/utils/AsyncStorageAuthentication";
 import If from "@/components/general-utility-components/If.jsx";
 import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
 
@@ -29,15 +29,11 @@ export default function PersonalInfo() {
 		
 		await storeCredentials(email, password);
 		
-		console.log(await userService.status())
-		
 		if(isCreatingCompany) {
 			await companyService.create(companyName);
 		} else {
 			await companyService.join(inviteCode);
 		}
-		
-		console.log(await companyService.status());
 		
 		router.replace("/(tabs)/announcements");
 	}

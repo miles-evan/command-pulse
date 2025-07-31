@@ -24,7 +24,6 @@ export default function Shifts() {
 	
 	// not the best practice, but I don't want to prop drill or use the context api
 	globalState.context = { setRevisions, paymentSent }
-	console.log(revisions)
 	
 	async function submitRevisions() {
 		setLoadingSubmit(true);
