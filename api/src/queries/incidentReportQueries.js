@@ -133,6 +133,15 @@ async function projectIncidentReports(incidentReports) {
 // --------------------------------
 
 
+export async function deleteIncidentReport(incidentReportId) {
+	const report = await IncidentReport.findByIdAndDelete(incidentReportId);
+	await User.findByIdAndUpdate(report.userId, { $pull: { incidentReportIds: incidentReportId } });
+}
+
+
+// --------------------------------
+
+
 export async function userOwnsIncidentReport(userId, incidentReportId) {
 	const user = await User.findOne({ _id: userId, incidentReportIds: incidentReportId });
 	return !!user;

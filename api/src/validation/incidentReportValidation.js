@@ -42,3 +42,10 @@ export const getIncidentReportValidation = [
 		.exists().withMessage("incidentReportId param is required")
 		.isString().withMessage("incidentReportId must be a string")
 ];
+
+
+export const deleteIncidentReportValidation = [
+	body("incidentReportId")
+		.exists().withMessage("incidentReportId is required")
+		.isString().withMessage("incidentReportId must be a string")
+]

@@ -10,6 +10,7 @@ import { isMyIncidentReport, isMyShift } from "../middleware/isMy.js";
 import { isMyIncidentReportOrImSupervisor } from "../middleware/incidentReportPermissions.js";
 import { validateRequest } from "../middleware/validate.js";
 import {
+	deleteIncidentReportValidation,
 	generateIncidentReportValidation, getAllIncidentsValidation, getIncidentReportValidation, getMyIncidentsValidation,
 	initializeIncidentReportValidation
 } from "../validation/incidentReportValidation.js";
@@ -90,6 +91,21 @@ incidentReportRouter.get(
 		
 		const report = await getIncidentReport(incidentReportId);
 		return response.send({ report });
+	}
+);
+
+
+// Delete incident report
+incidentReportRouter.delete(
+	"/",
+	...validateRequest(deleteIncidentReportValidation),
+	...permission("in company"),
+	isMyIncidentReport("body.incidentReportId"),
+	async (request, response) => {
+		const { incidentReportId } = request.body;
+		
+		await deleteIncidentReport(incidentReportId);
+		return response.sendStatus(200);
 	}
 );
 
