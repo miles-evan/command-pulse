@@ -5,7 +5,7 @@ import { Shift } from "../mongoose/schemas/shiftSchema.js";
 import { projectShifts } from "./shiftQueries.js";
 import { Company } from "../mongoose/schemas/companySchema.js";
 import mongoose from "mongoose";
-import { promptGenerateIncidentReport } from "../chatGPT/incidentReportPrompts.js";
+import { promptGenerateIncidentReport, promptReviseIncidentReport } from "../chatGPT/incidentReportPrompts.js";
 
 
 export async function initializeIncidentReport(userId, title, shiftId) {
@@ -27,19 +27,27 @@ export async function initializeIncidentReport(userId, title, shiftId) {
 
 
 export async function generateIncidentReport(incidentReportId, incidentInfo) {
-	const incidentReport = await IncidentReport.findById(incidentReportId);
-	const user = await User.findById(incidentReport.userId).lean();
-	const company = await Company.findById(user.companyId).lean();
-	const shift = await Shift.findById(incidentReport.shiftId).lean();
+	const incidentReport = await IncidentReport.findById(incidentReportId).lean();
 	
-	const response = await promptGenerateIncidentReport(user, company, shift, incidentInfo);
-	
-	incidentReport.report = response;
-	await incidentReport.save();
-	
-	return {
-		report: response
-	};
+	if(incidentReport.report === null) {
+		console.log("generating")
+		const user = await User.findById(incidentReport.userId).lean();
+		const company = await Company.findById(user.companyId).lean();
+		const shift = await Shift.findById(incidentReport.shiftId).lean();
+		
+		const {
+			report, followUpQuestions
+		} = await promptGenerateIncidentReport(user, company, shift, incidentReport.dateCreated, incidentInfo);
+		
+		await IncidentReport.findByIdAndUpdate(incidentReportId, { report: report });
+		
+		return { report, followUpQuestions };
+	} else {
+		console.log("revising")
+		const { report } = await promptReviseIncidentReport(incidentReport.report, incidentInfo);
+		await IncidentReport.findByIdAndUpdate(incidentReportId, { report: report });
+		return { report };
+	}
 }
 
 

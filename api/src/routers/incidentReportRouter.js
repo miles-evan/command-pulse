@@ -37,8 +37,8 @@ incidentReportRouter.post(
 	async (request, response) => {
 		const { incidentReportId, incidentInfo } = request.body;
 		
-		const { followupQuestions, report } = await generateIncidentReport(incidentReportId, incidentInfo);
-		return response.send({ followupQuestions, report });
+		const { followUpQuestions, report } = await generateIncidentReport(incidentReportId, incidentInfo);
+		return response.send({ followUpQuestions, report });
 	}
 )
 
