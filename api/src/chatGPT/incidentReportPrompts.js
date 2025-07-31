@@ -2,7 +2,8 @@ import { chatGPTPrompt } from "./chatGPT.js";
 import { getTodayString } from "../utils/dateUtils.js";
 
 const incidentReportStructure = JSON.stringify({
-	note: "this is a json representation of what should be included. the actual structure will be in raw markdown (no ```markdown and stuff)",
+	note: "this is a json representation of what should be included."
+		+ " the actual structure will be in raw markdown (no ```markdown and stuff)",
 	structure: [
 		{ "general information": [
 			"officer name",
