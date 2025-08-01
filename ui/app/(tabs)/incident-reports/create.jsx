@@ -3,11 +3,17 @@ import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import SafeAreaViewWithBackground
 	from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
 import BackButton from "@/components/project-specific-utility-components/BackButton.jsx";
-import StyledDropdown from "@/components/project-specific-utility-components/StyledDropdown.jsx";
 import * as React from "react";
+import ShiftList from "@/components/scheduling/my-schedule/ShiftList.jsx";
+import { router } from "expo-router";
 
 
 export default function Create() {
+	
+	function onPressShift(shiftId) {
+		// init incident
+	}
+	
 	
 	return (
 		<SafeAreaViewWithBackground>
@@ -19,10 +25,10 @@ export default function Create() {
 				hCenter={false}
 				style={{ width: "90%", marginHorizontal: "auto", marginTop: 20 }}
 			>
-				Shift when the incident took place
+				When did the incident take place?
 			</StyledText>
 			
-			
+			<ShiftList dir={-1} showPressFeedback onPressShift={onPressShift}/>
 		
 		</SafeAreaViewWithBackground>
 	);

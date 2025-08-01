@@ -12,14 +12,15 @@ import { Colors } from "@/constants/Colors.js";
 import { useEffect, useState } from "react";
 import * as shiftService from "@/services/shiftService.js";
 import { computeShiftStage } from "@/components/scheduling/my-schedule/computeShiftStage.js";
-import StyledText from "@/components/general-utility-components/StyledText.jsx";
-import { superShortenTime } from "@/utils/dateUtils.js";
 import ShiftCardPayCycleExtension from "@/components/scheduling/my-schedule/ShiftCardPayCycleExtension.jsx";
+import { Pressable } from "react-native";
 
 
+// Modes:
 // default mode shows the shifts like when you're viewing your schedule, lets you clock in and out
 // pay cycle modes ("pay cycle supervisor" and "pay cycle officer") show information like registered and revised hours
-export default function ShiftCard({ shift, mode="default" }) {
+// plain mode ("plain") just makes sure there's no buttons
+export default function ShiftCard({ shift, mode="default", onPress, showPressFeedback=false }) {
 	
 	const {
 		shiftId, firstName, lastName, date, startTime, endTime, location, payRate, clockInTime, clockOutTime
@@ -46,43 +47,46 @@ export default function ShiftCard({ shift, mode="default" }) {
 	
 	
 	return (
-		<Card style={{
-			paddingHorizontal: 25,
-			marginTop: 0,
-			...(mode === "default" && {
-				...(stage > 0 && { borderColor: Colors.accent }),
-				...(stage === 3 && { borderColor: Colors.mediumHard }),
-			}),
-		}}>
-			
-			<DateAndTime date={date} startTime={startTime} endTime={endTime}/>
-			<Gap size={5}/>
-			<LocationAndPayRate location={location} payRate={payRate}/>
-			
-			{mode === "default"? (
-				
-				<If condition={stage > 0}>
-					<HorizontalLine length="100%" style={{ marginVertical: 5 }}/>
-					<FlexRowSpaceAround>
-						{stage === 1? (
-							<ClockInButton onPress={clockIn}/>
-						) : stage === 2? (<>
-							<IncidentButton/>
-							<ClockOutButton onPress={ clockOut }/>
-						</>) : stage === 3? (
-							<IncidentButton/>
-						) : null}
-					</FlexRowSpaceAround>
-				</If>
-			
-			) : mode === "pay cycle supervisor"? (
-				<ShiftCardPayCycleExtension shift={shift} isSupervisor={true}/>
-			) : mode === "pay cycle officer"? (
-				<ShiftCardPayCycleExtension shift={shift} isSupervisor={false}/>
-			) : null}
-			
-			
-		</Card>
+		<Pressable onPress={onPress}>
+			{({ pressed }) => (
+				<Card style={{
+					paddingHorizontal: 25,
+					marginTop: 0,
+					...(mode === "default" && {
+						...(stage > 0 && { borderColor: Colors.accent }),
+						...(stage === 3 && { borderColor: Colors.mediumHard }),
+					}),
+					...(pressed && showPressFeedback? { borderColor: Colors.medium } : {})
+				}}>
+					
+					<DateAndTime date={date} startTime={startTime} endTime={endTime}/>
+					<Gap size={5}/>
+					<LocationAndPayRate location={location} payRate={payRate}/>
+					
+					{mode === "default"? (
+						
+						<If condition={stage > 0}>
+							<HorizontalLine length="100%" style={{ marginTop: 5, marginBottom: 15 }}/>
+							<FlexRowSpaceAround>
+								{stage === 1? (
+									<ClockInButton onPress={clockIn}/>
+								) : stage === 2? (<>
+									<IncidentButton/>
+									<ClockOutButton onPress={ clockOut }/>
+								</>) : stage === 3? (
+									<IncidentButton/>
+								) : null}
+							</FlexRowSpaceAround>
+						</If>
+					
+					) : mode === "pay cycle supervisor"? (
+						<ShiftCardPayCycleExtension shift={shift} isSupervisor={true}/>
+					) : mode === "pay cycle officer"? (
+						<ShiftCardPayCycleExtension shift={shift} isSupervisor={false}/>
+					) : null}
+				</Card>
+			)}
+		</Pressable>
 	);
 	
 }

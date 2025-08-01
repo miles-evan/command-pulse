@@ -21,4 +21,4 @@ export const Colors = {
 	black: "#000000",
 };
 
-Object.freeze(Colors)
+Object.freeze(Colors);

@@ -71,7 +71,8 @@ export async function promptGenerateIncidentReport(user, company, shift, dateCre
 		"You're a security assistant helping write professional incident reports in markdown. "
 		+ "Based on the metadata and officer's description, generate a clear, complete report using this structure:\n"
 		+ incidentReportStructure
-		+ "\nRespond in JSON with keys, 'report' and 'followUpQuestions'\n"
+		+ "\nRespond in JSON with keys, 'report', 'followUpQuestions', and 'title'"
+		+ " where title is the title of the incident and should be 2-3 words or so\n"
 		+ "Provide followUpQuestions if there is unspecified information or you want clarification\n"
 		+ "If while writing the report you realize there's missing info, stop and add the followUpQuestions key\n"
 		+ "If no follow up questions, don't include the followUpQuestions key at all.\n"
@@ -99,7 +100,8 @@ export async function promptReviseIncidentReport(currentReport, revisions) {
 		+ " Based on the previous iteration of the report and officer's revisions / answers to your questions,"
 		+ " generate a clear, complete report using this structure:\n"
 		+ incidentReportStructure
-		+ "\nRespond in JSON with the key, 'report'\n"
+		+ "\nRespond in JSON with the keys, 'report' and 'title'"
+		+ " where title is the title of the incident and should be 2-3 words or so\n"
 		+ "Info:\n"
 		+ JSON.stringify({
 			previousIterationOfTheReport: currentReport,

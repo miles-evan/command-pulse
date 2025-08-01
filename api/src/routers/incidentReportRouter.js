@@ -22,16 +22,16 @@ const incidentReportRouter = Router();
 // --------------------------------
 
 
-// Initialize incident report
+// Initialize incident
 incidentReportRouter.post(
 	"/init",
 	...validateRequest(initializeIncidentReportValidation),
 	...permission("in company"),
 	isMyShift("body.shiftId"),
 	async (request, response) => {
-		const { title, shiftId } = request.body;
+		const { shiftId } = request.body;
 		
-		const incidentReportId = await initializeIncidentReport(request.user.id, title, shiftId);
+		const incidentReportId = await initializeIncidentReport(request.user.id, shiftId);
 		return response.send({ incidentReportId });
 	}
 );
@@ -46,10 +46,10 @@ incidentReportRouter.post(
 	async (request, response) => {
 		const { incidentReportId, incidentInfo } = request.body;
 		
-		const { followUpQuestions, report } = await generateIncidentReport(incidentReportId, incidentInfo);
-		return response.send({ followUpQuestions, report });
+		const { followUpQuestions, report, title } = await generateIncidentReport(incidentReportId, incidentInfo);
+		return response.send({ followUpQuestions, report, title });
 	}
-)
+);
 
 
 // Get my incidents

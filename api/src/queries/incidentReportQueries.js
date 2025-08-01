@@ -8,10 +8,10 @@ import mongoose from "mongoose";
 import { promptGenerateIncidentReport, promptReviseIncidentReport } from "../chatGPT/incidentReportPrompts.js";
 
 
-export async function initializeIncidentReport(userId, title, shiftId) {
+export async function initializeIncidentReport(userId, shiftId) {
 	const newIncidentReport = new IncidentReport({
 		userId,
-		title,
+		title: "Untitled incident",
 		shiftId,
 		dateCreated: getTodayString(),
 	});
@@ -30,23 +30,31 @@ export async function generateIncidentReport(incidentReportId, incidentInfo) {
 	const incidentReport = await IncidentReport.findById(incidentReportId).lean();
 	
 	if(incidentReport.report === null) {
-		console.log("generating")
 		const user = await User.findById(incidentReport.userId).lean();
 		const company = await Company.findById(user.companyId).lean();
 		const shift = await Shift.findById(incidentReport.shiftId).lean();
 		
 		const {
-			report, followUpQuestions
+			report, followUpQuestions, title
 		} = await promptGenerateIncidentReport(user, company, shift, incidentReport.dateCreated, incidentInfo);
 		
-		if(report) await IncidentReport.findByIdAndUpdate(incidentReportId, { report: report });
+		if(!report || !title)
+			throw new Error("ChatGPT returned invalid response");
 		
-		return { report, followUpQuestions };
+		await IncidentReport.findByIdAndUpdate(incidentReportId, { report: report });
+		await IncidentReport.findByIdAndUpdate(incidentReportId, { title: title });
+		
+		return { report, followUpQuestions, title };
 	} else {
-		console.log("revising")
-		const { report } = await promptReviseIncidentReport(incidentReport.report, incidentInfo);
-		if(report) await IncidentReport.findByIdAndUpdate(incidentReportId, { report: report });
-		return { report };
+		const { report, title } = await promptReviseIncidentReport(incidentReport.report, incidentInfo);
+		
+		if(!report || !title)
+			throw new Error("ChatGPT returned invalid response");
+		
+		await IncidentReport.findByIdAndUpdate(incidentReportId, { report: report });
+		await IncidentReport.findByIdAndUpdate(incidentReportId, { title: title });
+		
+		return { report, title };
 	}
 }
 

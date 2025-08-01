@@ -10,7 +10,7 @@ import LoadingText from "@/components/project-specific-utility-components/Loadin
 
 // retrieves and shows list of shifts
 // dir (1 or -1) is direction to look for shifts (forward in time or backward)
-export default function ShiftList({ dir, isFocused }) {
+export default function ShiftList({ dir, isFocused=true, showPressFeedback=false, onPressShift=_=>{} }) {
 	
 	const [shifts, setShifts] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
@@ -58,7 +58,13 @@ export default function ShiftList({ dir, isFocused }) {
 		<FlatList
 			data={shifts}
 			keyExtractor={shift => shift.shiftId}
-			renderItem={({ item: shift }) => <ShiftCard shift={shift} />}
+			renderItem={({ item: shift }) => (
+				<ShiftCard
+					shift={shift}
+					showPressFeedback={showPressFeedback}
+					onPressShift={() => onPressShift(shift.shiftId)}
+				/>
+			)}
 			keyboardDismissMode="on-drag"
 			onEndReached={() => {
 				if(shifts.length > 0) loadShifts();
