@@ -20,6 +20,7 @@ export default function IconAndTextButton({
 	fontSize,
 	fontWeight,
 	textStyle={},
+	styledTextPropsObj={}
 }) {
 	
 	return (
@@ -31,6 +32,7 @@ export default function IconAndTextButton({
 						<StyledText
 							look={`${fontSize ?? 24} ${fontWeight ?? "medium"} ${pressed? pressColor : color}`}
 							style={{ marginVertical: -3, ...textStyle }}
+							{...styledTextPropsObj}
 						>
 							{text}
 						</StyledText>

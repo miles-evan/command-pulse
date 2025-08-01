@@ -32,7 +32,7 @@ export default function TabLayout() {
 				>
 					
 					<Tabs.Screen
-						name="incident-reports/index"
+						name="incident-reports"
 						options={{
 							title: "Incidents",
 							tabBarIcon: ({ color, size }) => (

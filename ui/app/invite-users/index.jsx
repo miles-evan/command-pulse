@@ -16,6 +16,7 @@ import Button from "@/components/project-specific-utility-components/Button.jsx"
 import OrLine from "@/components/general-utility-components/OrLine.jsx";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import CopyButton from "@/components/project-specific-utility-components/CopyButton.jsx";
+import StyledDropdown from "@/components/project-specific-utility-components/StyledDropdown.jsx";
 
 
 export default function InviteUsers() {
@@ -36,18 +37,7 @@ export default function InviteUsers() {
 				<StyledText look="32 medium mediumHard" hCenter={false}>Invite new user</StyledText>
 				
 				<Gap size={10}/>
-				<Dropdown
-					style={{
-						height: 50,
-						borderColor: Colors.soft,
-						borderWidth: 1,
-						borderRadius: 8,
-						paddingHorizontal: 8,
-					}}
-					maxHeight={300}
-					selectedTextStyle={{ color: Colors.veryHard }}
-					labelField="label"
-					valueField="value"
+				<StyledDropdown
 					data={[
 						{ label: "Invite as officer", value: "officer" },
 						{ label: "Invite as supervisor", value: "supervisor" }
