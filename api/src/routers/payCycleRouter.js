@@ -61,7 +61,7 @@ payCycleRouter.post(
 	async (request, response) => {
 		let { userId, startDate, endDate, payCycleId, paymentMethod="cash" } = request.body;
 		
-		payCycleId = await confirmPaymentSent(userId, startDate, endDate, payCycleId);
+		payCycleId = await confirmPaymentSent(userId, startDate, endDate, payCycleId, paymentMethod);
 		return response.send({ payCycleId });
 	}
 );
