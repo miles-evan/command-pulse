@@ -16,14 +16,6 @@ const companySchema = new mongoose.Schema({
 		required: true,
 		unique: true,
 	},
-	currentPayCycleDates: {
-		type: {
-			startDate: Date,
-			endDate: Date,
-			payDay: Date,
-		},
-		default: null,
-	},
 	supervisorIds: {
 		type: [{
 			type: mongoose.Schema.Types.ObjectId,
