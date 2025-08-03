@@ -1,6 +1,5 @@
 import { PayCycle } from "../mongoose/schemas/payCycleSchema.js"
 import { getShiftsInDateRange } from "./shiftQueries.js";
-import { compareTimes } from "../utils/dateUtils.js";
 import { User } from "../mongoose/schemas/userSchema.js";
 
 
@@ -30,7 +29,7 @@ async function computeSummary(shifts, payCycle) {
 	// compute summary
 	const summary = { totalHoursWorked: 0, totalHoursWorkedRevised: 0, totalEarning: 0, totalEarningRevised: 0 };
 	for (const shift of shifts) {
-		shift.hoursWorked = shift.clockInTime? compareTimes(shift.endTime, shift.startTime) : 0;
+		shift.hoursWorked = shift.clockInTime? shift.shiftEnd - shift.shiftStart : 0;
 		summary.totalHoursWorked += shift.hoursWorked;
 		summary.totalEarning += shift.hoursWorked * shift.payRate;
 		

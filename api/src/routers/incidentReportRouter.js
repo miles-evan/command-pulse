@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+	deleteIncidentReport,
 	generateIncidentReport,
 	getAllIncidents, getIncidentReport,
 	getIncidents,
@@ -60,7 +61,7 @@ incidentReportRouter.get(
 	async (request, response) => {
 		const { skip, limit } = matchedData(request);
 		
-		const incidents = await getIncidents(request.user.id, Number(skip), Number(limit));
+		const incidents = await getIncidents(request.user.id, skip, limit);
 		return response.send({ incidents });
 	}
 );
@@ -74,7 +75,7 @@ incidentReportRouter.get(
 	async (request, response) => {
 		const { skip, limit } = matchedData(request);
 		
-		const incidents = await getAllIncidents(request.user.companyId, Number(skip), Number(limit));
+		const incidents = await getAllIncidents(request.user.companyId, skip, limit);
 		return response.send({ incidents });
 	}
 );
