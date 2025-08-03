@@ -130,7 +130,7 @@ async function projectIncidentReports(incidentReports) {
 		shift: {
 			firstName: projectedShiftMap[incidentReport.shiftId].firstName,
 			lastName: projectedShiftMap[incidentReport.shiftId].lastName,
-			date: projectedShiftMap[incidentReport.shiftId].date,
+			date: projectedShiftMap[incidentReport.shiftId].shiftStart,
 			location: projectedShiftMap[incidentReport.shiftId].location,
 		}
 	}));
