@@ -43,9 +43,9 @@ async function fetchWithBody(url, method, body, retries=3) {
 		}
 		if(method === "GET") delete options.body
 		
-		// console.log("about to fetch")
+		console.log("about to fetch", method, url)
 		const response = await fetch(url, options);
-		// console.log("fetch complete")
+		console.log("fetch complete", method, url)
 		
 		const responseBody = await response.json()
 			.catch(() => response.text())
@@ -66,7 +66,11 @@ async function fetchWithBody(url, method, body, retries=3) {
 		};
 	} catch(e) {
 		console.log(e);
-		if (e instanceof TypeError && e.message === "Network request failed" && retries > 0) {
+		if(
+			e instanceof TypeError
+			&& ["Network request failed", "Network request timed out", "Failed to fetch"].includes(e?.message)
+			&& retries > 0
+		) {
 			await new Promise(res => setTimeout(res, 500));
 			return fetchWithBody(url, method, body, retries - 1);
 		}
