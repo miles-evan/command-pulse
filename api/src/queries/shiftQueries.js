@@ -111,7 +111,10 @@ export async function getShifts(userId, date, dir=1, skip=0, limit=20) {
 // gets shifts between date objects based on shiftStart (inclusive, exclusive)
 export async function getShiftsInDateRange(userId, startDate, endDate) {
 	const user = await User.findById(userId);
-	const shifts = await Shift.find({ _id: { $in: user.shiftIds }, shiftStart: { $gte: startDate, $lt: endDate } });
+	const shifts = await Shift.find({
+		_id: { $in: user.shiftIds },
+		shiftStart: { $gte: startDate, $lt: endDate }
+	}).sort({ shiftStart: 1 });
 	return projectShifts(shifts);
 }
 
