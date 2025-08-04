@@ -26,5 +26,5 @@ export const confirmReceived = async payCycleId =>
 // revise hours worked
 export const reviseHours = async (userId, startDate, endDate, payCycleId=null, hoursWorkedRevisions) =>
 	await BetterFetch.post(rootURL + `/revise-hours`, {
-		userId, startDate: startDate.toISOString(), endDate: endDate.toISOString(), payCycleId, hoursWorkedRevisions
+		userId, startDate: startDate?.toISOString() ?? null, endDate: endDate?.toISOString() ?? null, payCycleId, hoursWorkedRevisions
 	});
