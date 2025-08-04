@@ -2,10 +2,6 @@ import { body, param, query } from "express-validator";
 
 
 export const initializeIncidentReportValidation = [
-	body("title")
-		.exists().withMessage("title must be included")
-		.isString().withMessage("title must be a string")
-		.isLength({ min: 1, max: 100 }).withMessage("title must be 1-100 characters"),
 	body("shiftId")
 		.exists().withMessage("shiftId must be included")
 		.isString().withMessage("shiftId must be a string")
