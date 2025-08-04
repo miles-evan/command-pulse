@@ -1,21 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
-import { parseTimeRange, superShortenTime } from "@/utils/dateUtils.js";
+import { formatTimeRange, parseTimeRange } from "@/utils/newDateUtils.js";
 import StyledTextInput from "@/components/project-specific-utility-components/StyledTextInput.jsx";
 
 
-export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, ...rest }) {
+export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, date, ...rest }) {
 	
 	const [timeRange, setTimeRange] = useState(initialValue ?? "02:00 PM - 05:00 PM");
 	useEffect(parseAndSetTimeRange, []);
 	const [isDifferent, setIsDifferent] = useState(false);
-	const parsedInitialValue = useMemo(() => parseTimeRange(initialValue));
+	const parsedInitialValue = useMemo(() => parseTimeRange(initialValue, date));
 	const [selection, setSelection] = useState(null);
-	
-	
-	function onChangeText(newText) {
-		setTimeRange(newText);
-		setSelection(null);
-	}
 	
 	
 	function onFocus() {
@@ -28,20 +22,17 @@ export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, 
 	
 	
 	function checkIfDifferent() {
-		const parsedTimeRange = parseTimeRange(timeRange);
-		if(parsedTimeRange?.join("") === parsedInitialValue?.join(""))
-			setIsDifferent(false);
-		else
-			setIsDifferent(true);
+		const parsedTimeRange = parseTimeRange(timeRange, date);
+		setIsDifferent(formatTimeRange(parsedTimeRange) !== formatTimeRange(parsedInitialValue))
 	}
 	
 	
 	function parseAndSetTimeRange() {
 		setTimeRange(prev => {
-			const parsedTimeRange = parseTimeRange(prev);
+			const parsedTimeRange = parseTimeRange(prev, date);
 			onNewValue(parsedTimeRange); // call it here so we use non-stale value, and so it only calls on end editing
 			if(!parsedTimeRange) return "Invalid";
-			return parsedTimeRange.map(time => superShortenTime(time, true)).join("-");
+			return formatTimeRange(parsedTimeRange);
 		});
 	}
 	
@@ -50,7 +41,7 @@ export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, 
 		<StyledTextInput
 			placeholder="H:MM-H:MM"
 			value={timeRange}
-			onChangeText={onChangeText}
+			onChangeText={newText => {setTimeRange(newText); setSelection(null);}}
 			onFocus={onFocus}
 			onEndEditing={parseAndSetTimeRange}
 			onBlur={checkIfDifferent}

@@ -1,6 +1,6 @@
 import Card from "@/components/project-specific-utility-components/Card.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
-import { dayOfWeekShort, superShortenTime } from "@/utils/dateUtils.js";
+import { dayOfWeekShort, superShortenTime } from "@/utils/newDateUtils.js";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import { useMemo } from "react";

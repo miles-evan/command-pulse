@@ -6,7 +6,6 @@ import { groupShiftsByDate } from "@/utils/groupShifts.js";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
 import { router } from "expo-router";
 import AddDayButton from "@/components/scheduling/company-schedule/week-view/AddDayButton.jsx";
-import { getRelativeDate } from "@/utils/dateUtils.js";
 import If from "@/components/general-utility-components/If.jsx";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import EditButton from "@/components/project-specific-utility-components/EditButton.jsx";
@@ -48,8 +47,7 @@ export default function ShiftLocation({
 				result.push(shiftDays[index++]);
 			else
 				result.push({ date, shifts: [] });
-			
-			date = getRelativeDate(date, 1);
+			date.setDate(date.getDate() + 1);
 		}
 		
 		setShiftDays(result);

@@ -17,8 +17,8 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 	function addEdit(attr, value) {
 		if(attr === "timeRange") {
 			if(value === null) value = [null, null];
-			addEdit("startTime", value[0]);
-			addEdit("endTime", value[1]);
+			addEdit("shiftStart", value[0]);
+			addEdit("shiftEnd", value[1]);
 			return;
 		}
 		
@@ -69,6 +69,7 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 				<TimeRangeInput
 					initialValue={startTime? startTime + "-" + endTime : undefined}
 					onNewValue={newTimeRange => addEdit("timeRange", newTimeRange)}
+					date={shift.shiftStart}
 				/>
 			
 			</FlexRowSpaceBetween>

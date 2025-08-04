@@ -20,7 +20,7 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 	
 	const [deletedIndices, setDeletedIndices] = useState(new Set());
 	
-	const sortedShifts = useMemo(() => [...shifts].sort((a, b) => a.startTime.localeCompare(b.startTime)), [shifts]);
+	const sortedShifts = useMemo(() => [...shifts].sort((a, b) => a.shiftStart - b.shiftStart), [shifts]);
 	const [editing, setEditing] = useState(false);
 	const edits = useRef({});
 	const [loadingSubmitEdits, setLoadingSubmitEdits] = useState(false);
