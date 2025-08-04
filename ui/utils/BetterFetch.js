@@ -33,7 +33,7 @@ function toQueryString(queryObj) {
 }
 
 
-async function fetchWithBody(url, method, body) {
+async function fetchWithBody(url, method, body, retries=3) {
 	try {
 		const options = {
 			method,
@@ -47,13 +47,13 @@ async function fetchWithBody(url, method, body) {
 		const response = await fetch(url, options);
 		// console.log("fetch complete")
 		
-		response.body = await response.json()
+		const responseBody = await response.json()
 			.catch(() => response.text())
 			.catch(() => null);
 		
 		if(!response.ok) console.log(
 			"\n\nNOT OKAY!! Error " + response.status
-			+ "\nBody: " + JSON.stringify(response.body)
+			+ "\nBody: " + JSON.stringify(responseBody)
 			+ "\nURL " + url
 			+ "\nMETHOD " + method
 		);
@@ -61,8 +61,15 @@ async function fetchWithBody(url, method, body) {
 		return {
 			status: response.status,
 			ok: response.ok,
-			body: response.body,
+			body: responseBody,
 			url,
 		};
-	} catch(e) {console.log(e);}
+	} catch(e) {
+		console.log(e);
+		if (e instanceof TypeError && e.message === "Network request failed" && retries > 0) {
+			await new Promise(res => setTimeout(res, 500));
+			return fetchWithBody(url, method, body, retries - 1);
+		}
+		throw e;
+	}
 }
