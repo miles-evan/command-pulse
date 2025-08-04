@@ -23,7 +23,7 @@ import { Pressable } from "react-native";
 export default function ShiftCard({ shift, mode="default", onPress, showPressFeedback=false }) {
 	
 	const {
-		shiftId, firstName, lastName, date, startTime, endTime, location, payRate, clockInTime, clockOutTime
+		shiftId, firstName, lastName, shiftStart, shiftEnd, location, payRate, clockInTime, clockOutTime
 	} = shift;
 	
 	const [stage, setStage] = useState(0)
@@ -59,7 +59,7 @@ export default function ShiftCard({ shift, mode="default", onPress, showPressFee
 					...(pressed && showPressFeedback? { borderColor: Colors.medium } : {})
 				}}>
 					
-					<DateAndTime date={date} startTime={startTime} endTime={endTime}/>
+					<DateAndTime shiftStart={shiftStart} shiftEnd={shiftEnd}/>
 					<Gap size={5}/>
 					<LocationAndPayRate location={location} payRate={payRate}/>
 					

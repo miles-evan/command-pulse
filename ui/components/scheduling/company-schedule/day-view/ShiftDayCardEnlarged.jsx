@@ -99,7 +99,7 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 		await Promise.all(
 			newShifts.current.map(
 				({ date, startTime, endTime, location, payRate, userId }) =>
-					shiftService.assignShift(date, startTime, endTime, location, payRate, userId)
+					shiftService.assignShift(shiftStart, shiftEnd, location, payRate, userId)
 			)
 		);
 		router.back();

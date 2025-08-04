@@ -1,10 +1,10 @@
 import { View } from "react-native";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
-import { dayOfWeek, shortenTime, shortenDate } from "@/utils/dateUtils.js";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
+import { dayOfWeek, shortDate, shortTime } from "@/utils/newDateUtils.js";
 
 
-export default function DateAndTime({ date, startTime, endTime }) {
+export default function DateAndTime({ shiftStart, shiftEnd }) {
 
 
 	
@@ -19,14 +19,14 @@ export default function DateAndTime({ date, startTime, endTime }) {
 					adjustsFontSizeToFit
 					numberOfLines={1}
 				>
-					{dayOfWeek(date, true)}
+					{dayOfWeek(shiftStart, true)}
 				</StyledText>
 				
 				<StyledText
 					look="22 light veryHard"
 					style={{ marginHorizontal: 0, marginVertical: 0, marginTop: -4 }}
 				>
-					{shortenDate(date)}
+					{shortDate(shiftStart)}
 				</StyledText>
 				
 			</View>
@@ -39,7 +39,7 @@ export default function DateAndTime({ date, startTime, endTime }) {
 					adjustsFontSizeToFit
 					numberOfLines={1}
 				>
-					{shortenTime(startTime)}
+					{shortTime(shiftStart)}
 				</StyledText>
 				
 				<StyledText
@@ -48,7 +48,7 @@ export default function DateAndTime({ date, startTime, endTime }) {
 					adjustsFontSizeToFit
 					numberOfLines={1}
 				>
-					{shortenTime(endTime)}
+					{shortTime(shiftEnd)}
 				</StyledText>
 				
 			</View>
