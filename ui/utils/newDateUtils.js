@@ -116,6 +116,12 @@ export function areSameDay(date1, date2) {
 }
 
 
+// Date -> "2025-05-07"
+export function datePartOfISOString(date) {
+	return date.toISOString().slice(0, 10);
+}
+
+
 // -------------------------------- Parsing from formatted to internal representation:
 
 

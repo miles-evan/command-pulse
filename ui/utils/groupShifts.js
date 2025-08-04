@@ -1,4 +1,5 @@
 import { labelKeysAndValues, groupBy, sortObjectByKeys } from "./objectUtils.js";
+import { datePartOfISOString } from "@/utils/newDateUtils.js";
 
 
 // turns shifts into [{ locationName, shifts }, ...]
@@ -11,8 +12,8 @@ export function groupShiftsByLocation(shifts) {
 
 // turns shifts into [{ date, shifts }, ...]
 export function groupShiftsByDate(shifts) {
-	const groupedShifts = groupBy(shifts, shift => shift.shiftStart.getTime());
-	const groupedAndSortedShifts = sortObjectByKeys(groupedShifts);
+	const groupedShifts = groupBy(shifts, shift => shift.shiftStart.toDateString());
+	const groupedAndSortedShifts = sortObjectByKeys(groupedShifts, (a, b) => new Date(a) - new Date(b));
 	const labeledShifts = labelKeysAndValues(groupedAndSortedShifts, "date", "shifts");
-	return labeledShifts.map(shiftDay => ({ date: new Date(Number(shiftDay.date)), shifts: shiftDay.shifts }));
+	return labeledShifts.map(shiftDay => ({ date: new Date(shiftDay.date), shifts: shiftDay.shifts }));
 }
