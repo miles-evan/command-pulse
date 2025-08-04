@@ -3,6 +3,10 @@ import * as userService from "@/services/userService";
 import * as companyService from "@/services/companyService";
 
 
+// THIS IS TEMPORARY
+// Credentials will not be saved to the device like this in the future
+
+
 // gets credentials from async storage and logs in user
 // returns companyName if success and false if failure
 export async function asyncStorageAuthentication() {

@@ -41,6 +41,10 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use((request, response, next) => {
+	console.log(`${request.method} ${request.originalUrl}\nBody: ${JSON.stringify(request.body)}\n`);
+	next();
+});
 
 
 // routers
