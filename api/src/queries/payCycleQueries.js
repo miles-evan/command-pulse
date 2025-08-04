@@ -29,7 +29,7 @@ async function computeSummary(shifts, payCycle) {
 	// compute summary
 	const summary = { totalHoursWorked: 0, totalHoursWorkedRevised: 0, totalEarning: 0, totalEarningRevised: 0 };
 	for (const shift of shifts) {
-		shift.hoursWorked = shift.clockInTime? shift.shiftEnd - shift.shiftStart : 0;
+		shift.hoursWorked = shift.clockInTime? (shift.shiftEnd - shift.shiftStart) / (1000 * 60 * 60) : 0;
 		summary.totalHoursWorked += shift.hoursWorked;
 		summary.totalEarning += shift.hoursWorked * shift.payRate;
 		
