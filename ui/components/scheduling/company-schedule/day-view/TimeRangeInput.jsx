@@ -5,7 +5,6 @@ import StyledTextInput from "@/components/project-specific-utility-components/St
 
 export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, date, ...rest }) {
 	
-	console.log("TimeRangeInput initialValue", initialValue)
 	const [timeRange, setTimeRange] = useState(initialValue? formatTimeRange(initialValue) : "2-5");
 	useEffect(parseAndSetTimeRange, []);
 	const [isDifferent, setIsDifferent] = useState(false);
@@ -33,10 +32,7 @@ export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, 
 			const parsedTimeRange = parseTimeRange(prev, date);
 			onNewValue(parsedTimeRange); // call it here so we use non-stale value, and so it only calls on end editing
 			if(!parsedTimeRange) return "Invalid";
-			const result = formatTimeRange(parsedTimeRange);
-			console.log("parsedTimeRange", parsedTimeRange);
-			console.log("parseAndSetTimeRange formatTimeRange(parsedTimeRange)", result);
-			return result;
+			return formatTimeRange(parsedTimeRange);
 		});
 	}
 	

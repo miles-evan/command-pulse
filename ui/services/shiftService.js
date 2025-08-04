@@ -50,11 +50,11 @@ export const deleteShifts = shiftIds =>
 // -------------------------------- Helper functions:
 
 
-function expandShiftDates(shift) {
+export function expandShiftDates(shift) {
 	shift.shiftStart = new Date(shift.shiftStart);
 	shift.shiftEnd = new Date(shift.shiftEnd);
-	if(shift.startTime) shift.startTime = new Date(shift.startTime);
-	if(shift.endTime) shift.endTime = new Date(shift.endTime);
+	if(shift.clockInTime) shift.clockInTime = new Date(shift.clockInTime);
+	if(shift.clockOutTime) shift.clockOutTime = new Date(shift.clockOutTime);
 }
 
 
@@ -63,8 +63,8 @@ function serializeUpdatedInfoDates(updatedInfo) {
 		updatedInfo.shiftStart = updatedInfo.shiftStart.toISOString();
 	if("shiftEnd" in updatedInfo)
 		updatedInfo.shiftEnd = updatedInfo.shiftEnd.toISOString();
-	if("startTime" in updatedInfo)
-		updatedInfo.startTime = updatedInfo.startTime.toISOString();
-	if("endTime" in updatedInfo)
-		updatedInfo.endTime = updatedInfo.endTime.toISOString();
+	if("clockInTime" in updatedInfo)
+		updatedInfo.clockInTime = updatedInfo.clockInTime.toISOString();
+	if("clockOutTime" in updatedInfo)
+		updatedInfo.clockOutTime = updatedInfo.clockOutTime.toISOString();
 }
