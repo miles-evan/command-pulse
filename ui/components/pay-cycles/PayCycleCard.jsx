@@ -1,7 +1,7 @@
 import Card from "@/components/project-specific-utility-components/Card.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import LeftRightSelector from "@/components/project-specific-utility-components/LeftRightSelector.jsx";
-import { formatDateRange, shortenDate } from "@/utils/dateUtils.js";
+import { formatDateRange, shortDate } from "@/utils/newDateUtils.js";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import Button from "@/components/project-specific-utility-components/Button.jsx";
@@ -58,7 +58,7 @@ export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user,
 			<Gap size={16}/>
 			
 			<StyledText look="25 light veryHard" hCenter={false}>
-				{`Payday: ${shortenDate(payDay)}`}
+				{`Payday: ${shortDate(payDay)}`}
 			</StyledText>
 			
 			<HorizontalLine color="soft" length={"100%"}/>
