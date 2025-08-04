@@ -11,7 +11,8 @@ export function groupShiftsByLocation(shifts) {
 
 // turns shifts into [{ date, shifts }, ...]
 export function groupShiftsByDate(shifts) {
-	const groupedShifts = groupBy(shifts, shift => shift.date);
+	const groupedShifts = groupBy(shifts, shift => shift.shiftStart.getTime());
 	const groupedAndSortedShifts = sortObjectByKeys(groupedShifts);
-	return labelKeysAndValues(groupedAndSortedShifts, "date", "shifts");
+	const labeledShifts = labelKeysAndValues(groupedAndSortedShifts, "date", "shifts");
+	return labeledShifts.map(shiftDay => ({ date: new Date(shiftDay.date), shifts: shiftDay.shifts }));
 }

@@ -1,7 +1,7 @@
 
 
 export function dayOfWeek(date, labelToday=false) {
-	if(labelToday && date.toDateString() === new Date().toDateString())
+	if(labelToday && areSameDay(date, new Date()))
 		return "Today";
 	return date.toLocaleDateString("en-US", { weekday: "long" });
 }
@@ -22,6 +22,14 @@ export function shortTime(date) {
 	hours = hours === 0? 12 : hours % 12;
 	
 	return `${hours}:${padZero(minutes)}${ampm}`;
+}
+
+
+// --------------------------------
+
+
+export function areSameDay(date1, date2) {
+	return date1.toDateString() === date2.toDateString();
 }
 
 
