@@ -67,7 +67,7 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 				/>
 				
 				<TimeRangeInput
-					initialValue={shiftStart? shiftStart + "-" + shiftEnd : undefined}
+					initialValue={[shiftStart, shiftEnd]}
 					onNewValue={newTimeRange => addEdit("timeRange", newTimeRange)}
 					date={shift.shiftStart}
 				/>
