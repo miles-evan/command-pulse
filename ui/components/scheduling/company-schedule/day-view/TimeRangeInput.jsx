@@ -5,16 +5,16 @@ import StyledTextInput from "@/components/project-specific-utility-components/St
 
 export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, date, ...rest }) {
 	
-	const [timeRange, setTimeRange] = useState(initialValue ?? "02:00 PM - 05:00 PM");
+	const [timeRange, setTimeRange] = useState(initialValue ?? "2-5");
 	useEffect(parseAndSetTimeRange, []);
 	const [isDifferent, setIsDifferent] = useState(false);
-	const parsedInitialValue = useMemo(() => parseTimeRange(initialValue, date));
+	const parsedInitialValue = useMemo(() => parseTimeRange(initialValue ?? "2-5", date));
 	const [selection, setSelection] = useState(null);
 	
 	
 	function onFocus() {
 		setTimeRange(prev => {
-			const newTimeRange = prev.replace(/pm/g, "")
+			const newTimeRange = prev.replace(/pm/g, "").replace(/:00/g, "");
 			setSelection({ start: 0, end: newTimeRange.length });
 			return newTimeRange;
 		});

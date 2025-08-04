@@ -88,8 +88,6 @@ export function areSameDay(date1, date2) {
 
 // parseTimeRange("5am-6:30", Date) -> [date1, date2]
 export function parseTimeRange(timeRangeStr, baseDate) {
-	if (typeof timeRangeStr !== "string" || !(baseDate instanceof Date)) return null;
-	
 	const result = timeRangeStr
 		.replace(/\s/g, "")
 		.toUpperCase()

@@ -47,6 +47,7 @@ export default function ShiftLocation({
 				result.push(shiftDays[index++]);
 			else
 				result.push({ date, shifts: [] });
+			date = new Date(date);
 			date.setDate(date.getDate() + 1);
 		}
 		
