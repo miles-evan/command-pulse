@@ -52,7 +52,7 @@ export function shortDate(date) {
 
 // [date1, date2] -> "2:00pm-5:00pm"
 export function formatTimeRange(timeRange) {
-	return timeRange.map(date => shortTime(date)).join("-");
+	return timeRange.map(date => superShortTime(date, true)).join("-");
 }
 
 

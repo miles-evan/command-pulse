@@ -4,12 +4,19 @@ import BetterFetch from "../utils/BetterFetch.js";
 const rootURL = "http://192.168.1.202:80/command-pulse/api/v1/shifts"
 
 // get my shifts
-export const getMy = (date, dir, skip, limit) =>
-	BetterFetch.get(rootURL, { date: date.toISOString(), dir, skip, limit });
+export const getMy = async (date, dir, skip, limit) => {
+	const response = await BetterFetch.get(rootURL, { date: date.toISOString(), dir, skip, limit });
+	response.body.shifts?.forEach?.(expandShiftDates);
+	return response;
+};
 
 // get all shifts
-export const getAll = (startDate, endDate) =>
-	BetterFetch.get(rootURL + "/all", { startDate: startDate.toISOString(), endDate: endDate.toISOString() });
+export const getAll = async (startDate, endDate) => {
+	const response =
+		await BetterFetch.get(rootURL + "/all", { startDate: startDate.toISOString(), endDate: endDate.toISOString() });
+	response.body.shifts?.forEach?.(expandShiftDates);
+	return response;
+};
 
 // clock in
 export const clockIn = shiftId =>
@@ -22,11 +29,7 @@ export const clockOut = shiftId =>
 // assign shift
 export const assignShift = (shiftStart, shiftEnd, location, payRate, userId=null) =>
 	BetterFetch.post(rootURL + "/assign", {
-		shiftStart: shiftStart.toISOString(),
-		shiftEnd: shiftEnd.toISOString(),
-		location,
-		payRate,
-		userId
+		shiftStart: shiftStart.toISOString(), shiftEnd: shiftEnd.toISOString(), location, payRate, userId
 	});
 
 // reassign shift
@@ -35,13 +38,33 @@ export const reassignShift = (shiftId, userId) =>
 
 // update shift(s)
 export const updateShifts = (shiftIds, updatedInfo) => {
-	if("shiftStart" in updatedInfo)
-		updatedInfo.shiftStart = updatedInfo.shiftStart.toISOString();
-	if("shiftEnd" in updatedInfo)
-		updatedInfo.shiftEnd = updatedInfo.shiftEnd.toISOString();
+	serializeUpdatedInfoDates(updatedInfo);
 	return BetterFetch.put(rootURL, { shiftIds, updatedInfo });
 }
 
 // remove shift(s)
 export const deleteShifts = shiftIds =>
 	BetterFetch.delete(rootURL, { shiftIds });
+
+
+// -------------------------------- Helper functions:
+
+
+function expandShiftDates(shift) {
+	shift.shiftStart = new Date(shift.shiftStart);
+	shift.shiftEnd = new Date(shift.shiftEnd);
+	if(shift.startTime) shift.startTime = new Date(shift.startTime);
+	if(shift.endTime) shift.endTime = new Date(shift.endTime);
+}
+
+
+function serializeUpdatedInfoDates(updatedInfo) {
+	if("shiftStart" in updatedInfo)
+		updatedInfo.shiftStart = updatedInfo.shiftStart.toISOString();
+	if("shiftEnd" in updatedInfo)
+		updatedInfo.shiftEnd = updatedInfo.shiftEnd.toISOString();
+	if("startTime" in updatedInfo)
+		updatedInfo.startTime = updatedInfo.startTime.toISOString();
+	if("endTime" in updatedInfo)
+		updatedInfo.endTime = updatedInfo.endTime.toISOString();
+}

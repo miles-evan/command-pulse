@@ -1,6 +1,6 @@
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
-import { superShortenTime } from "@/utils/dateUtils.js";
+import { superShortTime } from "@/utils/newDateUtils.js";
 import PersonDropDown from "@/components/scheduling/company-schedule/day-view/PersonDropDown.jsx";
 import { StyleSheet } from "react-native";
 import TimeRangeInput from "@/components/scheduling/company-schedule/day-view/TimeRangeInput.jsx";
@@ -10,7 +10,7 @@ import RemoveButton from "@/components/project-specific-utility-components/Remov
 
 export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits=_=>{}, onDelete=()=>{} }) {
 	
-	const { userId, firstName, lastName, startTime, endTime, payRate } = shift;
+	const { userId, firstName, lastName, shiftStart, shiftEnd, payRate } = shift;
 	const edits = useRef({}); // useRef so that it doesn't rerender
 	
 	
@@ -46,7 +46,7 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 				</StyledText>
 				
 				<StyledText look="26 light veryHard" numberOfLines={1} style={styles.times}>
-					{superShortenTime(startTime) + "-" + superShortenTime(endTime)}
+					{superShortTime(shiftStart) + "-" + superShortTime(shiftEnd)}
 				</StyledText>
 			
 			</FlexRowSpaceBetween>
@@ -67,7 +67,7 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 				/>
 				
 				<TimeRangeInput
-					initialValue={startTime? startTime + "-" + endTime : undefined}
+					initialValue={shiftStart? shiftStart + "-" + shiftEnd : undefined}
 					onNewValue={newTimeRange => addEdit("timeRange", newTimeRange)}
 					date={shift.shiftStart}
 				/>
