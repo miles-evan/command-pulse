@@ -43,9 +43,9 @@ async function fetchWithBody(url, method, body, retries=3) {
 		}
 		if(method === "GET") delete options.body
 		
-		console.log("about to fetch", method, url)
+		// console.log("about to fetch", method, url)
 		const response = await fetch(url, options);
-		console.log("fetch complete", method, url)
+		// console.log("fetch complete", method, url)
 		
 		const responseBody = await response.json()
 			.catch(() => response.text())

@@ -41,10 +41,14 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+let requestCount = 0;
 app.use((request, response, next) => {
-	console.log(
-		`${request.method} ${request.originalUrl}\nBody: ${JSON.stringify(request.body)}\nUser: ${request?.user?.id}\n`
-	);
+	console.log(`
+		Request #${++requestCount}
+		${request.method} ${request.originalUrl}
+		Body: ${JSON.stringify(request.body)}
+		User: ${request?.user?.id}
+	`);
 	next();
 });
 
@@ -57,10 +61,8 @@ app.use("/command-pulse/api/v1/pay-cycles", payCycleRouter);
 app.use("/command-pulse/api/v1/incident-reports", incidentReportRouter);
 
 
-// test
+// ping
 app.get("/command-pulse/api/v1/", (request, response) => {
-	const { body, query, params } = request;
-	console.log({ body, query, params });
 	response.sendStatus(200);
 });
 
