@@ -30,7 +30,7 @@ export default function ConnectionStatus({ pingInterval=10000 }) {
 	
 	
 	return <StyledText look={`12 semibold ${connected? "altAccent" : "danger"}`}>
-		{`connected: ${connected}, ping: ${ping}`}
+		{`${connected? "" : "dis"}connected, ping: ${ping}`}
 	</StyledText>;
 	
 }

@@ -49,6 +49,7 @@ app.use((request, response, next) => {
 		${request.method} ${request.originalUrl}
 		Body: ${JSON.stringify(request.body)}
 		User: ${request?.user?.id}
+		Session: ${request.sessionID}
 	`);
 	next();
 });
