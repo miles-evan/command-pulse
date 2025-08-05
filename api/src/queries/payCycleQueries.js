@@ -1,6 +1,7 @@
 import { PayCycle } from "../mongoose/schemas/payCycleSchema.js"
 import { getShiftsInDateRange } from "./shiftQueries.js";
 import { User } from "../mongoose/schemas/userSchema.js";
+import { Shift } from "../mongoose/schemas/shiftSchema.js";
 
 
 export async function getPayCycleSummary(userId, startDate, endDate) {
@@ -19,12 +20,15 @@ export async function getPayCycleSummary(userId, startDate, endDate) {
 
 // computes totals and also cleans payCycle object
 async function computeSummary(shifts, payCycle) {
-	const redundancies = {};
+	const redundanciesAndStaleRevisions = {};
 	
 	const revisionsMap = {};
 	for(const revision of payCycle?.hoursWorkedRevisions ?? []) {
 		revisionsMap[revision.shiftId.toString()] = revision.hoursWorked;
 	}
+	const existingShiftIds = new Set(
+		(await Shift.find({ _id: { $in: shifts.map(s => s.shiftId) } }, "_id")).map(shift => shift._id.toString())
+	);
 	
 	// compute summary
 	const summary = { totalHoursWorked: 0, totalHoursWorkedRevised: 0, totalEarning: 0, totalEarningRevised: 0 };
@@ -34,9 +38,9 @@ async function computeSummary(shifts, payCycle) {
 		summary.totalEarning += shift.hoursWorked * shift.payRate;
 		
 		const shiftId = shift.shiftId.toString();
-		if (revisionsMap[shiftId] === shift.hoursWorked) {
+		if (!existingShiftIds.has(shiftId) || revisionsMap[shiftId] === shift.hoursWorked) { // flag for cleaning
 			delete revisionsMap[shiftId];
-			redundancies[shiftId] = true;
+			redundanciesAndStaleRevisions[shiftId] = true;
 		}
 		
 		shift.hoursWorkedRevised = revisionsMap[shiftId] ?? null;
@@ -50,7 +54,7 @@ async function computeSummary(shifts, payCycle) {
 		payCycle?.payCycleId,
 		{ $pull: {
 			hoursWorkedRevisions: {
-				shiftId: { $in: Object.keys(redundancies) }
+				shiftId: { $in: Object.keys(redundanciesAndStaleRevisions) }
 			}
 		}}
 	);
