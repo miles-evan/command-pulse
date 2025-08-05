@@ -100,10 +100,18 @@ export async function confirmPaymentReceived(payCycleId) {
 
 
 // either give (userId, startDate, and endDate) OR give (payCycleId)
-// overrides and replaces current revisions
+// overrides each current matching revision (doesn't override whole object)
 export async function reviseHours(userId, startDate, endDate, payCycleId=null, hoursWorkedRevisions) {
 	if(!payCycleId) payCycleId = await createPayCycle(userId, startDate, endDate);
-	await PayCycle.findByIdAndUpdate(payCycleId, { $set: { hoursWorkedRevisions: hoursWorkedRevisions } });
+	const payCycle = await PayCycle.findById(payCycleId);
+	
+	const revisionMap = {};
+	for(const revision of payCycle.hoursWorkedRevisions)
+		revisionMap[revision.shiftId.toString()] = revision;
+	for(const revision of hoursWorkedRevisions)
+		revisionMap[revision.shiftId.toString()] = revision;
+	
+	await PayCycle.findByIdAndUpdate(payCycleId, { $set: { hoursWorkedRevisions: Object.values(revisionMap) } });
 	return payCycleId;
 }
 
