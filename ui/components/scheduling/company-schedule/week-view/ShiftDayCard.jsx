@@ -1,6 +1,6 @@
 import Card from "@/components/project-specific-utility-components/Card.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
-import { dayOfWeekShort, superShortenTime } from "@/utils/dateUtils.js";
+import { dayOfWeekShort, superShortTime } from "@/utils/newDateUtils.js";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import { useMemo } from "react";
@@ -13,7 +13,7 @@ import Gap from "@/components/general-utility-components/Gap.jsx";
 
 export default function ShiftDayCard({ date, shifts, onPress, editing=false, onDelete=()=>{} }) {
 	
-	const sortedShifts = useMemo(() => [...shifts].sort((a, b) => a.startTime.localeCompare(b.startTime)), [shifts]);
+	const sortedShifts = useMemo(() => [...shifts].sort((a, b) => a.shiftStart - b.shiftStart), [shifts]);
 	
 	
 	return (
@@ -33,7 +33,7 @@ export default function ShiftDayCard({ date, shifts, onPress, editing=false, onD
 						
 						<HorizontalLine color="soft" length="100%" style={styles.divider}/>
 						
-						{sortedShifts.map(({ firstName, lastName, startTime, endTime }, index) => (
+						{sortedShifts.map(({ firstName, lastName, shiftStart, shiftEnd }, index) => (
 							<View key={index}>
 								
 								<If condition={index === 5}>
@@ -48,7 +48,7 @@ export default function ShiftDayCard({ date, shifts, onPress, editing=false, onD
 									</StyledText>
 									
 									<StyledText look="18 regular veryHard" numberOfLines={1} style={styles.times}>
-										{superShortenTime(startTime) + "-" + superShortenTime(endTime)}
+										{superShortTime(shiftStart) + "-" + superShortTime(shiftEnd)}
 									</StyledText>
 								
 								</FlexRowSpaceBetween>

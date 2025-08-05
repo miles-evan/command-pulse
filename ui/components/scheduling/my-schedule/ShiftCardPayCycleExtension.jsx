@@ -1,6 +1,6 @@
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
-import { superShortenTime } from "@/utils/dateUtils.js";
+import { superShortTime } from "@/utils/newDateUtils.js";
 import If from "@/components/general-utility-components/If.jsx";
 import StyledTextInput from "@/components/project-specific-utility-components/StyledTextInput.jsx";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
@@ -59,8 +59,8 @@ export default function ShiftCardPayCycleExtension({ shift, isSupervisor }) {
 			{/* Clock in/out */}
 			<StyledText look="24 light veryHard" hCenter={false}>
 				{"Clock in/out: "
-					+ (clockInTime? superShortenTime(clockInTime): "N/A") + "-"
-					+ (clockOutTime? superShortenTime(clockOutTime): "N/A")}
+					+ (clockInTime? superShortTime(clockInTime): "N/A") + "-"
+					+ (clockOutTime? superShortTime(clockOutTime): "N/A")}
 			</StyledText>
 			
 			{/* Hours registered */}

@@ -1,6 +1,5 @@
 import { PayCycle } from "../mongoose/schemas/payCycleSchema.js"
 import { getShiftsInDateRange } from "./shiftQueries.js";
-import { compareTimes } from "../utils/dateUtils.js";
 import { User } from "../mongoose/schemas/userSchema.js";
 
 
@@ -30,7 +29,7 @@ async function computeSummary(shifts, payCycle) {
 	// compute summary
 	const summary = { totalHoursWorked: 0, totalHoursWorkedRevised: 0, totalEarning: 0, totalEarningRevised: 0 };
 	for (const shift of shifts) {
-		shift.hoursWorked = shift.clockInTime? compareTimes(shift.endTime, shift.startTime) : 0;
+		shift.hoursWorked = shift.clockInTime? (shift.shiftEnd - shift.shiftStart) / (1000 * 60 * 60) : 0;
 		summary.totalHoursWorked += shift.hoursWorked;
 		summary.totalEarning += shift.hoursWorked * shift.payRate;
 		
@@ -101,10 +100,18 @@ export async function confirmPaymentReceived(payCycleId) {
 
 
 // either give (userId, startDate, and endDate) OR give (payCycleId)
-// overrides and replaces current revisions
+// overrides each current matching revision (doesn't override whole object)
 export async function reviseHours(userId, startDate, endDate, payCycleId=null, hoursWorkedRevisions) {
 	if(!payCycleId) payCycleId = await createPayCycle(userId, startDate, endDate);
-	await PayCycle.findByIdAndUpdate(payCycleId, { $set: { hoursWorkedRevisions: hoursWorkedRevisions } });
+	const payCycle = await PayCycle.findById(payCycleId);
+	
+	const revisionMap = {};
+	for(const revision of payCycle.hoursWorkedRevisions)
+		revisionMap[revision.shiftId.toString()] = revision;
+	for(const revision of hoursWorkedRevisions)
+		revisionMap[revision.shiftId.toString()] = revision;
+	
+	await PayCycle.findByIdAndUpdate(payCycleId, { $set: { hoursWorkedRevisions: Object.values(revisionMap) } });
 	return payCycleId;
 }
 

@@ -6,7 +6,6 @@ import { groupShiftsByDate } from "@/utils/groupShifts.js";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
 import { router } from "expo-router";
 import AddDayButton from "@/components/scheduling/company-schedule/week-view/AddDayButton.jsx";
-import { getRelativeDate } from "@/utils/dateUtils.js";
 import If from "@/components/general-utility-components/If.jsx";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import EditButton from "@/components/project-specific-utility-components/EditButton.jsx";
@@ -14,8 +13,11 @@ import StyledTextInput from "@/components/project-specific-utility-components/St
 import * as shiftService from "@/services/shiftService.js";
 import RemoveButton from "@/components/project-specific-utility-components/RemoveButton.jsx";
 import FlexRow from "@/components/general-utility-components/FlexRow.jsx";
+import { areSameDay } from "@/utils/newDateUtils.js";
 
-export default function ShiftLocation({ locationName: initialLocationName, shifts, weekRange: [startDate, endDate], onDelete=()=>{} }) {
+export default function ShiftLocation({
+	locationName: initialLocationName, shifts, weekRange: [startDate, endDate], onDelete=()=>{}
+}) {
 	
 	const [locationName, setLocationName] = useState(initialLocationName ?? "New location");
 	const [shiftDays, setShiftDays] = useState([]);
@@ -41,12 +43,12 @@ export default function ShiftLocation({ locationName: initialLocationName, shift
 		const result = [];
 		
 		while(date <= endDate) {
-			if(index < shiftDays.length && shiftDays[index].date === date)
+			if(index < shiftDays.length && areSameDay(shiftDays[index].date, date))
 				result.push(shiftDays[index++]);
 			else
 				result.push({ date, shifts: [] });
-			
-			date = getRelativeDate(date, 1);
+			date = new Date(date);
+			date.setDate(date.getDate() + 1);
 		}
 		
 		setShiftDays(result);

@@ -1,20 +1,16 @@
 import mongoose from "mongoose";
 
 const shiftSchema = new mongoose.Schema({
-	date: {
-		type: String,
-		required: true
-	},
 	location: {
 		type: String,
 		required: true
 	},
-	startTime: {
-		type: String,
+	shiftStart: {
+		type: Date,
 		required: true
 	},
-	endTime: {
-		type: String,
+	shiftEnd: {
+		type: Date,
 		required: true
 	},
 	payRate: {
@@ -27,11 +23,11 @@ const shiftSchema = new mongoose.Schema({
 		default: null
 	},
 	clockInTime: {
-		type: String,
+		type: Date,
 		default: null
 	},
 	clockOutTime: {
-		type: String,
+		type: Date,
 		default: null
 	}
 });

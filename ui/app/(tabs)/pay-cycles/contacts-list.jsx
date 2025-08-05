@@ -7,7 +7,7 @@ import { router } from "expo-router";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
 import { useEffect, useMemo, useState } from "react";
 import useContactsList from "@/hooks/useContactsList.js";
-import { getPayCycleRange } from "@/utils/dateUtils.js";
+import { getPayCycleRange } from "@/utils/newDateUtils.js";
 import * as payCycleService from "@/services/payCycleService.js";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Colors } from "@/constants/Colors.js";

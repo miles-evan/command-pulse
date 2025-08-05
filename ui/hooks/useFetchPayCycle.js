@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import * as payCycleService from "@/services/payCycleService.js";
-import { getPayCycleRange } from "@/utils/dateUtils.js";
+import { getPayCycleRange } from "@/utils/newDateUtils.js";
 
 
 export default function useFetchPayCycleSummary(userId=null, currentPayCycle=null) {

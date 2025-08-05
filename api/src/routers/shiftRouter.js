@@ -4,8 +4,18 @@ import {
 	sameCompanyAsShift, sameCompanyAsShiftRequest, sameCompanyAsShifts, sameCompanyAsUser
 } from "../middleware/sameCompanyAs.js";
 import {
-	acceptShiftRequest, createAndAssignShift, createShiftRequest, deleteAndUnassignShifts, deleteShiftRequest,
-	getAllShifts, getShifts, reassignShift, updateShiftInfo, updateShiftInfos
+	acceptShiftRequest,
+	clockIn,
+	clockOut,
+	createAndAssignShift,
+	createShiftRequest,
+	deleteAndUnassignShifts,
+	deleteShiftRequest,
+	getAllShifts,
+	getShifts,
+	reassignShift,
+	updateShiftInfo,
+	updateShiftInfos
 } from "../queries/shiftQueries.js";
 import { isMyShift, isMyShiftRequest } from "../middleware/isMy.js";
 import { clockInOutPermission } from "../middleware/clockInOutPermission.js";
@@ -30,11 +40,11 @@ shiftRouter.post(
 	...permission("supervisor"),
 	sameCompanyAsUser("body.userId"),
 	async (request, response) => {
-		const { date, startTime, endTime, location, payRate, userId, shiftRequestMessage } = request.body;
+		const { shiftStart, shiftEnd, location, payRate, userId, shiftRequestMessage } = request.body;
 		
 		try {
 			const newShift = await createAndAssignShift(
-				date, startTime, endTime, location, payRate, userId, shiftRequestMessage, request.user.companyId
+				shiftStart, shiftEnd, location, payRate, userId, shiftRequestMessage, request.user.companyId
 			);
 			return response.status(201).send({ shiftId: newShift.id });
 		} catch ({ message }) {
@@ -79,9 +89,9 @@ shiftRouter.get(
 	...validateRequest(getMyShiftsValidation),
 	...permission("in company"),
 	async (request, response) => {
-		const { date, time, dir, skip, limit } = matchedData(request);
+		const { date, dir, skip, limit } = matchedData(request);
 		
-		const shifts = await getShifts(request.user.id, date, time, dir, skip, limit);
+		const shifts = await getShifts(request.user.id, date, dir, skip, limit);
 		response.send({ shifts });
 	}
 );
@@ -93,9 +103,9 @@ shiftRouter.get(
 	...validateRequest(getSomeonesShiftsValidation),
 	...permission("supervisor"),
 	async (request, response) => {
-		const { userId, date, time, dir, skip, limit } = matchedData(request);
+		const { userId, date, dir, skip, limit } = matchedData(request);
 		
-		const shifts = await getShifts(userId, date, time, dir, skip, limit);
+		const shifts = await getShifts(userId, date, dir, skip, limit);
 		response.send({ shifts });
 	}
 );
@@ -193,12 +203,7 @@ shiftRouter.post(
 	async (request, response) => {
 		const { shiftId, inOrOut } = request.params;
 		
-		const propertyToUpdate = inOrOut === "in"? "clockInTime": "clockOutTime";
-		
-		const now = new Date();
-		const timeString = now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" });
-		
-		await updateShiftInfo(shiftId, { [propertyToUpdate]: timeString });
+		await (inOrOut === "in"? clockIn : clockOut)(shiftId);
 		
 		response.sendStatus(200);
 	}

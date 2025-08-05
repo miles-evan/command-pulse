@@ -16,6 +16,7 @@ import {
 } from "../validation/payCycleValidation.js";
 import { sameCompanyAsUser } from "../middleware/sameCompanyAs.js";
 import { isMyPayCycle } from "../middleware/isMy.js";
+import { matchedData } from "express-validator";
 
 const payCycleRouter = Router();
 
@@ -28,7 +29,7 @@ payCycleRouter.get(
 	...validateRequest(getMyPayCycleSummaryValidation),
 	...permission("in company"),
 	async (request, response) => {
-		const { startDate, endDate } = request.query;
+		const { startDate, endDate } = matchedData(request);
 		
 		const result = await getPayCycleSummary(request.user.id, startDate, endDate);
 		return response.send(result);
@@ -43,7 +44,7 @@ payCycleRouter.get(
 	...permission("supervisor"),
 	sameCompanyAsUser("params.userId"),
 	async (request, response) => {
-		const { startDate, endDate } = request.query;
+		const { startDate, endDate } = matchedData(request);
 		const { userId } = request.params;
 		
 		const result = await getPayCycleSummary(userId, startDate, endDate);
@@ -59,9 +60,9 @@ payCycleRouter.post(
 	...permission("supervisor"),
 	sameCompanyAsUser("body.userId"),
 	async (request, response) => {
-		let { userId, startDate, endDate, payCycleId, paymentMethod="cash" } = request.body;
+		let { userId, startDate, endDate, payCycleId, paymentMethod="cash" } = matchedData(request);
 		
-		payCycleId = await confirmPaymentSent(userId, startDate, endDate, payCycleId);
+		payCycleId = await confirmPaymentSent(userId, startDate, endDate, payCycleId, paymentMethod);
 		return response.send({ payCycleId });
 	}
 );
@@ -75,7 +76,7 @@ payCycleRouter.post(
 	isMyPayCycle("body.payCycleId"),
 	payCyclePayedOrNot("body.payCycleId"),
 	async (request, response) => {
-		let { payCycleId } = request.body;
+		let { payCycleId } = matchedData(request);
 		
 		await confirmPaymentReceived(payCycleId);
 		return response.sendStatus(200);
@@ -91,7 +92,7 @@ payCycleRouter.post(
 	sameCompanyAsUser("body.userId"),
 	paymentNotYetSentOrNull("body.payCycleId"),
 	async (request, response) => {
-		let { payCycleId, startDate, endDate, userId, hoursWorkedRevisions } = request.body;
+		let { payCycleId, startDate, endDate, userId, hoursWorkedRevisions } = matchedData(request);
 		
 		payCycleId = await reviseHours(userId, startDate, endDate, payCycleId, hoursWorkedRevisions);
 		return response.send({ payCycleId });

@@ -33,30 +33,47 @@ function toQueryString(queryObj) {
 }
 
 
-async function fetchWithBody(url, method, body) {
-	const options = {
-		method,
-		credentials: "include",
-		headers: {'Content-Type': 'application/json'},
-		body: JSON.stringify(body)
-	}
-	if(method === "GET") delete options.body
-	
-	const response = await fetch(url, options);
-	
-	if(!response.ok) console.log(
-		"\n\nNOT OKAY!! Error " + response.status
-		+ "\nBody: " + JSON.stringify(await response.json())
-		+ "\nURL " + url
-		+ "\nMETHOD " + method
-	);
-	
-	return {
-		status: response.status,
-		ok: response.ok,
-		body: await response.json()
+async function fetchWithBody(url, method, body, retries=3) {
+	try {
+		const options = {
+			method,
+			credentials: "include",
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify(body)
+		}
+		if(method === "GET") delete options.body
+		
+		console.log("about to fetch", method, url)
+		const response = await fetch(url, options);
+		console.log("fetch complete", method, url)
+		
+		const responseBody = await response.json()
 			.catch(() => response.text())
-			.catch(() => null),
-		url
-	};
+			.catch(() => null);
+		
+		if(!response.ok) console.log(
+			"\n\nNOT OKAY!! Error " + response.status
+			+ "\nBody: " + JSON.stringify(responseBody)
+			+ "\nURL " + url
+			+ "\nMETHOD " + method
+		);
+		
+		return {
+			status: response.status,
+			ok: response.ok,
+			body: responseBody,
+			url,
+		};
+	} catch(e) {
+		console.log(e);
+		if(
+			e instanceof TypeError
+			&& ["Network request failed", "Network request timed out", "Failed to fetch"].includes(e?.message)
+			&& retries > 0
+		) {
+			await new Promise(res => setTimeout(res, 500));
+			return fetchWithBody(url, method, body, retries - 1);
+		}
+		throw e;
+	}
 }

@@ -5,21 +5,21 @@ const rootURL = "http://192.168.1.202:80/command-pulse/api/v1/users"
 
 
 // signup
-export const signup = async (email, password, firstName, lastName, phoneNumber) =>
-	await BetterFetch.post(rootURL + "/signup", { email, password, firstName, lastName, phoneNumber });
+export const signup = (email, password, firstName, lastName, phoneNumber) =>
+	BetterFetch.post(rootURL + "/signup", { email, password, firstName, lastName, phoneNumber });
 
 // login
-export const login = async (email, password) =>
-	await BetterFetch.post(rootURL + "/login", { email, password });
+export const login = (email, password) =>
+	BetterFetch.post(rootURL + "/login", { email, password });
 
 // logout
-export const logout = async () =>
-	await BetterFetch.post(rootURL + "/logout");
+export const logout = () =>
+	BetterFetch.post(rootURL + "/logout");
 
 // check email availability
-export const emailIsAvailable = async email =>
-	await BetterFetch.get(rootURL + `/check-email/${email}`);
+export const emailIsAvailable = email =>
+	BetterFetch.get(rootURL + `/check-email/${email}`);
 
 // login status check
-export const status = async () =>
-	await BetterFetch.get(rootURL + "/status");
+export const status = () =>
+	BetterFetch.get(rootURL + "/status");

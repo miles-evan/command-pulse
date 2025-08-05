@@ -16,7 +16,7 @@ const incidentReportSchema = new mongoose.Schema({
 		required: true,
 	},
 	dateCreated: {
-		type: String,
+		type: Date,
 		required: true,
 	},
 	report: {

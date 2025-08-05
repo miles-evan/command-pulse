@@ -1,5 +1,4 @@
 import { chatGPTPrompt } from "./chatGPT.js";
-import { getTodayString } from "../utils/dateUtils.js";
 
 const incidentReportStructure = JSON.stringify({
 	note: "this is a json representation of what should be included."
@@ -85,8 +84,8 @@ export async function promptGenerateIncidentReport(user, company, shift, dateCre
 			metadata: {
 				user,
 				company,
-				shift,
-				dateCreated,
+				shiftOfIncident: shift,
+				dateInitialized: dateCreated,
 			},
 			incidentInfoWrittenByUser: incidentInfo,
 		});

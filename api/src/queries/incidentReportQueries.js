@@ -1,5 +1,4 @@
 import { IncidentReport } from "../mongoose/schemas/incidentReportSchema.js";
-import { getTodayString } from "../utils/dateUtils.js";
 import { User } from "../mongoose/schemas/userSchema.js";
 import { Shift } from "../mongoose/schemas/shiftSchema.js";
 import { projectShifts } from "./shiftQueries.js";
@@ -13,7 +12,7 @@ export async function initializeIncidentReport(userId, shiftId) {
 		userId,
 		title: "Untitled incident",
 		shiftId,
-		dateCreated: getTodayString(),
+		dateCreated: new Date(),
 	});
 	await newIncidentReport.save();
 	
@@ -131,7 +130,7 @@ async function projectIncidentReports(incidentReports) {
 		shift: {
 			firstName: projectedShiftMap[incidentReport.shiftId].firstName,
 			lastName: projectedShiftMap[incidentReport.shiftId].lastName,
-			date: projectedShiftMap[incidentReport.shiftId].date,
+			date: projectedShiftMap[incidentReport.shiftId].shiftStart,
 			location: projectedShiftMap[incidentReport.shiftId].location,
 		}
 	}));

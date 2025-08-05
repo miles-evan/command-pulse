@@ -5,9 +5,9 @@ import { Company } from "../mongoose/schemas/companySchema.js";
 
 
 export async function createAndAssignShift(
-	date, startTime, endTime, location, payRate, userId, shiftRequestMessage, companyId
+	shiftStart, shiftEnd, location, payRate, userId, shiftRequestMessage, companyId
 ) {
-	const newShift = new Shift({ date, startTime, endTime, location, payRate, userId });
+	const newShift = new Shift({ shiftStart, shiftEnd, location, payRate, userId });
 	await newShift.save();
 	
 	if(userId) {
@@ -95,75 +95,57 @@ export async function deleteShiftRequest(shiftRequestId) {
 // --------------------------------
 
 
-// excludes any shifts at exactly that date and time. filters and sorts by endTime
-export async function getShifts(userId, date, time=null, dir=1, skip=0, limit=20) {
-	if(!time)
-		return await getShiftsBasedOnDay(userId, date, dir, skip, limit);
-	
-	const user = await User.findById(userId);
-	
-	const shifts = await Shift.find({
-		$and: [
-			{ _id: { $in: user.shiftIds } },
-			{ $or: [
-				{ date: dir === 1? { $gt: date } : { $lt: date } },
-				{ $and: [
-					{ date: date },
-					{ endTime: dir === 1? { $gt: time } : { $lt: time } }
-				]}
-			]}
-		]
-	}).sort({ date: dir, endTime: dir }).skip(skip).limit(limit);
-	
-	return projectShifts(shifts);
-}
-
-
-async function getShiftsBasedOnDay(userId, date, dir=1, skip=0, limit=20) {
+// gets shifts based on Date object, filtered and sorted by shiftEnd (exclusive)
+export async function getShifts(userId, date, dir=1, skip=0, limit=20) {
 	const user = await User.findById(userId);
 	
 	const shifts = await Shift.find({
 		_id: { $in: user.shiftIds },
-		date: dir === 1? { $gte: date } : { $lte: date }
-	}).sort({ date: dir, startTime: dir }).skip(skip).limit(limit);
+		shiftEnd: { [dir === 1? "$gt" : "$lt"]: date },
+	}).sort({ shiftEnd: dir }).skip(skip).limit(limit);
 	
 	return projectShifts(shifts);
 }
 
 
+// gets shifts between date objects based on shiftStart (inclusive, exclusive)
 export async function getShiftsInDateRange(userId, startDate, endDate) {
 	const user = await User.findById(userId);
-	const shifts = await Shift.find({ _id: { $in: user.shiftIds }, date: { $gte: startDate, $lte: endDate } });
+	const shifts = await Shift.find({
+		_id: { $in: user.shiftIds },
+		shiftStart: { $gte: startDate, $lt: endDate }
+	}).sort({ shiftStart: 1 });
 	return projectShifts(shifts);
 }
 
 
-export async function getAllShifts(companyId, startDate="0000-00-00", endDate="9999-99-99") {
+// gets shifts in company between date objects based on shiftStart (inclusive, exclusive)
+export async function getAllShifts(companyId, startDate, endDate) {
 	const shifts = [];
 	
 	const company = await Company.findById(companyId);
 	
-	const users = await User.find(
-		{ $or: [
-			{ _id: { $in: company.supervisorIds } },
-			{ _id: { $in: company.officerIds } }
-		] }
-	);
+	const users = await User.find({ $or: [
+		{ _id: { $in: company.supervisorIds } },
+		{ _id: { $in: company.officerIds } },
+	] });
 	
 	(await Promise.all(
 		users.map(user => Shift.find({
 			_id: { $in: user.shiftIds },
-			date: { $gte: startDate, $lte: endDate }
+			shiftStart: { $gte: startDate, $lt: endDate },
 		}))
 	)).forEach(arr => shifts.push(...arr));
 	
 	const shiftRequests = await ShiftRequest.find({
 		_id: { $in: company.shiftRequestIds },
-		date: { $gte: startDate, $lte: endDate },
-		isCover: false
+		isCover: false,
 	});
 	
-	shifts.push(...await Promise.all(shiftRequests.map(shiftRequest => Shift.findById(shiftRequest.shiftId))));
+	shifts.push(...(await Promise.all(shiftRequests.map(async shiftRequest => {
+		const shift = await Shift.findById(shiftRequest.shiftId);
+		return shift.shiftStart >= startDate && shift.shiftStart < endDate? [shift] : [];
+	}))).flat());
 
 	return projectShifts(shifts);
 }
@@ -180,9 +162,8 @@ export async function projectShifts(shifts) {
 		userId: shift.userId,
 		firstName: names[shift.userId].firstName,
 		lastName: names[shift.userId].lastName,
-		date: shift.date,
-		startTime: shift.startTime,
-		endTime: shift.endTime,
+		shiftStart: shift.shiftStart,
+		shiftEnd: shift.shiftEnd,
 		location: shift.location,
 		payRate: shift.payRate,
 		clockInTime: shift.clockInTime,
@@ -199,8 +180,19 @@ export async function updateShiftInfos(shiftIds, updatedInfo) {
 }
 
 
+// this is so that other files don't use the Shift object like this
 export async function updateShiftInfo(shiftId, updatedInfo) {
 	await Shift.findByIdAndUpdate(shiftId, updatedInfo);
+}
+
+
+export async function clockIn(shiftId) {
+	await Shift.findByIdAndUpdate(shiftId, { clockInTime: new Date() });
+}
+
+
+export async function clockOut(shiftId) {
+	await Shift.findByIdAndUpdate(shiftId, { clockOutTime: new Date() });
 }
 
 
@@ -243,7 +235,8 @@ export async function userOwnsShift(userId, shiftId) {
 
 export async function isShiftToday(shiftId) {
 	const shift = await Shift.findById(shiftId);
-	return shift.date === new Date().toISOString().slice(0, 10);
+	const today = new Date().toDateString();
+	return shift.shiftStart.toDateString() === today || shift.shiftEnd.toDateString() === today;
 }
 
 

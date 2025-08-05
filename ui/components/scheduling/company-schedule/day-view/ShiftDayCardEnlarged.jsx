@@ -1,9 +1,8 @@
 import { useMemo, useRef, useState } from "react";
 import Card from "@/components/project-specific-utility-components/Card.jsx";
 import LeftRightSelector from "@/components/project-specific-utility-components/LeftRightSelector.jsx";
-import { dayOfWeek } from "@/utils/dateUtils.js";
+import { dayOfWeek } from "@/utils/newDateUtils.js";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
-import { View } from "react-native";
 import If from "@/components/general-utility-components/If.jsx";
 import AddShiftButton from "@/components/scheduling/company-schedule/day-view/AddShiftButton.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
@@ -11,7 +10,6 @@ import EditButton from "@/components/project-specific-utility-components/EditBut
 import ShiftEntryEnlarged from "@/components/scheduling/company-schedule/day-view/ShiftEntryEnlarged.jsx";
 import * as shiftService from "@/services/shiftService.js";
 import { router } from "expo-router";
-import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import Button from "@/components/project-specific-utility-components/Button.jsx";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
 
@@ -20,7 +18,7 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 	
 	const [deletedIndices, setDeletedIndices] = useState(new Set());
 	
-	const sortedShifts = useMemo(() => [...shifts].sort((a, b) => a.startTime.localeCompare(b.startTime)), [shifts]);
+	const sortedShifts = useMemo(() => [...shifts].sort((a, b) => a.shiftStart - b.shiftStart), [shifts]);
 	const [editing, setEditing] = useState(false);
 	const edits = useRef({});
 	const [loadingSubmitEdits, setLoadingSubmitEdits] = useState(false);
@@ -74,7 +72,8 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 		setAddingShifts(true);
 		setNumNewShifts(prev => prev + 1);
 		newShifts.current.push({
-			date: date,
+			shiftStart: date,
+			shiftEnd: date,
 			location: locationName,
 			key: newShiftsNextKey,
 		});
@@ -98,8 +97,8 @@ export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLef
 		setLoadingSubmitNewShifts(true);
 		await Promise.all(
 			newShifts.current.map(
-				({ date, startTime, endTime, location, payRate, userId }) =>
-					shiftService.assignShift(date, startTime, endTime, location, payRate, userId)
+				({ shiftStart, shiftEnd, location, payRate, userId }) =>
+					shiftService.assignShift(shiftStart, shiftEnd, location, payRate, userId)
 			)
 		);
 		router.back();

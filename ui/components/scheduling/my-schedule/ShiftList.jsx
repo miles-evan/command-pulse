@@ -2,7 +2,6 @@ import ShiftCard from "@/components/scheduling/my-schedule/ShiftCard.jsx";
 import { FlatList } from "react-native";
 import { useEffect, useState } from "react";
 import * as shiftService from "@/services/shiftService.js";
-import { getCurrentTimeString, getTodayString } from "@/utils/dateUtils.js";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import { computeShiftStage } from "@/components/scheduling/my-schedule/computeShiftStage.js";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
@@ -31,13 +30,13 @@ export default function ShiftList({ dir, isFocused=true, showPressFeedback=false
 			setIsLoading(true);
 			
 			(async () => {
-				let response = await shiftService.getMy(getTodayString(), getCurrentTimeString(), dir, prev.length, 10);
+				let response = await shiftService.getMy(new Date(), dir, prev.length, 10);
 				const { shifts: newShifts } = response.body;
 				setShifts([...prev, ...newShifts]);
 				
 				// show previous shift if you haven't clocked out yet
 				if(dir === 1) {
-					response = await shiftService.getMy(getTodayString(), getCurrentTimeString(), -1, 0, 1);
+					response = await shiftService.getMy(new Date(), -1, 0, 1);
 					const { shifts: pastShifts } = response.body;
 					if(pastShifts.length === 0)
 						return setIsLoading(false);
