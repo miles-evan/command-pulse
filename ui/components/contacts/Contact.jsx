@@ -6,7 +6,7 @@ import { Pressable } from "react-native";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 
 
-export default function Contact({ user, onPress, style={}, iconAfterContact }) {
+export default function Contact({ user: { firstName, lastName }, onPress, style={}, iconAfterContact }) {
 	
 	return (
 		<Pressable onPress={onPress} style={style}>
@@ -17,7 +17,7 @@ export default function Contact({ user, onPress, style={}, iconAfterContact }) {
 						<PersonIcon/>
 						<Gap horizontal size={12}/>
 						<StyledText look={`22 regular ${pressed? "mediumSoft" : "veryHard"}`} hCenter={false} vCenter>
-							{user.firstName + " " + user.lastName}
+							{firstName + " " + lastName}
 						</StyledText>
 					</FlexRow>
 					

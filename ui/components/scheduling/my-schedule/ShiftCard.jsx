@@ -47,46 +47,45 @@ export default function ShiftCard({ shift, mode="default", onPress, showPressFee
 	
 	
 	return (
-		<Pressable onPress={onPress}>
-			{({ pressed }) => (
-				<Card style={{
-					paddingHorizontal: 25,
-					marginTop: 0,
-					...(mode === "default" && {
-						...(stage > 0 && { borderColor: Colors.accent }),
-						...(stage === 3 && { borderColor: Colors.mediumHard }),
-					}),
-					...(pressed && showPressFeedback? { borderColor: Colors.medium } : {})
-				}}>
-					
-					<DateAndTime shiftStart={shiftStart} shiftEnd={shiftEnd}/>
-					<Gap size={5}/>
-					<LocationAndPayRate location={location} payRate={payRate}/>
-					
-					{mode === "default"? (
-						
-						<If condition={stage > 0}>
-							<HorizontalLine length="100%" style={{ marginTop: 5, marginBottom: 15 }}/>
-							<FlexRowSpaceAround>
-								{stage === 1? (
-									<ClockInButton onPress={clockIn}/>
-								) : stage === 2? (<>
-									<IncidentButton/>
-									<ClockOutButton onPress={ clockOut }/>
-								</>) : stage === 3? (
-									<IncidentButton/>
-								) : null}
-							</FlexRowSpaceAround>
-						</If>
-					
-					) : mode === "pay cycle supervisor"? (
-						<ShiftCardPayCycleExtension shift={shift} isSupervisor={true}/>
-					) : mode === "pay cycle officer"? (
-						<ShiftCardPayCycleExtension shift={shift} isSupervisor={false}/>
-					) : null}
-				</Card>
-			)}
-		</Pressable>
+		<Card
+			onPress={onPress}
+			showPressFeedback={showPressFeedback}
+			style={{
+				paddingHorizontal: 25,
+				marginTop: 0,
+				...(mode === "default" && {
+					...(stage > 0 && { borderColor: Colors.accent }),
+					...(stage === 3 && { borderColor: Colors.mediumHard }),
+				}),
+			}}
+		>
+			
+			<DateAndTime shiftStart={shiftStart} shiftEnd={shiftEnd}/>
+			<Gap size={5}/>
+			<LocationAndPayRate location={location} payRate={payRate}/>
+			
+			{mode === "default"? (
+				
+				<If condition={stage > 0}>
+					<HorizontalLine length="100%" style={{ marginTop: 5, marginBottom: 15 }}/>
+					<FlexRowSpaceAround>
+						{stage === 1? (
+							<ClockInButton onPress={clockIn}/>
+						) : stage === 2? (<>
+							<IncidentButton/>
+							<ClockOutButton onPress={ clockOut }/>
+						</>) : stage === 3? (
+							<IncidentButton/>
+						) : null}
+					</FlexRowSpaceAround>
+				</If>
+			
+			) : mode === "pay cycle supervisor"? (
+				<ShiftCardPayCycleExtension shift={shift} isSupervisor={true}/>
+			) : mode === "pay cycle officer"? (
+				<ShiftCardPayCycleExtension shift={shift} isSupervisor={false}/>
+			) : null}
+		</Card>
 	);
 	
 }

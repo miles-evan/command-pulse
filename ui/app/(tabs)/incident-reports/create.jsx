@@ -18,7 +18,6 @@ export default function Create() {
 	
 	async function onPressShift(shiftId) {
 		const response = await incidentReportService.init(shiftId);
-		console.log({ response })
 		setIncidentReportId((response.body.incidentReportId));
 	}
 	

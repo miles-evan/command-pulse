@@ -131,7 +131,7 @@ async function projectIncidentReports(incidentReports) {
 			firstName: projectedShiftMap[incidentReport.shiftId].firstName,
 			lastName: projectedShiftMap[incidentReport.shiftId].lastName,
 			date: projectedShiftMap[incidentReport.shiftId].shiftStart,
-			location: projectedShiftMap[incidentReport.shiftId].location,
+			locationName: projectedShiftMap[incidentReport.shiftId].location,
 		}
 	}));
 }
