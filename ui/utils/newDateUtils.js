@@ -95,7 +95,7 @@ export function shortTime(date) {
 	const minutes = date.getMinutes();
 	const ampm = hours >= 12? "pm" : "am";
 	
-	hours = hours === 0? 12 : hours % 12;
+	hours = [0, 12].includes(hours)? 12 : hours % 12;
 	
 	return `${hours}:${padZero(minutes)}${ampm}`;
 }
@@ -108,17 +108,11 @@ export function superShortTime(date, includePM=false) {
 }
 
 
-// --------------------------------
+// -------------------------------- Comparisons:
 
 
 export function areSameDay(date1, date2) {
 	return date1.toDateString() === date2.toDateString();
-}
-
-
-// Date -> "2025-05-07"
-export function datePartOfISOString(date) {
-	return date.toISOString().slice(0, 10);
 }
 
 
