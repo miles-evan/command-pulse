@@ -5,15 +5,15 @@ const shiftRequestSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Shift",
 		required: true,
-		unique: true
+		unique: true,
 	},
 	message: {
 		type: String,
-		required: true
+		default: "Shift request",
 	},
 	isCover: {
 		type: Boolean,
-		required: true
+		required: true,
 	}
 });
 

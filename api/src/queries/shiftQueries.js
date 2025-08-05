@@ -37,6 +37,7 @@ export async function reassignShift(shiftId, userId, shiftRequestMessage, compan
 	if(userId) {
 		await assignShift(shiftId, userId);
 	} else {
+		console.log("yep we're adding a shift request")
 		await createShiftRequest(shiftId, shiftRequestMessage, false, companyId);
 	}
 }
@@ -76,7 +77,7 @@ async function unassignShift(userId, shiftId) {
 }
 
 
-export async function createShiftRequest(shiftId, message="", isCover, companyId) {
+export async function createShiftRequest(shiftId, message, isCover, companyId) {
 	const newShiftRequest = new ShiftRequest({ shiftId, message, isCover });
 	await newShiftRequest.save();
 	
