@@ -5,7 +5,7 @@ import StyledTextInput from "@/components/project-specific-utility-components/St
 
 export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, date, ...rest }) {
 	
-	const [timeRange, setTimeRange] = useState(initialValue? formatTimeRange(initialValue) : "2-5");
+	let [timeRange, setTimeRange] = useState(initialValue? formatTimeRange(initialValue) : "2-5");
 	useEffect(parseAndSetTimeRange, []);
 	const [isDifferent, setIsDifferent] = useState(false);
 	const parsedInitialValue = useMemo(() => parseTimeRange(initialValue? formatTimeRange(initialValue) : "2-5", date));
@@ -22,6 +22,7 @@ export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, 
 	
 	
 	function checkIfDifferent() {
+		if(timeRange === "Invalid") return;
 		const parsedTimeRange = parseTimeRange(timeRange, date);
 		setIsDifferent(formatTimeRange(parsedTimeRange) !== formatTimeRange(parsedInitialValue))
 	}
@@ -31,8 +32,8 @@ export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, 
 		setTimeRange(prev => {
 			const parsedTimeRange = parseTimeRange(prev, date);
 			onNewValue(parsedTimeRange); // call it here so we use non-stale value, and so it only calls on end editing
-			if(!parsedTimeRange) return "Invalid";
-			return formatTimeRange(parsedTimeRange);
+			timeRange = parsedTimeRange? formatTimeRange(parsedTimeRange) : "Invalid";
+			return timeRange;
 		});
 	}
 	
@@ -43,8 +44,7 @@ export default function TimeRangeInput({ initialValue, style, onNewValue=_=>{}, 
 			value={timeRange}
 			onChangeText={newText => {setTimeRange(newText); setSelection(null);}}
 			onFocus={onFocus}
-			onEndEditing={parseAndSetTimeRange}
-			onBlur={checkIfDifferent}
+			onBlur={() => {parseAndSetTimeRange(); checkIfDifferent();}}
 			selection={selection}
 			color={timeRange === "Invalid"? "danger" : isDifferent? "altAccent" : "veryHard"}
 			{...rest}

@@ -22,7 +22,7 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 			return;
 		}
 		
-		if(shift[attr] === value) {
+		if(shift[attr] === value || (["shiftStart", "shiftEnd"].includes(attr) && value === null)) {
 			delete edits.current[attr];
 		} else {
 			edits.current[attr] = value;

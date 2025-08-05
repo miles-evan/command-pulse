@@ -43,6 +43,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 let requestCount = 0;
 app.use((request, response, next) => {
+	if(request.originalUrl === "/command-pulse/api/v1") return next();
 	console.log(`
 		Request #${++requestCount}
 		${request.method} ${request.originalUrl}
