@@ -21,8 +21,8 @@ import If from "@/components/general-utility-components/If.jsx";
 export default function SeeReport() {
 	
 	const params = useLocalSearchParams();
-	const incidentReportId = useMemo(() => params.incidentReportId); // this is so other tabs don't override params
-	const [markdownReport, setMarkdownReport] = useState(null)
+	const [incidentReportId, report] = useMemo(() => [params.incidentReportId, params.report]); // this is so other tabs don't override params
+	const [markdownReport, setMarkdownReport] = useState(report ?? null)
 	const [loadingReport, setLoadingReport] = useState(false);
 	const [loadingGenerate, setLoadingGenerate] = useState(false);
 	const keyboardVisible = useKeyboardVisible();
@@ -31,6 +31,7 @@ export default function SeeReport() {
 	
 	
 	useEffect(() => {
+		if(markdownReport) return; // already sent from previous page
 		setLoadingReport(true);
 		incidentReportService.getReport(incidentReportId, )
 			.then(response => {

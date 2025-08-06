@@ -40,7 +40,7 @@ export default function Create() {
 				pathname: "/(tabs)/incident-reports/follow-up-questions",
 				params: {
 					incidentReportId,
-					followUpQuestions: JSON.stringify(response.body.followUpQuestions)
+					followUpQuestions: JSON.stringify(response.body.followUpQuestions),
 				}
 			});
 		} else {

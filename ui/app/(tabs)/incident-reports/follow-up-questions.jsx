@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
 import BackButton from "@/components/project-specific-utility-components/BackButton.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
@@ -26,9 +26,15 @@ export default function FollowUpQuestions() {
 	
 	async function revise() {
 		setLoading(true);
-		const response = await incidentReportService.generate(incidentReportId, JSON.stringify(answerRefsRef.current))
+		const response = await incidentReportService.generate(incidentReportId, JSON.stringify(answerRefsRef.current));
 		setLoading(false);
-		// TODO
+		router.push({
+			pathname: "/(tabs)/incident-reports/see-report",
+			params: {
+				incidentReportId,
+				report: response.body.report,
+			}
+		});
 	}
 	
 	
