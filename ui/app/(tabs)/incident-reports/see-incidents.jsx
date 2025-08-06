@@ -7,6 +7,7 @@ import IncidentList from "@/components/incidentReports/IncidentList.jsx";
 import { useIsFocused } from "@react-navigation/native";
 import { View } from "react-native";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
+import { router } from "expo-router";
 
 
 export default function SeeIncidents() {
@@ -17,7 +18,10 @@ export default function SeeIncidents() {
 	
 	
 	function onPressIncident(incidentReportId) {
-		// TODO
+		router.push({
+			pathname: "/(tabs)/incident-reports/see-report",
+			params: { incidentReportId }
+		});
 	}
 	
 	
