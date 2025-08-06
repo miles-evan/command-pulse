@@ -38,7 +38,7 @@ export default function FollowUpQuestions() {
 			<BackButton/>
 			<Gap size={20}/>
 			
-			<ScrollView contentContainerStyle={{ width: "90%", marginHorizontal: "auto", paddingBottom: 20, }}>
+			<ScrollView contentContainerStyle={{ width: "90%", marginHorizontal: "auto", paddingBottom: 20 }}>
 				<StyledText look="26 medium veryHard" hCenter={false}>Follow up questions from AI</StyledText>
 				<Gap size={20}/>
 				<Questions questions={followUpQuestions} answerRefsRef={answerRefsRef}/>
