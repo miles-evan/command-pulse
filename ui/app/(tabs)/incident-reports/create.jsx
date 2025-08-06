@@ -62,7 +62,7 @@ export default function Create() {
 					}
 				});
 			}
-		} catch(e) {console.log(e)}
+		} catch(e) {console.log("generating failed:", e)}
 		// TODO remove try/catch
 	}
 	

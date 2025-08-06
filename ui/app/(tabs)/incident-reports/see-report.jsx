@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import * as incidentReportService from "@/services/incidentReportService.js";
 import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
@@ -59,6 +59,11 @@ export default function SeeReport() {
 	}
 	
 	
+	function gotoIncidentsHome() {
+		router.replace("/(tabs)/incident-reports");
+	}
+	
+	
 	return (
 		<SafeAreaViewWithBackground>
 			<TabHeader/>
@@ -73,7 +78,7 @@ export default function SeeReport() {
 			>
 				<StyledText look="26 medium veryHard" hCenter={false}>See generated incident report</StyledText>
 				<StyledText>{loadingReport? "Loading..." : markdownReport}</StyledText>
-				<Button look="blue">Looks good!</Button>
+				<Button look="blue" onPress={gotoIncidentsHome}>Looks good!</Button>
 				<OrLine style={{ marginVertical: 10 }}/>
 				<StyledText look="20 medium mediumHard" hCenter={false}>Feedback</StyledText>
 				<StyledTextInput

@@ -71,6 +71,7 @@ async function fetchWithBody(url, method, body, retries=3) {
 			&& ["Network request failed", "Network request timed out", "Failed to fetch"].includes(e?.message)
 			&& retries > 0
 		) {
+			console.log("retrying");
 			await new Promise(res => setTimeout(res, 500));
 			return fetchWithBody(url, method, body, retries - 1);
 		}
