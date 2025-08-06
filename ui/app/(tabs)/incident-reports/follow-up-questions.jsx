@@ -33,13 +33,13 @@ export default function FollowUpQuestions() {
 	
 	
 	return (
-		<SafeAreaViewWithBackground dismissKeyboardOnPress>
+		<SafeAreaViewWithBackground>
 			<TabHeader/>
 			<BackButton/>
 			<Gap size={20}/>
 			
-			<ScrollView style={{ width: "90%", marginHorizontal: "auto" }}>
-				<StyledText look="24 medium veryHard" hCenter={false}>Follow up questions from AI</StyledText>
+			<ScrollView contentContainerStyle={{ width: "90%", marginHorizontal: "auto", paddingBottom: 20, }}>
+				<StyledText look="26 medium veryHard" hCenter={false}>Follow up questions from AI</StyledText>
 				<Gap size={20}/>
 				<Questions questions={followUpQuestions} answerRefsRef={answerRefsRef}/>
 				<GenerateWithAIButton onPress={revise} disabled={loading}/>

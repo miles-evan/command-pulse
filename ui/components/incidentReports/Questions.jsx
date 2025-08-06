@@ -11,20 +11,21 @@ export default function Questions({ questions, answerRefsRef }) {
 		const answerRef = answerRefsRef.current[question.question] = { current: null };
 		return (
 			<View key={question.question}>
-				<StyledText look="20 medium veryHard">{question.question}</StyledText>
+				<StyledText look="20 medium mediumHard" hCenter={false}>{question.question}</StyledText>
 				{question.type === "select"? (
 					<StyledDropdown
 						data={ question.options.map(option => ({ label: option, value: option })) }
-						onChange={ value => answerRef.current = value }
+						onChange={ item => answerRef.current = item.value }
 					/>
 				) : (
 					<StyledTextInput
 						placeholder={ question.placeholder }
 						valueRef={ answerRef }
+						bigTextMode
 						bigMode={ question.type === "textarea" }
 					/>
 				)}
-				<Gap size={20}/>
+				<Gap size={30}/>
 			</View>
 		)
 	});
