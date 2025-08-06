@@ -16,6 +16,7 @@ export default function Questions({ questions, answerRefsRef }) {
 					<StyledDropdown
 						data={ question.options.map(option => ({ label: option, value: option })) }
 						onChange={ item => answerRef.current = item.value }
+						style={{ backgroundColor: "rgba(255, 255, 255, 0.75)" }}
 					/>
 				) : (
 					<StyledTextInput
@@ -23,6 +24,7 @@ export default function Questions({ questions, answerRefsRef }) {
 						valueRef={ answerRef }
 						bigTextMode
 						bigMode={ question.type === "textarea" }
+						style={{ backgroundColor: "rgba(255, 255, 255, 0.75)" }}
 					/>
 				)}
 				<Gap size={30}/>

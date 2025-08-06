@@ -3,7 +3,7 @@ import { Dropdown } from "react-native-element-dropdown";
 import * as React from "react";
 
 
-export default function StyledDropdown({ data, value, onChange, ...rest }) {
+export default function StyledDropdown({ data, value, onChange, style, ...rest }) {
 	
 	return (
 		<Dropdown
@@ -13,6 +13,7 @@ export default function StyledDropdown({ data, value, onChange, ...rest }) {
 				borderWidth: 1,
 				borderRadius: 8,
 				paddingHorizontal: 8,
+				...style
 			}}
 			maxHeight={300}
 			selectedTextStyle={{ color: Colors.veryHard }}
