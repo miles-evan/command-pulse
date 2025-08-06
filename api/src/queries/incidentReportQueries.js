@@ -33,12 +33,11 @@ export async function generateIncidentReport(incidentReportId, incidentInfo) {
 		const company = await Company.findById(user.companyId).lean();
 		const shift = await Shift.findById(incidentReport.shiftId).lean();
 		
-		const {
-			report, followUpQuestions, title
-		} = await promptGenerateIncidentReport(user, company, shift, incidentReport.dateCreated, incidentInfo);
+		const response = await promptGenerateIncidentReport(user, company, shift, incidentReport.dateCreated, incidentInfo);
+		const { report, followUpQuestions, title } = response
 		
 		if(!report || !title)
-			throw new Error("ChatGPT returned invalid response");
+			throw new Error(`ChatGPT returned invalid response: ${ response }`);
 		
 		await IncidentReport.findByIdAndUpdate(incidentReportId, { report: report });
 		await IncidentReport.findByIdAndUpdate(incidentReportId, { title: title });

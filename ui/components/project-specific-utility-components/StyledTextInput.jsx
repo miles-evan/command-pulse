@@ -2,14 +2,15 @@ import { TextInput } from "react-native";
 import { Colors } from "@/constants/Colors.js";
 import { useState } from "react";
 
-
-export default function StyledTextInput({ style, initialValue, color, bigMode=false, valueRef, ...rest }) {
+// bigMode makes the text box larger, with larger text, and text at top right
+// bigTextMode is the same thing but without the box itself being larger
+export default function StyledTextInput({
+    style, initialValue, color, bigTextMode=false, bigMode=false, valueRef, ...rest
+}) {
 	
 	const [value, setValue] = useState(initialValue ?? "");
 	
-	
 	if(valueRef) valueRef.current = value;
-	
 	
 	return (
 		<TextInput
@@ -21,13 +22,15 @@ export default function StyledTextInput({ style, initialValue, color, bigMode=fa
 				paddingHorizontal: 8,
 				textAlign: "center",
 				color: Colors[color] ?? Colors.veryHard,
-				...(bigMode? {
-					height: 250,
+				...(bigMode || bigTextMode? {
 					fontSize: 20,
 					textAlign: "left",
 					textAlignVertical: "top",
 					paddingHorizontal: 12,
 					paddingVertical: 12,
+				} : {}),
+				...(bigMode? {
+					height: 250,
 				} : {}),
 				...style,
 			}}

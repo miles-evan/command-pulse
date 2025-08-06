@@ -52,10 +52,12 @@ const followUpQuestions = JSON.stringify({
 		{
 			question: "What time did the incident occur?",
 			type: "text",
+			placeholder: "e.g. 5:00pm",
 		},
 		{
 			question: "Can you describe what led up to the incident?",
 			type: "textarea",
+			placeholder: "describe events...",
 		},
 		{
 			question: "Did you issue a verbal warning?",
@@ -79,6 +81,7 @@ export async function promptGenerateIncidentReport(user, company, shift, dateCre
 		+ "But don't include unnecessary questions!!!\n"
 		+ "followUpQuestions should be in the form:\n"
 		+ followUpQuestions
+		+ "\nUse \\n instead of raw newlines so it can be embedded in JSON.\n"
 		+ "Info:\n"
 		+ JSON.stringify({
 			metadata: {
@@ -101,6 +104,7 @@ export async function promptReviseIncidentReport(currentReport, revisions) {
 		+ incidentReportStructure
 		+ "\nRespond in JSON with the keys, 'report' and 'title'"
 		+ " where title is the title of the incident and should be 2-3 words or so\n"
+		+ "\nUse \\n instead of raw newlines so it can be embedded in JSON.\n"
 		+ "Info:\n"
 		+ JSON.stringify({
 			previousIterationOfTheReport: currentReport,

@@ -13,6 +13,7 @@ import { View } from "react-native";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import StyledTextInput from "@/components/project-specific-utility-components/StyledTextInput.jsx";
 import Button from "@/components/project-specific-utility-components/Button.jsx";
+import GenerateWithAIButton from "@/components/incidentReports/GenerateWithAIButton.jsx";
 
 
 export default function Create() {
@@ -30,8 +31,27 @@ export default function Create() {
 	
 	async function generate() {
 		setLoading(true);
-		await incidentReportService.generate(incidentReportId, valueRef.current);
+		const response = await incidentReportService.generate(incidentReportId, valueRef.current);
 		setLoading(false);
+		if(!response.ok) {
+			// TODO
+		} else if("followUpQuestions" in response.body) {
+			router.push({
+				pathname: "/(tabs)/incident-reports/follow-up-questions",
+				params: {
+					incidentReportId,
+					followUpQuestions: JSON.stringify(response.body.followUpQuestions)
+				}
+			});
+		} else {
+			router.push({
+				pathname: "/(tabs)/incident-reports/see-report",
+				params: {
+					incidentReportId,
+					report: response.body.report,
+				}
+			});
+		}
 	}
 	
 	
@@ -64,19 +84,9 @@ export default function Create() {
 						valueRef={valueRef}
 						bigMode
 					/>
-					<Button
-						look="ai"
-						onPress={generate}
-						disabled={loading}
-						style={{ width: "100%", marginTop: 20 }}
-					>
-						Generate with AI
-					</Button>
+					<GenerateWithAIButton onPress={generate} disabled={loading}/>
 				</View>
 			)}
-			
-			
-			
 		</SafeAreaViewWithBackground>
 	);
 	
