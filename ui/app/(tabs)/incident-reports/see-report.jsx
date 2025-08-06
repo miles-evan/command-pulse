@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import * as incidentReportService from "@/services/incidentReportService.js";
 import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
 import BackButton from "@/components/project-specific-utility-components/BackButton.jsx";
@@ -20,16 +20,19 @@ import If from "@/components/general-utility-components/If.jsx";
 
 export default function SeeReport() {
 	
-	const { incidentReportId } = useLocalSearchParams();
+	const params = useLocalSearchParams();
+	const incidentReportId = useMemo(() => params.incidentReportId); // this is so other tabs don't override params
 	const [markdownReport, setMarkdownReport] = useState(null)
 	const [loadingReport, setLoadingReport] = useState(false);
 	const [loadingGenerate, setLoadingGenerate] = useState(false);
-	const keyboardVisible = useKeyboardVisible()
+	const keyboardVisible = useKeyboardVisible();
+	const scrollViewRef = useRef(null);
+	const feedbackRef = useRef(null);
 	
 	
 	useEffect(() => {
 		setLoadingReport(true);
-		incidentReportService.getReport(incidentReportId)
+		incidentReportService.getReport(incidentReportId, )
 			.then(response => {
 				setLoadingReport(false);
 				setMarkdownReport(response.body.report);
@@ -37,8 +40,21 @@ export default function SeeReport() {
 	}, []);
 	
 	
-	function revise() {
+	useEffect(() => {
+		if(keyboardVisible) scrollViewRef.current?.scrollToEnd({ animated: true });
+	}, [keyboardVisible]);
 	
+	
+	async function revise() {
+		setLoadingGenerate(true);
+		setLoadingReport(true);
+		
+		const response = await incidentReportService.generate(incidentReportId, feedbackRef.current);
+		
+		setLoadingGenerate(false);
+		setLoadingReport(false);
+		
+		setMarkdownReport(response.body.report);
 	}
 	
 	
@@ -48,7 +64,12 @@ export default function SeeReport() {
 			<BackButton/>
 			<Gap size={20}/>
 			
-			<ScrollView style={{ width: "90%", marginHorizontal: "auto" }}>
+			<ScrollView
+				ref={scrollViewRef}
+				keyboardDismissMode="on-drag"
+				keyboardShouldPersistTaps="handled"
+				style={{ width: "90%", marginHorizontal: "auto" }}
+			>
 				<StyledText look="26 medium veryHard" hCenter={false}>See generated incident report</StyledText>
 				<StyledText>{loadingReport? "Loading..." : markdownReport}</StyledText>
 				<Button look="blue">Looks good!</Button>
@@ -56,6 +77,7 @@ export default function SeeReport() {
 				<StyledText look="20 medium mediumHard" hCenter={false}>Feedback</StyledText>
 				<StyledTextInput
 					placeholder="What changes should be made..."
+					valueRef={feedbackRef}
 					bigMode
 					style={{ backgroundColor: "rgba(255, 255, 255, 0.75)" }}
 				/>
