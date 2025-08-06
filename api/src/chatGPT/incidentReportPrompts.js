@@ -47,7 +47,7 @@ const incidentReportStructure = JSON.stringify({
 });
 
 const followUpQuestions = JSON.stringify({
-	note: "the follow up questions should be in JSON format as so",
+	note: "the follow up questions should be in JSON format as so. the only types allowed are text, textarea, and select",
 	exampleStructure: [
 		{
 			question: "What time did the incident occur?",
@@ -55,7 +55,7 @@ const followUpQuestions = JSON.stringify({
 		},
 		{
 			question: "Can you describe what led up to the incident?",
-			type: "text",
+			type: "textarea",
 		},
 		{
 			question: "Did you issue a verbal warning?",

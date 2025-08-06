@@ -7,7 +7,7 @@ import * as React from "react";
 import ShiftList from "@/components/scheduling/my-schedule/ShiftList.jsx";
 import { router } from "expo-router";
 import * as incidentReportService from "@/services/incidentReportService.js";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import If from "@/components/general-utility-components/If.jsx";
 import { View } from "react-native";
 import Gap from "@/components/general-utility-components/Gap.jsx";
@@ -18,11 +18,20 @@ import Button from "@/components/project-specific-utility-components/Button.jsx"
 export default function Create() {
 	
 	const [incidentReportId, setIncidentReportId] = useState(null);
+	const [loading, setLoading] = useState(false);
+	const valueRef = useRef(null);
 	
 	
 	async function onPressShift(shiftId) {
 		const response = await incidentReportService.init(shiftId);
 		setIncidentReportId((response.body.incidentReportId));
+	}
+	
+	
+	async function generate() {
+		setLoading(true);
+		await incidentReportService.generate(incidentReportId, valueRef.current);
+		setLoading(false);
 	}
 	
 	
@@ -52,9 +61,17 @@ export default function Create() {
 					<StyledText look="26 medium mediumHard" hCenter={false}>Description</StyledText>
 					<StyledTextInput
 						placeholder="Describe what happened in your own words..."
+						valueRef={valueRef}
 						bigMode
 					/>
-					<Button look="ai" style={{ width: "100%", marginTop: 20 }}>Generate with AI</Button>
+					<Button
+						look="ai"
+						onPress={generate}
+						disabled={loading}
+						style={{ width: "100%", marginTop: 20 }}
+					>
+						Generate with AI
+					</Button>
 				</View>
 			)}
 			

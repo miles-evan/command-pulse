@@ -3,9 +3,12 @@ import { Colors } from "@/constants/Colors.js";
 import { useState } from "react";
 
 
-export default function StyledTextInput({ style, initialValue, color, bigMode=false, ...rest }) {
+export default function StyledTextInput({ style, initialValue, color, bigMode=false, valueRef, ...rest }) {
 	
 	const [value, setValue] = useState(initialValue ?? "");
+	
+	
+	if(valueRef) valueRef.current = value;
 	
 	
 	return (
@@ -19,7 +22,7 @@ export default function StyledTextInput({ style, initialValue, color, bigMode=fa
 				textAlign: "center",
 				color: Colors[color] ?? Colors.veryHard,
 				...(bigMode? {
-					height: 300,
+					height: 250,
 					fontSize: 20,
 					textAlign: "left",
 					textAlignVertical: "top",
