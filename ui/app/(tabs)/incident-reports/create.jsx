@@ -39,35 +39,38 @@ export default function Create() {
 	
 	
 	async function generate() {
-		setLoading(true);
-		const response = await incidentReportService.generate(incidentReportId, valueRef.current);
-		setLoading(false);
-		if(!response.ok) {
-			// TODO
-		} else if("followUpQuestions" in response.body) {
-			router.push({
-				pathname: "/(tabs)/incident-reports/follow-up-questions",
-				params: {
-					incidentReportId,
-					followUpQuestions: JSON.stringify(response.body.followUpQuestions),
-				}
-			});
-		} else {
-			router.push({
-				pathname: "/(tabs)/incident-reports/see-report",
-				params: {
-					incidentReportId,
-					report: response.body.report,
-				}
-			});
-		}
+		try {
+			setLoading(true);
+			const response = await incidentReportService.generate(incidentReportId, valueRef.current);
+			setLoading(false);
+			if(!response.ok) {
+				// TODO add error handling for when chatgpt responds in an invalid way
+			} else if("followUpQuestions" in response.body) {
+				router.push({
+					pathname: "/(tabs)/incident-reports/follow-up-questions",
+					params: {
+						incidentReportId,
+						followUpQuestions: JSON.stringify(response.body.followUpQuestions),
+					}
+				});
+			} else {
+				router.push({
+					pathname: "/(tabs)/incident-reports/see-report",
+					params: {
+						incidentReportId,
+						report: response.body.report,
+					}
+				});
+			}
+		} catch(e) {console.log(e)}
+		// TODO remove try/catch
 	}
 	
 	
 	return (
 		<SafeAreaViewWithBackground dismissKeyboardOnPress>
 			<TabHeader/>
-			<BackButton/>
+			<BackButton to="/(tabs)/incident-reports"/>
 			<Gap size={20}/>
 			
 			{!incidentReportId? (<>

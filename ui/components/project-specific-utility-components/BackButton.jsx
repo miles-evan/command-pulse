@@ -5,10 +5,16 @@ import { Pressable } from "react-native";
 import { router } from "expo-router";
 
 
-export default function BackButton({ style }) {
+export default function BackButton({ to, style }) {
+	
+	function onPress() {
+		if(to) router.replace(to);
+		else router.back();
+	}
+	
 	
 	return (
-		<Pressable onPress={router.back} style={{
+		<Pressable onPress={onPress} style={{
 			flexDirection: "row",
 			width: "90%",
 			marginHorizontal: "auto",
