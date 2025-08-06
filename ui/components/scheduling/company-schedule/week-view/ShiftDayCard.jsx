@@ -23,42 +23,42 @@ export default function ShiftDayCard({ date, shifts, onPress, editing=false, onD
 				<RemoveButton onPress={onDelete} style={{ position: "absolute", left: -10, zIndex: 1 }}/>
 			</If>
 			
-			<Pressable onPress={onPress}>
-				{({ pressed }) => (
-					<Card style={{ ...styles.card, ...(pressed? { borderColor: Colors.medium } : {}) }}>
+			<Card
+				onPress={onPress}
+				showPressFeedback
+				style={styles.card}
+			>
+				
+				<StyledText look="26 bold veryHard">
+					{dayOfWeekShort(date)}
+				</StyledText>
+				
+				<HorizontalLine color="soft" length="100%" style={styles.divider}/>
+				
+				{sortedShifts.map(({ firstName, lastName, shiftStart, shiftEnd }, index) => (
+					<View key={index}>
 						
-						<StyledText look="26 bold veryHard">
-							{dayOfWeekShort(date)}
-						</StyledText>
+						<If condition={index === 5}>
+							<StyledText look="18 light veryHard" style={{ marginTop: -10 }}>...</StyledText>
+						</If>
 						
-						<HorizontalLine color="soft" length="100%" style={styles.divider}/>
-						
-						{sortedShifts.map(({ firstName, lastName, shiftStart, shiftEnd }, index) => (
-							<View key={index}>
-								
-								<If condition={index === 5}>
-									<StyledText look="18 light veryHard" style={{ marginTop: -10 }}>...</StyledText>
-								</If>
-								
-								<FlexRowSpaceBetween style={styles.shiftContainer}>
-									
-									<StyledText
-										look="18 light veryHard" numberOfLines={1} style={styles.name}>
-										{firstName[0] + ". " + lastName}
-									</StyledText>
-									
-									<StyledText look="18 regular veryHard" numberOfLines={1} style={styles.times}>
-										{superShortTime(shiftStart) + "-" + superShortTime(shiftEnd)}
-									</StyledText>
-								
-								</FlexRowSpaceBetween>
+						<FlexRowSpaceBetween style={styles.shiftContainer}>
 							
-							</View>
-						))}
+							<StyledText
+								look="18 light veryHard" numberOfLines={1} style={styles.name}>
+								{firstName[0] + ". " + lastName}
+							</StyledText>
+							
+							<StyledText look="18 regular veryHard" numberOfLines={1} style={styles.times}>
+								{superShortTime(shiftStart) + "-" + superShortTime(shiftEnd)}
+							</StyledText>
+						
+						</FlexRowSpaceBetween>
 					
-					</Card>
-				)}
-			</Pressable>
+					</View>
+				))}
+			
+			</Card>
 		</View>
 	);
 	

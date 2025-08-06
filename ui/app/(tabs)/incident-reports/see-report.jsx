@@ -74,7 +74,7 @@ export default function SeeReport() {
 				<StyledText look="26 medium veryHard" hCenter={false}>See generated incident report</StyledText>
 				<StyledText>{loadingReport? "Loading..." : markdownReport}</StyledText>
 				<Button look="blue">Looks good!</Button>
-				<OrLine/>
+				<OrLine style={{ marginVertical: 10 }}/>
 				<StyledText look="20 medium mediumHard" hCenter={false}>Feedback</StyledText>
 				<StyledTextInput
 					placeholder="What changes should be made..."

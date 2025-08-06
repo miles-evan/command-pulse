@@ -14,6 +14,7 @@ import * as shiftService from "@/services/shiftService.js";
 import { computeShiftStage } from "@/components/scheduling/my-schedule/computeShiftStage.js";
 import ShiftCardPayCycleExtension from "@/components/scheduling/my-schedule/ShiftCardPayCycleExtension.jsx";
 import { Pressable } from "react-native";
+import { router } from "expo-router";
 
 
 // Modes:
@@ -46,6 +47,14 @@ export default function ShiftCard({ shift, mode="default", onPress, showPressFee
 	}
 	
 	
+	function makeIncidentReport() {
+		router.push({
+			pathname: "/(tabs)/incident-reports/create",
+			params: { shiftId },
+		});
+	}
+	
+	
 	return (
 		<Card
 			onPress={onPress}
@@ -72,10 +81,10 @@ export default function ShiftCard({ shift, mode="default", onPress, showPressFee
 						{stage === 1? (
 							<ClockInButton onPress={clockIn}/>
 						) : stage === 2? (<>
-							<IncidentButton/>
+							<IncidentButton onPress={makeIncidentReport}/>
 							<ClockOutButton onPress={ clockOut }/>
 						</>) : stage === 3? (
-							<IncidentButton/>
+							<IncidentButton onPress={makeIncidentReport}/>
 						) : null}
 					</FlexRowSpaceAround>
 				</If>
