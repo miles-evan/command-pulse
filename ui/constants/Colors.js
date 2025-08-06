@@ -9,6 +9,9 @@ export const Colors = {
 	
 	altAccent: "#4ba326",
 	
+	ai: "#BF35FF",
+	aiAccent: "#F7ABFF",
+	
 	white: "#ffffff",
 	verySoft: "#fbfbfb",
 	softer: "#EAEAEA",

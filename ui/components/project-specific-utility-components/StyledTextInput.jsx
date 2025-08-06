@@ -3,7 +3,7 @@ import { Colors } from "@/constants/Colors.js";
 import { useState } from "react";
 
 
-export default function StyledTextInput({ style, initialValue, color, ...rest }) {
+export default function StyledTextInput({ style, initialValue, color, bigMode=false, ...rest }) {
 	
 	const [value, setValue] = useState(initialValue ?? "");
 	
@@ -18,12 +18,20 @@ export default function StyledTextInput({ style, initialValue, color, ...rest })
 				paddingHorizontal: 8,
 				textAlign: "center",
 				color: Colors[color] ?? Colors.veryHard,
-				...style
+				...(bigMode? {
+					height: 300,
+					fontSize: 20,
+					textAlign: "left",
+					textAlignVertical: "top",
+					paddingHorizontal: 12,
+					paddingVertical: 12,
+				} : {}),
+				...style,
 			}}
 			placeholderTextColor={Colors.medium}
 			value={value}
 			onChangeText={setValue}
-			{...rest}
+			{...(bigMode? { multiline: true, ...rest } : rest)}
 		/>
 	)
 	

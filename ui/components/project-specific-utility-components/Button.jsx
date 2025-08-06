@@ -83,7 +83,14 @@ function getButtonStyles(look, buttonStyle, showFeedback) {
 				borderWidth: 1,
 				borderColor: Colors.mediumSoft,
 				padding: 7,
-			}
+			},
+			"ai": {
+				backgroundColor: Colors.ai,
+				borderRadius: 16,
+				borderWidth: 4,
+				borderColor: Colors.aiAccent,
+				height: 50
+			},
 		}[look],
 		
 		...buttonStyle
@@ -97,11 +104,15 @@ function getTextStyles(look, textStyle, showFeedback) {
 			: look === "white"? showFeedback? Colors.softAccent : Colors.accent
 			: look === "lightBlue"? showFeedback? Colors.soft : Colors.white
 			: look === "graySmall"? showFeedback? Colors.mediumSoft : Colors.medium
+			: look === "ai"? showFeedback? Colors.aiAccent : Colors.white
 			: "#000000",
 		
 		...{
 			"graySmall": {
 				fontWeight: FontWeights.regular,
+			},
+			"ai": {
+				fontSize: 22
 			}
 		}[look],
 		
