@@ -14,6 +14,8 @@ import * as shiftService from "@/services/shiftService.js";
 import RemoveButton from "@/components/project-specific-utility-components/RemoveButton.jsx";
 import FlexRow from "@/components/general-utility-components/FlexRow.jsx";
 import { areSameDay } from "@/utils/newDateUtils.js";
+import Animated, { LinearTransition } from "react-native-reanimated";
+
 
 export default function ShiftLocation({
 	locationName: initialLocationName, shifts, weekRange: [startDate, endDate], onDelete=()=>{}
@@ -104,9 +106,9 @@ export default function ShiftLocation({
 				/>
 			</FlexRowSpaceBetween>
 			
-			<FlatList
+			<Animated.FlatList
 				data={shiftDays}
-				keyExtractor={(_, index) => index.toString()}
+				keyExtractor={shiftDay => shiftDay.date}
 				renderItem={({ item: { date, shifts }, index }) => (
 					<ShiftDayCard
 						date={date}
@@ -122,6 +124,7 @@ export default function ShiftLocation({
 					</If>
 				)}
 				horizontal
+				itemLayoutAnimation={LinearTransition}
 				style={{ overflow: "visible", marginVertical: 8 }}
 			/>
 	

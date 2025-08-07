@@ -7,7 +7,7 @@ import Gap from "@/components/general-utility-components/Gap.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import AddLocationButton from "@/components/scheduling/company-schedule/week-view/AddLocationButton.jsx";
 import { useIsScreenFocused } from "@/hooks/useIsScreenFocused.js";
-import If from "@/components/general-utility-components/If.jsx";
+import Animated, { LinearTransition } from "react-native-reanimated";
 
 
 export default function ShiftLocationList({ weekRange }) {
@@ -43,7 +43,7 @@ export default function ShiftLocationList({ weekRange }) {
 	
 	
 	return (
-		<FlatList
+		<Animated.FlatList
 			data={shiftLocations}
 			keyExtractor={shiftLocation => "key" in shiftLocation? shiftLocation.key : shiftLocation.locationName}
 			renderItem={({ item: { locationName, shifts }, index }) => (
@@ -61,6 +61,7 @@ export default function ShiftLocationList({ weekRange }) {
 			ListFooterComponent={(
 				<AddLocationButton onPress={addLocation} style={{ marginBottom: 16 }}/>
 			)}
+			itemLayoutAnimation={LinearTransition}
 		/>
 	);
 	

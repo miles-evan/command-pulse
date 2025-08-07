@@ -7,7 +7,15 @@ import If from "@/components/general-utility-components/If.jsx";
 
 
 export default function Card({
-	children, style, onPress=()=>{}, onLongPress=()=>{}, showPressFeedback=false, showRemoveButton=false, onDelete=()=>{}
+	children,
+	style,
+	onPress=()=>{},
+	onLongPress=()=>{},
+	showPressFeedback=false,
+	showRemoveButton=false,
+	onDelete=()=>{},
+	removeButtonPositionLeft=8,
+	removeButtonPositionTop=15,
 }) {
 	
 	return (
@@ -16,7 +24,9 @@ export default function Card({
 				<View>
 					<If condition={showRemoveButton}>
 						<Gap size={10}/>
-						<RemoveButton onPress={onDelete} style={{ position: "absolute", left: 6, top: 13, zIndex: 1 }}/>
+						<RemoveButton onPress={onDelete} style={{
+							position: "absolute", left: removeButtonPositionLeft, top: removeButtonPositionTop, zIndex: 1
+						}}/>
 					</If>
 					
 					<View style={{

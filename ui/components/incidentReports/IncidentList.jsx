@@ -4,6 +4,7 @@ import * as incidentReportService from "@/services/incidentReportService.js";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
 import IncidentCard from "@/components/incidentReports/IncidentCard.jsx";
+import Animated, { LinearTransition } from "react-native-reanimated";
 
 
 // retrieves and shows list of incidents
@@ -42,13 +43,15 @@ export default function IncidentList({
 	}
 	
 	
-	function deleteIncident(incidentReportId) {
+	async function deleteIncident(incidentReportId) {
 		console.log("deleting", { incidentReportId });
+		setIncidents(prev => prev.filter(incident => incident.incidentReportId !== incidentReportId));
+		await incidentReportService.deleteIncident(incidentReportId)
 	}
 	
 	
 	return (
-		<FlatList
+		<Animated.FlatList
 			data={incidents}
 			keyExtractor={incident => incident.incidentReportId}
 			renderItem={({ item: incident }) => (
@@ -69,6 +72,7 @@ export default function IncidentList({
 			ListFooterComponent={() => (
 				<LoadingText invisible={!isLoading}/>
 			)}
+			itemLayoutAnimation={LinearTransition}
 		/>
 	);
 	

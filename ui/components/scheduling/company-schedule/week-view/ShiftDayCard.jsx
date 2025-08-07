@@ -17,49 +17,46 @@ export default function ShiftDayCard({ date, shifts, onPress, editing=false, onD
 	
 	
 	return (
-		<View style={styles.cardContainer}>
-			<If condition={editing}>
-				<Gap size={10}/>
-				<RemoveButton onPress={onDelete} style={{ position: "absolute", left: -10, zIndex: 1 }}/>
-			</If>
+		<Card
+			onPress={onPress}
+			showPressFeedback
+			style={styles.card}
+			showRemoveButton={editing}
+			removeButtonPositionLeft={-10}
+			removeButtonPositionTop={1}
+			onDelete={onDelete}
+		>
 			
-			<Card
-				onPress={onPress}
-				showPressFeedback
-				style={styles.card}
-			>
-				
-				<StyledText look="26 bold veryHard">
-					{dayOfWeekShort(date)}
-				</StyledText>
-				
-				<HorizontalLine color="soft" length="100%" style={styles.divider}/>
-				
-				{sortedShifts.map(({ firstName, lastName, shiftStart, shiftEnd }, index) => (
-					<View key={index}>
-						
-						<If condition={index === 5}>
-							<StyledText look="18 light veryHard" style={{ marginTop: -10 }}>...</StyledText>
-						</If>
-						
-						<FlexRowSpaceBetween style={styles.shiftContainer}>
-							
-							<StyledText
-								look="18 light veryHard" numberOfLines={1} style={styles.name}>
-								{firstName[0] + ". " + lastName}
-							</StyledText>
-							
-							<StyledText look="18 regular veryHard" numberOfLines={1} style={styles.times}>
-								{superShortTime(shiftStart) + "-" + superShortTime(shiftEnd)}
-							</StyledText>
-						
-						</FlexRowSpaceBetween>
+			<StyledText look="26 bold veryHard">
+				{dayOfWeekShort(date)}
+			</StyledText>
+			
+			<HorizontalLine color="soft" length="100%" style={styles.divider}/>
+			
+			{sortedShifts.map(({ firstName, lastName, shiftStart, shiftEnd }, index) => (
+				<View key={index}>
 					
-					</View>
-				))}
-			
-			</Card>
-		</View>
+					<If condition={index === 5}>
+						<StyledText look="18 light veryHard" style={{ marginTop: -10 }}>...</StyledText>
+					</If>
+					
+					<FlexRowSpaceBetween style={styles.shiftContainer}>
+						
+						<StyledText
+							look="18 light veryHard" numberOfLines={1} style={styles.name}>
+							{firstName[0] + ". " + lastName}
+						</StyledText>
+						
+						<StyledText look="18 regular veryHard" numberOfLines={1} style={styles.times}>
+							{superShortTime(shiftStart) + "-" + superShortTime(shiftEnd)}
+						</StyledText>
+					
+					</FlexRowSpaceBetween>
+				
+				</View>
+			))}
+		
+		</Card>
 	);
 	
 }
@@ -70,10 +67,10 @@ export default function ShiftDayCard({ date, shifts, onPress, editing=false, onD
 
 const styles = {
 	cardContainer: {
-		marginRight: 15,
 	},
 	
 	card: {
+		marginRight: 15,
 		paddingTop: 2,
 		paddingBottom: 9,
 		paddingHorizontal: 15,

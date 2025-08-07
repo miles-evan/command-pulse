@@ -32,7 +32,7 @@ export const getReport = incidentReportId =>
 	BetterFetch.get(rootURL + `/${incidentReportId}`);
 
 // delete incident report
-export const deleteIncident = incidentReportId  =>
+export const deleteIncident = incidentReportId =>
 	BetterFetch.delete(rootURL, { incidentReportId });
 
 
