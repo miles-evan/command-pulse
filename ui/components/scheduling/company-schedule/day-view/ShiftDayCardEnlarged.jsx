@@ -12,6 +12,7 @@ import * as shiftService from "@/services/shiftService.js";
 import { router } from "expo-router";
 import Button from "@/components/project-specific-utility-components/Button.jsx";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
+import Animated, { LinearTransition } from "react-native-reanimated";
 
 
 export default function ShiftDayCardEnlarged({
@@ -133,8 +134,9 @@ export default function ShiftDayCardEnlarged({
 			</If>
 			
 			{/* Existing shifts */}
-			{sortedShifts.map((shift, index) => (
-				<If condition={!deletedIndices.has(index)} key={shift.shiftId}>
+			<Animated.View layout={LinearTransition}>
+				{sortedShifts.map((shift, index) => (
+					<If condition={!deletedIndices.has(index)} key={shift.shiftId}>
 						<ShiftEntryEnlarged
 							shift={shift}
 							editing={editing}
@@ -148,8 +150,9 @@ export default function ShiftDayCardEnlarged({
 						<If condition={!editing && index < sortedShifts.length - 1}>
 							<HorizontalLine color="softer"/>
 						</If>
-				</If>
-			))}
+					</If>
+				))}
+			</Animated.View>
 			
 			<If condition={!editing}>
 				
@@ -164,19 +167,21 @@ export default function ShiftDayCardEnlarged({
 				<If condition={loadingSubmitNewShifts}>
 					<LoadingText/>
 				</If>
-					
+				
 				{/* New shifts */}
-				{newShifts.current.map((shift, index) => (
-					<ShiftEntryEnlarged
-						key={shift.key}
-						shift={shift}
-						editing
-						onChangeEdits={newEdits => {
-							newShifts.current[index] = { ...newShifts.current[index], ...newEdits };
-						}}
-						onDelete={() => deleteNewShift(index)}
-					/>
-				))}
+				<Animated.View layout={LinearTransition}>
+					{newShifts.current.map((shift, index) => (
+						<ShiftEntryEnlarged
+							key={shift.key}
+							shift={shift}
+							editing
+							onChangeEdits={newEdits => {
+								newShifts.current[index] = { ...newShifts.current[index], ...newEdits };
+							}}
+							onDelete={() => deleteNewShift(index)}
+						/>
+					))}
+				</Animated.View>
 				
 				<If condition={!loadingSubmitNewShifts}>
 					<AddShiftButton onPress={addShift} style={{ marginVertical: 15 }}/>
@@ -188,7 +193,7 @@ export default function ShiftDayCardEnlarged({
 				</If>
 				
 			</If>
-			
+		
 		</Card>
 	);
 	
