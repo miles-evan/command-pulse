@@ -8,13 +8,16 @@ import { useIsFocused } from "@react-navigation/native";
 import { View } from "react-native";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
 import { router } from "expo-router";
+import EditButton from "@/components/project-specific-utility-components/EditButton.jsx";
+import { useState } from "react";
+import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 
 
 export default function SeeIncidents() {
 	
 	const isFocused = useIsFocused();
-	
 	const { isSupervisor } = useGlobalState();
+	const [editing, setEditing] = useState(false);
 	
 	
 	function onPressIncident(incidentReportId) {
@@ -30,14 +33,22 @@ export default function SeeIncidents() {
 			<TabHeader/>
 			<BackButton/>
 			
-			<View style={{ width: "90%", marginHorizontal: "auto", marginTop: 5 }}>
+			<FlexRowSpaceBetween style={{ width: "90%", marginHorizontal: "auto", marginTop: 5 }}>
 				<StyledText look="26 medium mediumHard" hCenter={false}>Incident reports</StyledText>
-			</View>
+				
+				<EditButton
+					onEdit={() => setEditing(true)}
+					onDone={() => setEditing(false)}
+					style={{ width: undefined, marginHorizontal: undefined, marginVertical: "auto" }}
+				/>
+			</FlexRowSpaceBetween>
+			
 			<IncidentList
 				isFocused={isFocused}
 				showPressFeedback
 				onPressIncident={onPressIncident}
 				showUsers={isSupervisor}
+				editing={editing}
 			/>
 		
 		</SafeAreaViewWithBackground>

@@ -8,7 +8,7 @@ import HorizontalLine from "@/components/general-utility-components/HorizontalLi
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 
 
-export default function IncidentCard({ incident, showUser, onPress }) {
+export default function IncidentCard({ incident, showUser, onPress, editing, onDelete }) {
 
 	const {
 		incidentReportId,
@@ -18,7 +18,12 @@ export default function IncidentCard({ incident, showUser, onPress }) {
 	} = incident;
 	
 	return (
-		<Card showPressFeedback onPress={onPress}>
+		<Card
+			showPressFeedback
+			onPress={onPress}
+			showRemoveButton={editing}
+			onDelete={() => onDelete(incidentReportId)}
+		>
 			<StyledText look="28 regular veryHard" hCenter={false}>{title}</StyledText>
 			<If condition={showUser}>
 				<Contact user={{ firstName, lastName }}/>

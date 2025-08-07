@@ -8,7 +8,9 @@ import IncidentCard from "@/components/incidentReports/IncidentCard.jsx";
 
 // retrieves and shows list of incidents
 // dir (1 or -1) is direction to look for incidents (forward in time or backward)
-export default function IncidentList({ isFocused=true, showPressFeedback=false, onPressIncident=_=>{}, showUsers=false }) {
+export default function IncidentList({
+	isFocused=true, showPressFeedback=false, onPressIncident=_=>{}, showUsers=false, editing
+}) {
 	
 	const [incidents, setIncidents] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
@@ -40,6 +42,11 @@ export default function IncidentList({ isFocused=true, showPressFeedback=false, 
 	}
 	
 	
+	function deleteIncident(incidentReportId) {
+		console.log("deleting", { incidentReportId });
+	}
+	
+	
 	return (
 		<FlatList
 			data={incidents}
@@ -50,6 +57,8 @@ export default function IncidentList({ isFocused=true, showPressFeedback=false, 
 					showPressFeedback={showPressFeedback}
 					onPress={() => onPressIncident(incident.incidentReportId)}
 					showUser={showUsers}
+					editing={editing}
+					onDelete={deleteIncident}
 				/>
 			)}
 			keyboardDismissMode="on-drag"
@@ -57,7 +66,6 @@ export default function IncidentList({ isFocused=true, showPressFeedback=false, 
 				if(incidents.length > 0) loadIncidents();
 			}}
 			onEndReachedThreshold={0.5}
-			ItemSeparatorComponent={() => <Gap size={32} />}
 			ListFooterComponent={() => (
 				<LoadingText invisible={!isLoading}/>
 			)}

@@ -5,16 +5,17 @@ import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRow
 import If from "@/components/general-utility-components/If.jsx";
 
 
-export default function EditButton({ initiallyEditing=false, onEdit=()=>{}, onDone=()=>{}, withCancelButton=false, onCancel=()=>{}, disabled=false, style={} }) {
+export default function EditButton({
+	initiallyEditing=false, onEdit=()=>{}, onDone=()=>{}, withCancelButton=false, onCancel=()=>{}, disabled=false, style={}
+}) {
 	
 	const [editing, setEditing] = useState(initiallyEditing);
 	
 	
 	function toggleEditing() {
-		if(!disabled) {
-			(editing? onDone : onEdit)();
-			setEditing(prev => !prev);
-		}
+		if(disabled) return;
+		(editing? onDone : onEdit)();
+		setEditing(prev => !prev);
 	}
 	
 	
