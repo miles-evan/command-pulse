@@ -14,7 +14,9 @@ import Button from "@/components/project-specific-utility-components/Button.jsx"
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
 
 
-export default function ShiftDayCardEnlarged({ date, locationName, shifts, onLeft, onRight, leftDisabled, rightDisabled }) {
+export default function ShiftDayCardEnlarged({
+	date, locationName, shifts, onLeft, onRight, leftDisabled, rightDisabled
+}) {
 	
 	const [deletedIndices, setDeletedIndices] = useState(new Set());
 	
