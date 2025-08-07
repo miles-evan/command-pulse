@@ -13,27 +13,30 @@ export default function Card({
 	return (
 		<Pressable onPress={onPress} onLongPress={onLongPress}>
 			{({ pressed }) => (
-				<View style={{
-					width: "90%",
-					marginHorizontal: "auto",
-					marginVertical: 16,
-					
-					paddingHorizontal: 16,
-					paddingVertical: 24,
-					
-					backgroundColor: "rgba(255, 255, 255, 0.75)",
-					
-					borderRadius: 16,
-					borderWidth: 1,
-					borderColor: pressed && showPressFeedback? Colors.medium : Colors.soft,
-					
-					...style,
-				}}>
+				<View>
 					<If condition={showRemoveButton}>
 						<Gap size={10}/>
-						<RemoveButton onPress={onDelete} style={{ position: "absolute", left: -10, zIndex: 1 }}/>
+						<RemoveButton onPress={onDelete} style={{ position: "absolute", left: 6, top: 13, zIndex: 1 }}/>
 					</If>
-					{children}
+					
+					<View style={{
+						width: "90%",
+						marginHorizontal: "auto",
+						marginVertical: 16,
+						
+						paddingHorizontal: 16,
+						paddingVertical: 24,
+						
+						backgroundColor: "rgba(255, 255, 255, 0.75)",
+						
+						borderRadius: 16,
+						borderWidth: 1,
+						borderColor: pressed && showPressFeedback? Colors.medium : Colors.soft,
+						
+						...style,
+					}}>
+						{children}
+					</View>
 				</View>
 			)}
 		</Pressable>
