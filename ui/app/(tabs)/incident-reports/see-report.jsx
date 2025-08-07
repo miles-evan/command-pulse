@@ -6,7 +6,6 @@ import BackButton from "@/components/project-specific-utility-components/BackBut
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import { ScrollView, View } from "react-native";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
-import Questions from "@/components/incidentReports/Questions.jsx";
 import GenerateWithAIButton from "@/components/incidentReports/GenerateWithAIButton.jsx";
 import SafeAreaViewWithBackground
 	from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";

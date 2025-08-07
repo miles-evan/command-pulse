@@ -26,7 +26,8 @@ export default function FollowUpQuestions() {
 	
 	async function revise() {
 		setLoading(true);
-		const response = await incidentReportService.generate(incidentReportId, JSON.stringify(answerRefsRef.current));
+		const response =
+			await incidentReportService.generate(incidentReportId, JSON.stringify(answerRefsRef.current.questions));
 		setLoading(false);
 		router.push({
 			pathname: "/(tabs)/incident-reports/see-report",
