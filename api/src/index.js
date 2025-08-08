@@ -43,7 +43,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 let requestCount = 0;
 app.use((request, response, next) => {
-	if(request.originalUrl === "/command-pulse/api/v1") return next();
+	if(["/command-pulse/api/v1", "/command-pulse/api/v1/"].includes(request.originalUrl))
+		return next();
 	console.log(`
 		Request #${++requestCount}
 		${request.method} ${request.originalUrl}

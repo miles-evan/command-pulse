@@ -46,6 +46,7 @@ const incidentReportStructure = JSON.stringify({
 	]
 });
 
+
 const followUpQuestions = JSON.stringify({
 	note: "the follow up questions should be in JSON format as so. the only types allowed are text, textarea, and select",
 	exampleStructure: [
@@ -67,9 +68,22 @@ const followUpQuestions = JSON.stringify({
 	]
 });
 
+
+const promptHeader =
+	"You're a security assistant helping write professional incident reports in markdown.";
+
+
+const markDownExplanation =
+	"When generating the markdown, try to include #s, ##s, and **s when it would make it look good.";
+
+
+// --------------------------------
+
+
 export async function promptGenerateIncidentReport(user, company, shift, dateCreated, incidentInfo) {
 	const prompt =
-		"You're a security assistant helping write professional incident reports in markdown. "
+		promptHeader
+		+ markDownExplanation
 		+ "Based on the metadata and officer's description, generate a clear, complete report using this structure:\n"
 		+ incidentReportStructure
 		+ "\nRespond in JSON with keys, 'report', 'followUpQuestions', and 'title'"
@@ -87,7 +101,7 @@ export async function promptGenerateIncidentReport(user, company, shift, dateCre
 			metadata: {
 				user,
 				company,
-				shiftOfIncident: shift,
+				shiftWhenIncidentOccurred: shift,
 				dateInitialized: dateCreated,
 			},
 			incidentInfoWrittenByUser: incidentInfo,
@@ -98,7 +112,8 @@ export async function promptGenerateIncidentReport(user, company, shift, dateCre
 
 export async function promptReviseIncidentReport(currentReport, revisions) {
 	const prompt =
-		"You're a security assistant helping write professional incident reports in markdown."
+		promptHeader
+		+ markDownExplanation
 		+ " Based on the previous iteration of the report and officer's revisions / answers to your questions,"
 		+ " generate a clear, complete report using this structure:\n"
 		+ incidentReportStructure
