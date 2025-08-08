@@ -17,6 +17,9 @@ import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
 import If from "@/components/general-utility-components/If.jsx";
 import { markdownToPdf, sharePdf, viewPdf } from "@/utils/mardownToPDF.js";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons.js";
+import IconAndTextButton from "@/components/project-specific-utility-components/IconAndTextButton.jsx";
+import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 
 
 export default function SeeReport() {
@@ -29,6 +32,7 @@ export default function SeeReport() {
 	const keyboardVisible = useKeyboardVisible();
 	const scrollViewRef = useRef(null);
 	const feedbackRef = useRef(null);
+	const [pdfUri, setPdfUri] = useState(null);
 	
 	
 	useEffect(() => {
@@ -38,8 +42,8 @@ export default function SeeReport() {
 			try {
 				const res = await incidentReportService.getReport(incidentReportId);
 				setMarkdownReport(res.body.report);
-				const uri = await markdownToPdf(res.body.report);
-				await viewPdf(uri);
+				setPdfUri(await markdownToPdf(res.body.report));
+				
 			} finally {
 				setLoadingReport(false);
 			}
@@ -65,9 +69,8 @@ export default function SeeReport() {
 	}
 	
 	
-	function share() {
-		// sharePdf(uri)
-		router.replace("/(tabs)/incident-reports");
+	async function view() {
+		await viewPdf(pdfUri);
 	}
 	
 	
@@ -83,20 +86,35 @@ export default function SeeReport() {
 				keyboardShouldPersistTaps="handled"
 				style={{ width: "90%", marginHorizontal: "auto" }}
 			>
-				<StyledText look="26 medium veryHard" hCenter={false}>See generated incident report</StyledText>
 				<If condition={loadingReport}>
 					<LoadingText/>
 				</If>
-				<Button look="blue" onPress={share}>Looks good!</Button>
-				<OrLine style={{ marginVertical: 10 }}/>
+				
+				<IconAndTextButton
+					IconFamily={MaterialCommunityIcons}
+					iconName="file-search-outline"
+					text="  View incient report"
+					size={42}
+					fontSize={27}
+					onPress={view}
+					outerContainerStyle={{ alignItems: undefined }}
+					innerContainerStyle={{ flexDirection: "row" }}
+					styledTextPropsObj={{ hCenter: false }}
+				/>
+				
+				<Gap size={25}/>
+				
 				<StyledText look="20 medium mediumHard" hCenter={false}>Feedback</StyledText>
+				
 				<StyledTextInput
 					placeholder="What changes should be made..."
 					valueRef={feedbackRef}
 					bigMode
 					style={{ backgroundColor: "rgba(255, 255, 255, 0.75)" }}
 				/>
+				
 				<GenerateWithAIButton onPress={revise} disabled={loadingGenerate}/>
+				
 				<If condition={keyboardVisible}>
 					<Gap size={175}/>
 				</If>
