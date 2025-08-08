@@ -12,6 +12,7 @@ import * as payCycleService from "@/services/payCycleService.js";
 import { useState } from "react";
 import If from "@/components/general-utility-components/If.jsx";
 import { router } from "expo-router";
+import SpringyAnimatedView from "@/components/general-utility-components/SpringyAnimatedView.jsx";
 
 
 export default function Shifts() {
@@ -59,11 +60,12 @@ export default function Shifts() {
 			
 			<ScrollView>
 				{shifts.map(shift => (
-					<ShiftCard
-						key={shift.shiftId}
-						shift={shift}
-						mode={`pay cycle ${isSupervisor? "supervisor" : "officer"}`}
-					/>
+					<SpringyAnimatedView key={shift.shiftId}>
+						<ShiftCard
+							shift={shift}
+							mode={`pay cycle ${isSupervisor? "supervisor" : "officer"}`}
+						/>
+					</SpringyAnimatedView>
 				))}
 			</ScrollView>
 		

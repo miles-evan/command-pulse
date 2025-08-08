@@ -15,6 +15,7 @@ import RemoveButton from "@/components/project-specific-utility-components/Remov
 import FlexRow from "@/components/general-utility-components/FlexRow.jsx";
 import { areSameDay } from "@/utils/newDateUtils.js";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import SpringyAnimatedView from "@/components/general-utility-components/SpringyAnimatedView.jsx";
 
 
 export default function ShiftLocation({
@@ -106,27 +107,33 @@ export default function ShiftLocation({
 				/>
 			</FlexRowSpaceBetween>
 			
-			<Animated.FlatList
-				data={shiftDays}
-				keyExtractor={shiftDay => shiftDay.date}
-				renderItem={({ item: { date, shifts }, index }) => (
-					<ShiftDayCard
-						date={date}
-						shifts={shifts}
-						onPress={() => enlargeShiftDay(index)}
-						editing={editing}
-						onDelete={() => deleteDay(index)}
-					/>
-				)}
-				ListFooterComponent={(
-					<If condition={shiftDays.length < 7}>
-						<AddDayButton onPress={showAllDays}/>
-					</If>
-				)}
-				horizontal
-				itemLayoutAnimation={LinearTransition}
-				style={{ overflow: "visible", marginVertical: 8 }}
-			/>
+			<SpringyAnimatedView>
+				<Animated.FlatList
+					data={shiftDays}
+					keyExtractor={shiftDay => shiftDay.date}
+					renderItem={({ item: { date, shifts }, index }) => (
+						<SpringyAnimatedView>
+							<ShiftDayCard
+								date={date}
+								shifts={shifts}
+								onPress={() => enlargeShiftDay(index)}
+								editing={editing}
+								onDelete={() => deleteDay(index)}
+							/>
+						</SpringyAnimatedView>
+					)}
+					ListFooterComponent={(
+						<If condition={shiftDays.length < 7}>
+							<SpringyAnimatedView style={{ flex: 1, justifyContent: "center", marginRight: 10 }}>
+								<AddDayButton onPress={showAllDays}/>
+							</SpringyAnimatedView>
+						</If>
+					)}
+					horizontal
+					itemLayoutAnimation={LinearTransition}
+					style={{ overflow: "visible", marginVertical: 8 }}
+				/>
+			</SpringyAnimatedView>
 	
 		</View>
 	);

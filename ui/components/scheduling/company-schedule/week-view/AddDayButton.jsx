@@ -7,7 +7,6 @@ export default function AddDayButton({ onPress, ...rest }) {
 		iconName="add-circle-outline"
 		size={28}
 		onPress={onPress}
-		outerContainerStyle={{ flex: 1, justifyContent: "center", marginRight: 10 }}
 		{...rest}
 	/>;
 	

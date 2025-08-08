@@ -12,7 +12,8 @@ import * as shiftService from "@/services/shiftService.js";
 import { router } from "expo-router";
 import Button from "@/components/project-specific-utility-components/Button.jsx";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
-import Animated, { LinearTransition } from "react-native-reanimated";
+import Animated, { FadeInDown, FadeOut, LinearTransition } from "react-native-reanimated";
+import SpringyAnimatedView from "@/components/general-utility-components/SpringyAnimatedView.jsx";
 
 
 export default function ShiftDayCardEnlarged({
@@ -134,9 +135,9 @@ export default function ShiftDayCardEnlarged({
 			</If>
 			
 			{/* Existing shifts */}
-			<Animated.View layout={LinearTransition}>
-				{sortedShifts.map((shift, index) => (
-					<If condition={!deletedIndices.has(index)} key={shift.shiftId}>
+			{sortedShifts.map((shift, index) => (
+				<If condition={!deletedIndices.has(index)} key={shift.shiftId}>
+					<SpringyAnimatedView>
 						<ShiftEntryEnlarged
 							shift={shift}
 							editing={editing}
@@ -150,9 +151,9 @@ export default function ShiftDayCardEnlarged({
 						<If condition={!editing && index < sortedShifts.length - 1}>
 							<HorizontalLine color="softer"/>
 						</If>
-					</If>
-				))}
-			</Animated.View>
+					</SpringyAnimatedView>
+				</If>
+			))}
 			
 			<If condition={!editing}>
 				
@@ -169,10 +170,9 @@ export default function ShiftDayCardEnlarged({
 				</If>
 				
 				{/* New shifts */}
-				<Animated.View layout={LinearTransition}>
-					{newShifts.current.map((shift, index) => (
+				{newShifts.current.map((shift, index) => (
+					<SpringyAnimatedView key={shift.key}>
 						<ShiftEntryEnlarged
-							key={shift.key}
 							shift={shift}
 							editing
 							onChangeEdits={newEdits => {
@@ -180,16 +180,18 @@ export default function ShiftDayCardEnlarged({
 							}}
 							onDelete={() => deleteNewShift(index)}
 						/>
-					))}
-				</Animated.View>
+					</SpringyAnimatedView>
+				))}
 				
 				<If condition={!loadingSubmitNewShifts}>
-					<AddShiftButton onPress={addShift} style={{ marginVertical: 15 }}/>
-					
-					<If condition={addingShifts}>
-						<Button onPress={submitNewShifts} disabled={loadingSubmitNewShifts}>Submit</Button>
-						<Button look="white" onPress={cancelAddingShifts} disabled={loadingSubmitNewShifts}>Cancel</Button>
-					</If>
+					<SpringyAnimatedView>
+						<AddShiftButton onPress={addShift} style={{ marginVertical: 15 }}/>
+						
+						<If condition={addingShifts}>
+							<Button onPress={submitNewShifts} disabled={loadingSubmitNewShifts}>Submit</Button>
+							<Button look="white" onPress={cancelAddingShifts} disabled={loadingSubmitNewShifts}>Cancel</Button>
+						</If>
+					</SpringyAnimatedView>
 				</If>
 				
 			</If>

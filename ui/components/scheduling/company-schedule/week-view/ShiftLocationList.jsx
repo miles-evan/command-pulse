@@ -8,6 +8,9 @@ import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import AddLocationButton from "@/components/scheduling/company-schedule/week-view/AddLocationButton.jsx";
 import { useIsScreenFocused } from "@/hooks/useIsScreenFocused.js";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import SpringyAnimatedView from "@/components/general-utility-components/SpringyAnimatedView.jsx";
+import If from "@/components/general-utility-components/If.jsx";
+import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
 
 
 export default function ShiftLocationList({ weekRange }) {
@@ -47,19 +50,25 @@ export default function ShiftLocationList({ weekRange }) {
 			data={shiftLocations}
 			keyExtractor={shiftLocation => "key" in shiftLocation? shiftLocation.key : shiftLocation.locationName}
 			renderItem={({ item: { locationName, shifts }, index }) => (
-				<ShiftLocation
-					locationName={locationName}
-					shifts={shifts}
-					weekRange={weekRange}
-					onDelete={() => deleteLocation(index)}
-				/>
+				<SpringyAnimatedView>
+					<ShiftLocation
+						locationName={locationName}
+						shifts={shifts}
+						weekRange={weekRange}
+						onDelete={() => deleteLocation(index)}
+					/>
+				</SpringyAnimatedView>
 			)}
 			ItemSeparatorComponent={() => <Gap size={16} />}
 			ListHeaderComponent={(
-				<StyledText look="18 semibold hard" style={{ marginVertical: 0 }}>{isLoading? "Loading..." : " "}</StyledText>
+				<If condition={isLoading}>
+					<LoadingText/>
+				</If>
 			)}
 			ListFooterComponent={(
-				<AddLocationButton onPress={addLocation} style={{ marginBottom: 16 }}/>
+				<SpringyAnimatedView>
+					<AddLocationButton onPress={addLocation} style={{ marginBottom: 16 }}/>
+				</SpringyAnimatedView>
 			)}
 			itemLayoutAnimation={LinearTransition}
 		/>
