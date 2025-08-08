@@ -16,6 +16,7 @@ import StyledTextInput from "@/components/project-specific-utility-components/St
 import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
 import If from "@/components/general-utility-components/If.jsx";
 import { markdownToPdf, sharePdf, viewPdf } from "@/utils/mardownToPDF.js";
+import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
 
 
 export default function SeeReport() {
@@ -83,7 +84,9 @@ export default function SeeReport() {
 				style={{ width: "90%", marginHorizontal: "auto" }}
 			>
 				<StyledText look="26 medium veryHard" hCenter={false}>See generated incident report</StyledText>
-				<StyledText>{loadingReport? "Loading..." : markdownReport}</StyledText>
+				<If condition={loadingReport}>
+					<LoadingText/>
+				</If>
 				<Button look="blue" onPress={share}>Looks good!</Button>
 				<OrLine style={{ marginVertical: 10 }}/>
 				<StyledText look="20 medium mediumHard" hCenter={false}>Feedback</StyledText>
