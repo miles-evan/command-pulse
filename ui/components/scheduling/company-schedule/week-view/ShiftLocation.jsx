@@ -112,15 +112,13 @@ export default function ShiftLocation({
 					data={shiftDays}
 					keyExtractor={shiftDay => shiftDay.date}
 					renderItem={({ item: { date, shifts }, index }) => (
-						<SpringyAnimatedView>
-							<ShiftDayCard
-								date={date}
-								shifts={shifts}
-								onPress={() => enlargeShiftDay(index)}
-								editing={editing}
-								onDelete={() => deleteDay(index)}
-							/>
-						</SpringyAnimatedView>
+						<ShiftDayCard
+							date={date}
+							shifts={shifts}
+							onPress={() => enlargeShiftDay(index)}
+							editing={editing}
+							onDelete={() => deleteDay(index)}
+						/>
 					)}
 					ListFooterComponent={(
 						<If condition={shiftDays.length < 7}>

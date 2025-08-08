@@ -15,6 +15,7 @@ import StyledTextInput from "@/components/project-specific-utility-components/St
 import Button from "@/components/project-specific-utility-components/Button.jsx";
 import GenerateWithAIButton from "@/components/incidentReports/GenerateWithAIButton.jsx";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
+import SpringyAnimatedView from "@/components/general-utility-components/SpringyAnimatedView.jsx";
 
 
 export default function Create() {
@@ -73,42 +74,45 @@ export default function Create() {
 			<BackButton to="/(tabs)/incident-reports"/>
 			<Gap size={20}/>
 			
-			{!incidentReportId? (<>
+			{!incidentReportId? (
 				
-				<StyledText
-					look="22 medium mediumHard"
-					hCenter={false}
-					style={{ width: "90%", marginHorizontal: "auto", marginBottom: 20 }}
-				>
-					When did the incident take place?
-				</StyledText>
+				<SpringyAnimatedView>
+					<StyledText
+						look="22 medium mediumHard"
+						hCenter={false}
+						style={{ width: "90%", marginHorizontal: "auto", marginBottom: 20 }}
+					>
+						When did the incident take place?
+					</StyledText>
+					
+					<If condition={loading}>
+						<LoadingText/>
+					</If>
+					
+					<If condition={!shiftId}>
+						<ShiftList
+							dir={-1}
+							showPressFeedback
+							onPressShift={initIncident}
+							mode="plain"
+						/>
+					</If>
+				</SpringyAnimatedView>
 				
-				<If condition={loading}>
-					<LoadingText/>
-				</If>
+			) : (
 				
-				<If condition={!shiftId}>
-					<ShiftList
-						dir={-1}
-						showPressFeedback
-						onPressShift={initIncident}
-						mode="plain"
-					/>
-				</If>
-				
-			</>) : (
-				
-				<View style={{ width: "90%", marginHorizontal: "auto" }}>
+				<SpringyAnimatedView style={{ width: "90%", marginHorizontal: "auto" }}>
 					<StyledText look="26 medium mediumHard" hCenter={false}>Description</StyledText>
 					
 					<StyledTextInput
 						placeholder="Describe what happened in your own words..."
 						valueRef={valueRef}
 						bigMode
+						whiteTintedBackground
 					/>
 					
 					<GenerateWithAIButton onPress={generate} disabled={loading}/>
-				</View>
+				</SpringyAnimatedView>
 				
 			)}
 		</SafeAreaViewWithBackground>

@@ -44,7 +44,6 @@ export default function IncidentList({
 	
 	
 	async function deleteIncident(incidentReportId) {
-		console.log("deleting", { incidentReportId });
 		setIncidents(prev => prev.filter(incident => incident.incidentReportId !== incidentReportId));
 		await incidentReportService.deleteIncident(incidentReportId)
 	}
