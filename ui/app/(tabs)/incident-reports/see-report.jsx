@@ -38,17 +38,18 @@ export default function SeeReport() {
 	useEffect(() => {
 		if(markdownReport) return; // already sent from previous page
 		setLoadingReport(true);
-		(async () => {
-			try {
-				const res = await incidentReportService.getReport(incidentReportId);
-				setMarkdownReport(res.body.report);
-				setPdfUri(await markdownToPdf(res.body.report));
-				
-			} finally {
-				setLoadingReport(false);
-			}
-		})();
+		incidentReportService.getReport(incidentReportId)
+			.then(response => setMarkdownReport(response.body.report));
 	}, []);
+	
+	
+	useEffect(() => {
+		markdownToPdf(markdownReport)
+			.then(uri => {
+				setPdfUri(uri);
+				setLoadingReport(false);
+			})
+	}, [markdownReport]);
 	
 	
 	useEffect(() => {
@@ -86,10 +87,6 @@ export default function SeeReport() {
 				keyboardShouldPersistTaps="handled"
 				style={{ width: "90%", marginHorizontal: "auto" }}
 			>
-				<If condition={loadingReport}>
-					<LoadingText/>
-				</If>
-				
 				<IconAndTextButton
 					IconFamily={MaterialCommunityIcons}
 					iconName="file-search-outline"
@@ -97,6 +94,7 @@ export default function SeeReport() {
 					size={42}
 					fontSize={27}
 					onPress={view}
+					disabled={loadingReport}
 					outerContainerStyle={{ alignItems: undefined }}
 					innerContainerStyle={{ flexDirection: "row" }}
 					styledTextPropsObj={{ hCenter: false }}

@@ -20,17 +20,21 @@ export default function IconAndTextButton({
 	fontSize,
 	fontWeight,
 	textStyle={},
-	styledTextPropsObj={}
+	styledTextPropsObj={},
+	disabled=false,
 }) {
+	
+	if(disabled) onPress = ()=>{};
+	
 	
 	return (
 		<Pressable style={{ alignItems: "center", ...style, ...outerContainerStyle }} onPress={onPress}>
 			{({ pressed }) => (
 				<View style={{ alignItems: "center", ...innerContainerStyle }}>
-					<IconFamily name={iconName} size={size} color={pressed? Colors[pressColor] : Colors[color]} />
+					<IconFamily name={iconName} size={size} color={pressed || disabled? Colors[pressColor] : Colors[color]} />
 					<If condition={text}>
 						<StyledText
-							look={`${fontSize ?? 24} ${fontWeight ?? "medium"} ${pressed? pressColor : color}`}
+							look={`${fontSize ?? 24} ${fontWeight ?? "medium"} ${pressed || disabled? pressColor : color}`}
 							style={{ marginVertical: -3, ...textStyle }}
 							{...styledTextPropsObj}
 						>
