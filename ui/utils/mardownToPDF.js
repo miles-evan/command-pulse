@@ -1,13 +1,13 @@
-// utils/markdownToPDF.js
-import { Linking, Platform } from "react-native";
 import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
 import * as FileSystem from "expo-file-system";
 import { PDFDocument } from "pdf-lib";
 import MarkdownIt from "markdown-it";
 
+
 const md = new MarkdownIt({ html: false, linkify: true, breaks: true });
 const mm = v => (v * 72) / 25.4;
+
 
 async function addPdfMargins(inUri, { top=18, bottom=18, left=16, right=16 } = {}) {
 	const bytes = new Uint8Array(await (await fetch(inUri)).arrayBuffer());
@@ -15,7 +15,7 @@ async function addPdfMargins(inUri, { top=18, bottom=18, left=16, right=16 } = {
 	const outDoc = await PDFDocument.create();
 	const T = mm(top), B = mm(bottom), L = mm(left), R = mm(right);
 	
-	for (let i = 0; i < inDoc.getPageCount(); i++) {
+	for(let i = 0; i < inDoc.getPageCount(); i++) {
 		const [p] = await outDoc.embedPages([inDoc.getPage(i)]);
 		const { width, height } = p.size();
 		const page = outDoc.addPage([width, height]);
@@ -28,20 +28,25 @@ async function addPdfMargins(inUri, { top=18, bottom=18, left=16, right=16 } = {
 	return outUri;
 }
 
+
 export async function markdownToPdf(markdown) {
 	const html = `<!doctype html><html><head><meta charset="utf-8"/><style>
-		body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;margin:0}
-		h1,h2,h3{margin:.8em 0 .4em} p,li{line-height:1.45} pre{background:#f5f5f5;padding:12px;border-radius:8px;overflow:auto}
-		code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace} img{max-width:100%}
+		body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;margin:0;font-size:18px}
+		h1{font-size:48px}h2{font-size:32px}h3{font-size:28px}
+		p,li{line-height:1.45}
+		pre{background:#f5f5f5;padding:12px;border-radius:8px;overflow:auto}
+		code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+		img{max-width:100%}
 	</style></head><body>${md.render(markdown)}</body></html>`;
 	const { uri } = await Print.printToFileAsync({ html });
 	return addPdfMargins(uri);
 }
 
+
 export async function viewPdf(uri) {
-	// iOS PDF preview via system print sheet
 	return Print.printAsync({ uri });
 }
+
 
 export async function sharePdf(uri) {
 	if (await Sharing.isAvailableAsync()) {
