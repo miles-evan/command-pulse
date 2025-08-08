@@ -15,6 +15,7 @@ import OrLine from "@/components/general-utility-components/OrLine.jsx";
 import StyledTextInput from "@/components/project-specific-utility-components/StyledTextInput.jsx";
 import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
 import If from "@/components/general-utility-components/If.jsx";
+import { markdownToPdf, sharePdf, viewPdf } from "@/utils/mardownToPDF.js";
 
 
 export default function SeeReport() {
@@ -32,11 +33,16 @@ export default function SeeReport() {
 	useEffect(() => {
 		if(markdownReport) return; // already sent from previous page
 		setLoadingReport(true);
-		incidentReportService.getReport(incidentReportId, )
-			.then(response => {
+		(async () => {
+			try {
+				const res = await incidentReportService.getReport(incidentReportId);
+				setMarkdownReport(res.body.report);
+				const uri = await markdownToPdf(res.body.report);
+				await viewPdf(uri);
+			} finally {
 				setLoadingReport(false);
-				setMarkdownReport(response.body.report);
-			});
+			}
+		})();
 	}, []);
 	
 	
@@ -58,7 +64,8 @@ export default function SeeReport() {
 	}
 	
 	
-	function gotoIncidentsHome() {
+	function share() {
+		// sharePdf(uri)
 		router.replace("/(tabs)/incident-reports");
 	}
 	
@@ -77,7 +84,7 @@ export default function SeeReport() {
 			>
 				<StyledText look="26 medium veryHard" hCenter={false}>See generated incident report</StyledText>
 				<StyledText>{loadingReport? "Loading..." : markdownReport}</StyledText>
-				<Button look="blue" onPress={gotoIncidentsHome}>Looks good!</Button>
+				<Button look="blue" onPress={share}>Looks good!</Button>
 				<OrLine style={{ marginVertical: 10 }}/>
 				<StyledText look="20 medium mediumHard" hCenter={false}>Feedback</StyledText>
 				<StyledTextInput
