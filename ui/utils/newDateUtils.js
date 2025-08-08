@@ -127,24 +127,24 @@ export function parseTimeRange(timeRangeStr, baseDate) {
 		.split("-")
 		.map(time => {
 			let ampm = "PM";
-			if (/AM|PM/.test(time)) {
+			if(/AM|PM/.test(time)) {
 				ampm = time.slice(-2);
 				time = time.slice(0, -2);
 			}
-			if (!time.includes(":")) time += ":00";
+			if(!time.includes(":")) time += ":00";
 			const [hourStr, minuteStr] = time.split(":");
 			let hour = parseInt(hourStr);
 			const minute = parseInt(minuteStr);
 			
-			if (ampm === "PM" && hour !== 12) hour += 12;
-			if (ampm === "AM" && hour === 12) hour = 0;
+			if(ampm === "PM" && hour !== 12) hour += 12;
+			if(ampm === "AM" && hour === 12) hour = 0;
 			
 			const date = new Date(baseDate);
 			date.setHours(hour, minute, 0, 0);
 			return date;
 		});
 	
-	if (!result[0] || !result[1]) return null;
+	if(!result.every(isValidDate)) return null;
 	
 	// if start is after end, assume end is next day
 	if(result[0] > result[1])
@@ -179,4 +179,9 @@ function convertTo24(time) {
 	if (ampm === "PM" && hour !== 12) hour += 12;
 	if (ampm === "AM" && hour === 12) hour = 0;
 	return `${padZero(hour)}:${m}`;
+}
+
+
+function isValidDate(date) {
+	return date instanceof Date && !isNaN(date);
 }
