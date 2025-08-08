@@ -127,7 +127,13 @@ export default function ShiftDayCardEnlarged({
 			<HorizontalLine color="soft" length={"100%"}/>
 			
 			<If condition={!loadingSubmitEdits && sortedShifts.length > 0}>
-				<EditButton onEdit={onEdit} onDone={submitEdits} onCancel={cancelEdits} withCancelButton disabled={addingShifts}/>
+				<EditButton
+					onEdit={onEdit}
+					onDone={submitEdits}
+					onCancel={cancelEdits}
+					withCancelButton
+					disabled={addingShifts}
+				/>
 				<Gap size={5}/>
 			</If>
 			<If condition={loadingSubmitEdits}>
@@ -186,14 +192,21 @@ export default function ShiftDayCardEnlarged({
 				<If condition={!loadingSubmitNewShifts}>
 					<SpringyAnimatedView>
 						<AddShiftButton onPress={addShift} style={{ marginVertical: 15 }}/>
-						
-						<If condition={addingShifts}>
-							<Button onPress={submitNewShifts} disabled={loadingSubmitNewShifts}>Submit</Button>
-							<Button look="white" onPress={cancelAddingShifts} disabled={loadingSubmitNewShifts}>Cancel</Button>
-						</If>
 					</SpringyAnimatedView>
+					<If condition={addingShifts}>
+						<SpringyAnimatedView>
+							<Button onPress={submitNewShifts} disabled={loadingSubmitNewShifts}>Submit</Button>
+							<Button
+								look="white"
+								onPress={cancelAddingShifts}
+								disabled={loadingSubmitNewShifts}
+							>
+								Cancel
+							</Button>
+						</SpringyAnimatedView>
+					</If>
 				</If>
-				
+			
 			</If>
 		
 		</Card>
