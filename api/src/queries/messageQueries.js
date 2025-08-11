@@ -26,15 +26,17 @@ async function createMessage(userId, message) {
 
 
 // returns announcements before date (exclusive)
-export async function getAnnouncements(companyId, date, skip, limit) {
+export async function getAnnouncements(companyId, date=new Date(), skip=0, limit=10) {
 	const company = await Company.findById(companyId);
+	
+	console.log({ companyId, date, skip, limit })
 	
 	const announcements = await Message.find({
 		_id: { $in: company.announcementIds },
 		timeSent: { $lt: date },
 	}).sort({ timeSent: -1 }).skip(skip).limit(limit);
 	
-	return projectMessages(announcements);
+	return projectMessages(announcements).reverse();
 }
 
 

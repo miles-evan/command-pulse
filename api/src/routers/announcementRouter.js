@@ -12,10 +12,10 @@ announcementRouter.post(
 	"/",
 	...permission("supervisor"),
 	async (request, response) => {
-		const { message } = request;
+		const { message } = request.body;
 		
-		const messageId = await sendAnnouncement();
-		return response.send({ messageId });
+		const messageId = await sendAnnouncement(request.user.id, message);
+		return response.status(201).send({ messageId });
 	}
 );
 
@@ -27,7 +27,7 @@ announcementRouter.get(
 	async (request, response) => {
 		const { date, skip, limit } = request.query;
 		
-		const announcements = await getAnnouncements(request.user.companyId, date, skip, limit);
+		const announcements = await getAnnouncements(request.user.companyId, date, Number(skip), Number(limit));
 		return response.send({ announcements });
 	}
 );
