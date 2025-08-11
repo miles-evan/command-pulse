@@ -23,7 +23,7 @@ export default function Button(
 	
 	return (
 		<Pressable
-			style={({ pressed }) => getButtonStyles(look, {...style, ...buttonStyle}, disabled || pressed)}
+			style={({ pressed }) => getButtonStyles(look, { ...style, ...buttonStyle }, disabled || pressed)}
 			onPress={onPress}
 		>
 			

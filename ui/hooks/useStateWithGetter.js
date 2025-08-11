@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+// solves the problem of setting state and not immediately having it
 export default function useStateWithGetter(initialValue) {
 	const [state, setState] = useState(initialValue);
 	
