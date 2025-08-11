@@ -6,6 +6,7 @@ import Animated, { LinearTransition } from "react-native-reanimated";
 import If from "@/components/general-utility-components/If.jsx";
 import { View } from "react-native";
 import Gap from "@/components/general-utility-components/Gap.jsx";
+import { useGlobalState } from "@/hooks/useGlobalState.js";
 
 
 // retrieves and shows list of announcements and shift requests
@@ -14,13 +15,16 @@ export default function AnnouncementsList({ isFocused=true, sendMessageRef, styl
 	const [announcements, setAnnouncements] = useState([]); // from newest to oldest
 	const [isLoading, setIsLoading] = useState(false);
 	sendMessageRef.current = sendMessage;
+	const [numNewMessages, setNumNewMessages] = useState(false);
+	const globalState = useGlobalState();
+	
 	
 	
 	useEffect(() => {
 		if(!isFocused) return;
 		setAnnouncements([]);
 		loadAnnouncements();
-	}, [isFocused]);
+	}, [isFocused, numNewMessages]);
 	
 	
 	function loadAnnouncements() {
@@ -48,8 +52,17 @@ export default function AnnouncementsList({ isFocused=true, sendMessageRef, styl
 	
 	
 	async function sendMessage(message) {
-		setAnnouncements(prev => [message, ...prev]);
-		await announcementService.send(message);
+		const messageId = await announcementService.send(message);
+		const messageObj = {
+			messageId,
+			userId: globalState.userId,
+			firstName: globalState.firstName,
+			lastName: globalState.lastName,
+			timeSent: new Date(),
+			message,
+			numLikes: 0,
+		}
+		setAnnouncements(prev => [messageObj, ...prev])
 	}
 	
 	

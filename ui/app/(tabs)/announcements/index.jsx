@@ -15,6 +15,10 @@ export default function Announcements() {
 	const sendMessageRef = useRef(null);
 	const valueRef = useRef(null);
 	
+	function sendMessage() {
+		sendMessageRef.current(valueRef.current);
+	}
+	
 	return (
 		<SafeAreaViewWithBackground>
 			
@@ -30,7 +34,7 @@ export default function Announcements() {
 				/>
 				<FlexRowSpaceBetween>
 					<MessageInput valueRef={valueRef}/>
-					<Button style={{ width: 64, marginHorizontal: 2 }} onPress={sendMessageRef.current}>Send</Button>
+					<Button style={{ width: 64, marginHorizontal: 2 }} onPress={sendMessage}>Send</Button>
 				</FlexRowSpaceBetween>
 			</KeyboardAvoidingView>
 			
