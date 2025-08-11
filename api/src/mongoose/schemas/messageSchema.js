@@ -1,23 +1,23 @@
 import mongoose from "mongoose";
 
 const messageSchema = new mongoose.Schema({
-	sender: {
-		type: {
-			type: mongoose.Schema.Types.ObjectId,
-			ref: "User",
-		},
+	// sender:
+	userId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User",
 		required: true,
 	},
 	timeSent: {
 		type: Date,
-		required: true,
+		default: Date.now,
 	},
 	message: {
 		type: String,
 		required: true,
 	},
+	// only for announcements:
 	numLikes: {
-		types: Number,
+		type: Number,
 		default: 0,
 	},
 });
