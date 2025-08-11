@@ -9,10 +9,11 @@ import Gap from "@/components/general-utility-components/Gap.jsx";
 
 
 // retrieves and shows list of announcements and shift requests
-export default function AnnouncementsList({ isFocused=true }) {
+export default function AnnouncementsList({ isFocused=true, sendMessageRef, style }) {
 	
 	const [announcements, setAnnouncements] = useState([]); // from newest to oldest
 	const [isLoading, setIsLoading] = useState(false);
+	sendMessageRef.current = sendMessage;
 	
 	
 	useEffect(() => {
@@ -46,8 +47,14 @@ export default function AnnouncementsList({ isFocused=true }) {
 	}
 	
 	
+	async function sendMessage(message) {
+		setAnnouncements(prev => [message, ...prev]);
+		await announcementService.send(message);
+	}
+	
+	
 	return (
-		<View style={{ width: "90%", marginHorizontal: "auto" }}>
+		<View style={style}>
 			<Animated.FlatList
 				data={announcements}
 				keyExtractor={announcement => announcement.messageId}
@@ -79,7 +86,7 @@ export default function AnnouncementsList({ isFocused=true }) {
 					<LoadingText invisible={!isLoading}/>
 				)}
 				ListHeaderComponent={() => (
-					<Gap size={150}/>
+					<Gap size={20}/>
 				)}
 				ItemSeparatorComponent={<Gap size={5}/>}
 				itemLayoutAnimation={LinearTransition}
