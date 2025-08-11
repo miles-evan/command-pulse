@@ -34,18 +34,23 @@ export async function getAnnouncements(companyId, date=new Date(), skip=0, limit
 	const announcements = await Message.find({
 		_id: { $in: company.announcementIds },
 		timeSent: { $lt: date },
-	}).sort({ timeSent: -1 }).skip(skip).limit(limit);
+	}).sort({ timeSent: -1 }).skip(skip).limit(limit).lean();
 	
-	return projectMessages(announcements).reverse();
+	return (await projectMessages(announcements)).reverse();
 }
 
 
-function projectMessages(messages) {
-	return messages.map(message => ({
-		messageId: message.id,
-		userId: message.userId,
-		timeSent: message.timeSent,
-		message: message.message,
-		numLikes: message.numLikes,
+async function projectMessages(messages) {
+	return Promise.all(messages.map(async message => {
+		const user = await User.findById(message.userId);
+		return {
+			messageId: message.id,
+			userId: message.userId,
+			firstName: user.firstName,
+			lastName: user.lastName,
+			timeSent: message.timeSent,
+			message: message.message,
+			numLikes: message.numLikes,
+		}
 	}));
 }
