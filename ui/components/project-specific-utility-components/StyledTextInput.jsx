@@ -5,12 +5,21 @@ import { useState } from "react";
 // bigMode makes the text box larger, with larger text, and text at top right
 // bigTextMode is the same thing but without the box itself being larger
 export default function StyledTextInput({
-    style, initialValue, color, bigTextMode=false, bigMode=false, valueRef, whiteTintedBackground=false, ...rest
+    style,
+	initialValue,
+	color,
+	bigTextMode=false,
+	bigMode=false,
+	valueRef,
+	setValueRef,
+	whiteTintedBackground=false,
+	...rest
 }) {
 	
 	const [value, setValue] = useState(initialValue ?? "");
 	
 	if(valueRef) valueRef.current = value;
+	if(setValueRef) setValueRef.current = setValue;
 	
 	return (
 		<TextInput

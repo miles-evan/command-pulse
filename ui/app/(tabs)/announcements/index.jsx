@@ -15,9 +15,11 @@ export default function Announcements() {
 	const isFocused = useIsFocused();
 	const sendMessageRef = useRef(null);
 	const valueRef = useRef(null);
+	const setValueRef = useRef(null);
 	
 	function sendMessage() {
 		sendMessageRef.current(valueRef.current);
+		setValueRef.current("");
 	}
 	
 	return (
@@ -34,7 +36,7 @@ export default function Announcements() {
 				
 				<LinearAnimatedView>
 					<FlexRowSpaceBetween style={{ paddingBottom: 8 }}>
-						<MessageInput valueRef={valueRef}/>
+						<MessageInput valueRef={valueRef} setValueRef={setValueRef}/>
 						<Gap horizontal size={10}/>
 						<SendMessageButton onPress={sendMessage}>Send</SendMessageButton>
 					</FlexRowSpaceBetween>

@@ -2,7 +2,7 @@ import StyledTextInput from "@/components/project-specific-utility-components/St
 import { Colors } from "@/constants/Colors.js";
 
 
-export default function MessageInput({ valueRef, ...rest }) {
+export default function MessageInput({ valueRef, setValueRef, ...rest }) {
 	
 	return (
 		<StyledTextInput
@@ -18,6 +18,7 @@ export default function MessageInput({ valueRef, ...rest }) {
 				backgroundColor: Colors.verySoft,
 			}}
 			valueRef={valueRef}
+			setValueRef={setValueRef}
 			{...rest}
 		/>
 	);
