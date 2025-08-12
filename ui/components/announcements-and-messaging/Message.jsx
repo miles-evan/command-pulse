@@ -6,37 +6,37 @@ import { shortDate, shortTime } from "@/utils/newDateUtils.js";
 import If from "@/components/general-utility-components/If.jsx";
 
 
-export default function Message({ message: messageObj, withNameAndTime=true, inverted=false }) {
+export default function Message({ message: messageObj, withNameAndTime=true }) {
 	
 	const { messageId, userId, firstName, lastName, timeSent, message, numLikes } = messageObj;
 	
-	let result = [
-		<If condition={withNameAndTime} key="name and time">
-			<FlexRowSpaceBetween style={{ paddingHorizontal: 8 }}>
-				<StyledText look="16 light accent" hCenter={false}>
-					{firstName + " " + lastName}
+	return (
+		<>
+			<If condition={withNameAndTime} key="name and time">
+				<FlexRowSpaceBetween style={{ paddingHorizontal: 8 }}>
+					<StyledText look="16 light accent" hCenter={false}>
+						{firstName + " " + lastName}
+					</StyledText>
+					<StyledText look="16 light accent" hCenter={false}>
+						{shortDate(timeSent) + ", " + shortTime(timeSent)}
+					</StyledText>
+				</FlexRowSpaceBetween>
+			</If>
+			
+			<View key="message" style={{
+				width: "100%",
+				borderWidth: 2,
+				borderColor: Colors.softer,
+				borderRadius: 8,
+				paddingHorizontal: 12,
+				paddingVertical: 6,
+				backgroundColor: Colors.blendColors("softer", "verySoft"),
+			}}>
+				<StyledText look="18 regular veryHard" hCenter={false}>
+					{message}
 				</StyledText>
-				<StyledText look="16 light accent" hCenter={false}>
-					{shortDate(timeSent) + ", " + shortTime(timeSent)}
-				</StyledText>
-			</FlexRowSpaceBetween>
-		</If>,
-		
-		<View key="message" style={{
-			width: "100%",
-			borderWidth: 2,
-			borderColor: Colors.softer,
-			borderRadius: 8,
-			paddingHorizontal: 12,
-			paddingVertical: 6,
-			backgroundColor: Colors.blendColors("softer", "verySoft"),
-		}}>
-			<StyledText look="18 regular veryHard" hCenter={false}>
-				{message}
-			</StyledText>
-		</View>
-	];
-	
-	return inverted? result.reverse() : result;
+			</View>
+		</>
+	)
 	
 }

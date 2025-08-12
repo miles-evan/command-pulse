@@ -7,6 +7,7 @@ import If from "@/components/general-utility-components/If.jsx";
 import { View } from "react-native";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
+import LinearAnimatedView from "@/components/general-utility-components/LinearAnimatedView.jsx";
 
 
 // retrieves and shows list of announcements and shift requests
@@ -76,16 +77,15 @@ export default function AnnouncementsList({ isFocused=true, sendMessageRef, styl
 						|| announcement.userId !== announcements[index + 1].userId
 						|| announcement.timeSent - announcements[index + 1].timeSent > 1000 * 2
 					return (
-						<>
+						<View>
 							<Message
 								message={ announcement }
 								withNameAndTime={disconnectedFromAboveMessage}
-								inverted
 							/>
 							<If condition={disconnectedFromAboveMessage}>
 								<Gap size={15}/>
 							</If>
-						</>
+						</View>
 					)
 				}}
 				keyboardDismissMode="on-drag"
