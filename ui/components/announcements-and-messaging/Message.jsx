@@ -13,11 +13,11 @@ export default function Message({ message: messageObj, withNameAndTime=true }) {
 	return (
 		<>
 			<If condition={withNameAndTime} key="name and time">
-				<FlexRowSpaceBetween style={{ paddingHorizontal: 8 }}>
-					<StyledText look="16 light accent" hCenter={false}>
+				<FlexRowSpaceBetween style={{ paddingHorizontal: 8, marginBottom: -3 }}>
+					<StyledText look="15 regular accent" hCenter={false}>
 						{firstName + " " + lastName}
 					</StyledText>
-					<StyledText look="16 light accent" hCenter={false}>
+					<StyledText look="15 regular accent" hCenter={false}>
 						{shortDate(timeSent) + ", " + shortTime(timeSent)}
 					</StyledText>
 				</FlexRowSpaceBetween>

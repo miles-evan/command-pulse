@@ -78,13 +78,13 @@ export default function AnnouncementsList({ isFocused=true, sendMessageRef, styl
 						|| announcement.timeSent - announcements[index + 1].timeSent > 1000 * 2
 					return (
 						<View>
+							<If condition={disconnectedFromAboveMessage}>
+								<Gap size={15}/>
+							</If>
 							<Message
 								message={ announcement }
 								withNameAndTime={disconnectedFromAboveMessage}
 							/>
-							<If condition={disconnectedFromAboveMessage}>
-								<Gap size={15}/>
-							</If>
 						</View>
 					)
 				}}
