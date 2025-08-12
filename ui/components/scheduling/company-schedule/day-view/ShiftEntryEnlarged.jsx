@@ -41,8 +41,8 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 		!editing? (
 			<FlexRowSpaceBetween style={{ alignItems: "center", marginVertical: 1.5 }}>
 				
-				<StyledText look="26 light veryHard" numberOfLines={1} ellipsizeMode="clip" style={styles.name}>
-					{firstName + " " + lastName}
+				<StyledText look={`26 light ${ userId? "veryHard" : "accent"}`} numberOfLines={1} ellipsizeMode="clip" style={styles.name}>
+					{userId? firstName + " " + lastName : "???"}
 				</StyledText>
 				
 				<StyledText look="26 light veryHard" numberOfLines={1} style={styles.times}>

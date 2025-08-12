@@ -56,7 +56,7 @@ export default function ShiftDayCardEnlarged({
 					const responses = [];
 					if(Object.keys(updatedInfo).length > 0)
 						responses.push(shiftService.updateShifts([shiftId], updatedInfo));
-					if(reassignedUserId)
+					if(reassignedUserId !== undefined)
 						responses.push(shiftService.reassignShift(shiftId, reassignedUserId));
 					return Promise.all(responses);
 				}

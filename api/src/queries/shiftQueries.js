@@ -161,8 +161,8 @@ export async function projectShifts(shifts) {
 	return shifts.map(shift => ({
 		shiftId: shift.id,
 		userId: shift.userId,
-		firstName: names[shift.userId].firstName,
-		lastName: names[shift.userId].lastName,
+		firstName: names[shift.userId]?.firstName ?? "?",
+		lastName: names[shift.userId]?.lastName ?? "?",
 		shiftStart: shift.shiftStart,
 		shiftEnd: shift.shiftEnd,
 		location: shift.location,

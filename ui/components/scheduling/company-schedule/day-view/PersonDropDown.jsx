@@ -7,10 +7,17 @@ import { Colors } from "@/constants/Colors.js";
 export default function PersonDropDown({ initialSelectionUserId, placeholder, onNewValue=_=>{}, style, ...rest }) {
 	
 	const { contacts, loading } = useContactsList();
-	const data = useMemo(() => [...contacts.supervisors, ...contacts.officers].map(person => ({
-		label: person.firstName + " " + person.lastName,
-		value: person.userId
-	})), [contacts]);
+	const data = useMemo(() => {
+		const data = [...contacts.supervisors, ...contacts.officers].map(person => ({
+			label: person.firstName + " " + person.lastName,
+			value: person.userId
+		}));
+		data.push({
+			label: "--Shift Request--",
+			value: null,
+		});
+		return data;
+	}, [contacts]);
 	const [isDifferent, setIsDifferent] = useState(false);
 	
 	
@@ -34,7 +41,7 @@ export default function PersonDropDown({ initialSelectionUserId, placeholder, on
 			valueField="value"
 			data={data}
 			value={initialSelectionUserId}
-			placeholder={initialSelectionUserId? "Loading..." : "Select Person"}
+			placeholder={loading? "Loading..." : "Select Person"}
 			searchPlaceholder="Search..."
 			onFocus={() => {}}
 			onBlur={() => {}}

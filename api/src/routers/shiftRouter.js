@@ -76,7 +76,7 @@ shiftRouter.get(
 	...validateRequest(getAllShiftsValidation),
 	...permission("supervisor"),
 	async (request, response) => {
-		const { startDate, endDate } = request.query;
+		const { startDate, endDate } = matchedData(request);
 		
 		const shifts = await getAllShifts(request.user.companyId, startDate, endDate);
 		response.send({ shifts });
