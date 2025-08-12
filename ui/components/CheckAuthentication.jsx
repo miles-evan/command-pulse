@@ -22,7 +22,11 @@ export default function CheckAuthentication({ children }) {
 			if(!companyName) return router.replace("/setup");
 			globalState.companyName = companyName;
 
-			globalState.isSupervisor = (await userService.status()).body.isSupervisor;
+			const userStatus = (await userService.status()).body;
+			globalState.isSupervisor = userStatus.isSupervisor;
+			globalState.firstName = userStatus.firstName;
+			globalState.lastName = userStatus.lastName;
+			globalState.userId = userStatus.userId;
 
 			setIsAuthenticated(true);
 		})();

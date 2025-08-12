@@ -64,7 +64,9 @@ userRouter.get("/status", (request, response) => {
         isLoggedIn: true,
         message: `Logged into ${request.user.firstName}`,
         userId: request.user.id,
-        isSupervisor: request.user.isSupervisor
+        firstName: request.user.firstName,
+        lastName: request.user.lastName,
+        isSupervisor: request.user.isSupervisor,
     });
 });
 

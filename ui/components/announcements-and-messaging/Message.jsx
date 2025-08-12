@@ -13,7 +13,7 @@ export default function Message({ message: messageObj, withNameAndTime=true }) {
 	return (
 		<>
 			<If condition={withNameAndTime} key="name and time">
-				<FlexRowSpaceBetween style={{ paddingHorizontal: 8, marginBottom: -3 }}>
+				<FlexRowSpaceBetween style={{ paddingHorizontal: 8, marginBottom: -4 }}>
 					<StyledText look="15 regular accent" hCenter={false}>
 						{firstName + " " + lastName}
 					</StyledText>
@@ -32,7 +32,7 @@ export default function Message({ message: messageObj, withNameAndTime=true }) {
 				paddingVertical: 6,
 				backgroundColor: Colors.blendColors("softer", "verySoft"),
 			}}>
-				<StyledText look="18 regular veryHard" hCenter={false}>
+				<StyledText look="19 regular veryHard" hCenter={false}>
 					{message}
 				</StyledText>
 			</View>

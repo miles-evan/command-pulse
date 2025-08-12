@@ -29,8 +29,6 @@ async function createMessage(userId, message) {
 export async function getAnnouncements(companyId, date=new Date(), skip=0, limit=10) {
 	const company = await Company.findById(companyId);
 	
-	console.log({ companyId, date, skip, limit })
-	
 	const announcements = await Message.find({
 		_id: { $in: company.announcementIds },
 		timeSent: { $lt: date },
@@ -43,7 +41,7 @@ export async function getAnnouncements(companyId, date=new Date(), skip=0, limit
 async function projectMessages(messages) {
 	return Promise.all(messages.map(async message => {
 		const user = await User.findById(message.userId);
-		console.log(message)
+		
 		return {
 			messageId: message.id,
 			userId: message.userId,

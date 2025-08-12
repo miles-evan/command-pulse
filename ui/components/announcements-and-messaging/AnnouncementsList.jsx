@@ -53,7 +53,7 @@ export default function AnnouncementsList({ isFocused=true, sendMessageRef, styl
 	
 	
 	async function sendMessage(message) {
-		const messageId = await announcementService.send(message);
+		const { messageId } = (await announcementService.send(message)).body;
 		const messageObj = {
 			messageId,
 			userId: globalState.userId,
@@ -73,9 +73,10 @@ export default function AnnouncementsList({ isFocused=true, sendMessageRef, styl
 				data={announcements}
 				keyExtractor={announcement => announcement.messageId}
 				renderItem={({ item: announcement, index }) => {
+					console.log(announcement.messageId)
 					const disconnectedFromAboveMessage = index === announcements.length - 1
 						|| announcement.userId !== announcements[index + 1].userId
-						|| announcement.timeSent - announcements[index + 1].timeSent > 1000 * 2
+						|| announcement.timeSent - announcements[index + 1].timeSent > 1000 * 60 * 2
 					return (
 						<View>
 							<If condition={disconnectedFromAboveMessage}>
