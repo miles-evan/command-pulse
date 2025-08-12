@@ -2,7 +2,7 @@ import { useContext, useEffect } from "react";
 import { FormContext } from "./FormCard.jsx";
 import { TextInput, StyleSheet, View } from "react-native";
 import { FontWeights } from "@/constants/Typography";
-import { Colors } from "@/constants/Colors";
+import { Colors } from "@/constants/Colors.js";
 import { LinearGradient } from "expo-linear-gradient";
 
 

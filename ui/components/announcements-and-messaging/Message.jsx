@@ -24,12 +24,12 @@ export default function Message({ message: messageObj, withNameAndTime=true, inv
 		
 		<View key="message" style={{
 			width: "100%",
-			borderWidth: 1,
-			borderColor: Colors.soft,
+			borderWidth: 2,
+			borderColor: Colors.softer,
 			borderRadius: 8,
 			paddingHorizontal: 12,
 			paddingVertical: 6,
-			backgroundColor: Colors.softer + "aa",
+			backgroundColor: Colors.blendColors("softer", "verySoft"),
 		}}>
 			<StyledText look="18 regular veryHard" hCenter={false}>
 				{message}
