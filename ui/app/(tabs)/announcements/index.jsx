@@ -5,12 +5,11 @@ import AnnouncementsList from "@/components/announcements-and-messaging/Announce
 import { useIsFocused } from "@react-navigation/native";
 import { useRef } from "react";
 import MessageInput from "@/components/announcements-and-messaging/MessageInput.jsx";
-import Button from "@/components/project-specific-utility-components/Button.jsx";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import { KeyboardAvoidingView, Platform, View } from "react-native";
-import SpringyAnimatedView from "@/components/general-utility-components/SpringyAnimatedView.jsx";
-import Animated, { FadeInDown, FadeOut, LinearTransition } from "react-native-reanimated";
 import LinearAnimatedView from "@/components/general-utility-components/LinearAnimatedView.jsx";
+import SendMessageButton from "@/components/announcements-and-messaging/SendMessageButton.jsx";
+import Gap from "@/components/general-utility-components/Gap.jsx";
 
 export default function Announcements() {
 	const isFocused = useIsFocused();
@@ -27,16 +26,17 @@ export default function Announcements() {
 			
 			<KeyboardAvoidingView
 				style={{ flex: 1, width: "90%", alignSelf: "center" }}
-				behavior={Platform.OS === "ios" ? "padding" : undefined}
+				behavior={Platform.OS === "ios"? "padding" : undefined}
 			>
 				<View style={{ flex: 1 }}>
-					<AnnouncementsList isFocused={isFocused} sendMessageRef={sendMessageRef} />
+					<AnnouncementsList isFocused={isFocused} sendMessageRef={sendMessageRef}/>
 				</View>
 				
 				<LinearAnimatedView>
-					<FlexRowSpaceBetween style={Platform.select({ android: { paddingBottom: 8 }, ios: {} })}>
-						<MessageInput valueRef={valueRef} />
-						<Button style={{ width: 64, marginHorizontal: 2 }} onPress={sendMessage}>Send</Button>
+					<FlexRowSpaceBetween style={{ paddingBottom: 8 }}>
+						<MessageInput valueRef={valueRef}/>
+						<Gap horizontal size={10}/>
+						<SendMessageButton onPress={sendMessage}>Send</SendMessageButton>
 					</FlexRowSpaceBetween>
 				</LinearAnimatedView>
 			</KeyboardAvoidingView>

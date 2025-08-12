@@ -40,7 +40,8 @@ export default function StyledTextInput({
 			placeholderTextColor={Colors.medium}
 			value={value}
 			onChangeText={setValue}
-			{...(bigMode? { multiline: true, ...rest } : rest)}
+			{...(bigMode? { multiline: true } : {})}
+			{...rest}
 		/>
 	)
 	
