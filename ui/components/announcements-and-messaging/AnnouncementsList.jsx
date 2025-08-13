@@ -39,26 +39,30 @@ export default function AnnouncementsList({ isFocused=true, sendMessageRef, styl
 	
 	
 	async function loadAnnouncements() {
-		if(isLoading) return;
-		setIsLoading(true);
-		
-		const startDate = mergedBoard.length === 0? new Date() : mergedBoard[mergedBoard.length - 1].timeSent;
-		
-		let response = await announcementService.get(startDate, 0, 15);
-		const { announcements: newAnnouncements } = response.body;
-		setAnnouncements([...announcements, ...newAnnouncements]); // using stale value on purpose (so no duplicates)
-		
-		const endDate = newAnnouncements.length === 0?
-			startDate + 1000 * 60 * 60 * 24 * 7
-			: newAnnouncements[newAnnouncements.length - 1].timeSent;
-		response = await shiftService.getShiftRequests(endDate, startDate); // dates swapped because we're fetching in reverse
-		const { shiftRequests: newShiftRequests } = response.body;
-		setShiftRequests([...shiftRequests, ...newShiftRequests]); // using stale value on purpose (so no duplicates)
-		
-		const newMerged = [...newAnnouncements, ...newShiftRequests].sort((a, b) => b.timeSent - a.timeSent);
-		
-		setMergedBoard([...mergedBoard, ...newMerged]) // using stale value on purpose (so no duplicates)
-		setIsLoading(false);
+		try {
+			if(isLoading) return;
+			setIsLoading(true);
+			
+			const startDate = mergedBoard.length === 0? new Date() : mergedBoard[mergedBoard.length - 1].timeSent;
+			
+			let response = await announcementService.get(startDate, 0, 15);
+			const { announcements: newAnnouncements } = response.body;
+			setAnnouncements([...announcements, ...newAnnouncements]); // using stale value on purpose (so no duplicates)
+			
+			const endDate = newAnnouncements.length === 0?
+				new Date(startDate.getTime() + 1000 * 60 * 60 * 24 * 7)
+				: newAnnouncements[newAnnouncements.length - 1].timeSent;
+			response = await shiftService.getShiftRequests(endDate, startDate); // dates swapped because we're fetching in reverse
+			const { shiftRequests: newShiftRequests } = response.body;
+			setShiftRequests([...shiftRequests, ...newShiftRequests]); // using stale value on purpose (so no duplicates)
+			
+			const newMerged = [...newAnnouncements, ...newShiftRequests].sort((a, b) => b.timeSent - a.timeSent);
+			
+			setMergedBoard([...mergedBoard, ...newMerged]) // using stale values on purpose (so no duplicates)
+			setIsLoading(false);
+		} catch(e) {
+			console.log(e);
+		}
 	}
 	
 	
