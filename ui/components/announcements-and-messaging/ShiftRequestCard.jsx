@@ -28,6 +28,7 @@ export default function ShiftRequestCard({ shiftRequest }) {
 			
 			<ShiftCard
 				shift={shift}
+				mode="plain"
 				FooterComponent={
 					<>
 						<HorizontalLine style={{ width: "100%" }}/>
