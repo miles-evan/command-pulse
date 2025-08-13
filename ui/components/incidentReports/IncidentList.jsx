@@ -5,6 +5,7 @@ import Gap from "@/components/general-utility-components/Gap.jsx";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
 import IncidentCard from "@/components/incidentReports/IncidentCard.jsx";
 import Animated, { LinearTransition } from "react-native-reanimated";
+import { useGlobalState } from "@/hooks/useGlobalState.js";
 
 
 // retrieves and shows list of incidents
@@ -15,6 +16,7 @@ export default function IncidentList({
 	
 	const [incidents, setIncidents] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const { isSupervisor } = useGlobalState();
 	
 	
 	useEffect(() => {
@@ -32,7 +34,7 @@ export default function IncidentList({
 			setIsLoading(true);
 			
 			(async () => {
-				let response = await incidentReportService.getMy(prev.length, 10);
+				let response = await incidentReportService[isSupervisor? "getAll" : "getMy"](prev.length, 10);
 				const { incidents: newIncidents } = response.body;
 				setIncidents([...prev, ...newIncidents]);
 				setIsLoading(false);

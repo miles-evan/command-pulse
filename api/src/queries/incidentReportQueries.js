@@ -123,14 +123,14 @@ async function projectIncidentReports(incidentReports) {
 	projectedShifts.forEach(shift => {projectedShiftMap[shift.shiftId] = shift});
 	
 	return incidentReports.map(incidentReport => ({
-		incidentReportId: incidentReport.id,
+		incidentReportId: incidentReport._id,
 		title: incidentReport.title,
 		dateCreated: incidentReport.dateCreated,
 		shift: {
-			firstName: projectedShiftMap[incidentReport.shiftId].firstName,
-			lastName: projectedShiftMap[incidentReport.shiftId].lastName,
-			date: projectedShiftMap[incidentReport.shiftId].shiftStart,
-			locationName: projectedShiftMap[incidentReport.shiftId].location,
+			firstName: projectedShiftMap[incidentReport.shiftId]?.firstName,
+			lastName: projectedShiftMap[incidentReport.shiftId]?.lastName,
+			date: projectedShiftMap[incidentReport.shiftId]?.shiftStart,
+			locationName: projectedShiftMap[incidentReport.shiftId]?.location,
 		}
 	}));
 }
