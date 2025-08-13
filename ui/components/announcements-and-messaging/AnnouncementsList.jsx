@@ -9,6 +9,7 @@ import Gap from "@/components/general-utility-components/Gap.jsx";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
 import LinearAnimatedView from "@/components/general-utility-components/LinearAnimatedView.jsx";
 import * as shiftService from "@/services/shiftService.js";
+import ShiftRequestCard from "@/components/announcements-and-messaging/ShiftRequestCard.jsx";
 
 
 // retrieves and shows list of announcements and shift requests
@@ -41,19 +42,22 @@ export default function AnnouncementsList({ isFocused=true, sendMessageRef, styl
 		if(isLoading) return;
 		setIsLoading(true);
 		
-		const startDate = announcements.length === 0? new Date() : announcements[announcements.length - 1].timeSent;
+		const startDate = mergedBoard.length === 0? new Date() : mergedBoard[mergedBoard.length - 1].timeSent;
 		
 		let response = await announcementService.get(startDate, 0, 15);
 		const { announcements: newAnnouncements } = response.body;
 		setAnnouncements([...announcements, ...newAnnouncements]); // using stale value on purpose (so no duplicates)
 		
-		response = await shiftService.getShiftRequests(startDate, newAnnouncements[announcements.length - 1].timeSent);
-		const { newShiftRequests } = response.body;
+		const endDate = newAnnouncements.length === 0?
+			startDate + 1000 * 60 * 60 * 24 * 7
+			: newAnnouncements[newAnnouncements.length - 1].timeSent;
+		response = await shiftService.getShiftRequests(endDate, startDate); // dates swapped because we're fetching in reverse
+		const { shiftRequests: newShiftRequests } = response.body;
 		setShiftRequests([...shiftRequests, ...newShiftRequests]); // using stale value on purpose (so no duplicates)
 		
-		const newMerged = [...newAnnouncements, ...newShiftRequests].sort((a, b) => a.timeSent - b.timeSent);
-		setMergedBoard([...mergedBoard, newMerged]) // using stale value on purpose (so no duplicates)
+		const newMerged = [...newAnnouncements, ...newShiftRequests].sort((a, b) => b.timeSent - a.timeSent);
 		
+		setMergedBoard([...mergedBoard, ...newMerged]) // using stale value on purpose (so no duplicates)
 		setIsLoading(false);
 	}
 	
@@ -76,28 +80,36 @@ export default function AnnouncementsList({ isFocused=true, sendMessageRef, styl
 	return (
 		<View style={style}>
 			<Animated.FlatList
-				data={announcements}
-				keyExtractor={announcement => announcement.messageId}
-				renderItem={({ item: announcement, index }) => {
-					const disconnectedFromAboveMessage = index === announcements.length - 1
-						|| announcement.userId !== announcements[index + 1].userId
-						|| announcement.timeSent - announcements[index + 1].timeSent > 1000 * 60 * 2
+				data={mergedBoard}
+				keyExtractor={boardItem => boardItem.messageId ?? boardItem.shiftRequestId}
+				renderItem={({ item: boardItem, index }) => {
+					const disconnectedFromAboveMessage =
+						"shiftRequestId" in boardItem
+						|| index === mergedBoard.length - 1
+						|| "shiftRequestId" in mergedBoard[index + 1]
+						|| boardItem.userId !== mergedBoard[index + 1].userId
+						|| boardItem.timeSent - mergedBoard[index + 1].timeSent > 1000 * 60 * 2;
+					
 					return (
 						<View>
 							<If condition={disconnectedFromAboveMessage}>
 								<Gap size={15}/>
 							</If>
-							<Message
-								message={ announcement }
-								withNameAndTime={disconnectedFromAboveMessage}
-							/>
+							{"messageId" in boardItem? (
+								<Message
+									message={boardItem}
+									withNameAndTime={disconnectedFromAboveMessage}
+								/>
+							) : (
+								<ShiftRequestCard shiftRequest={boardItem}/>
+							)}
 						</View>
-					)
+					);
 				}}
 				keyboardDismissMode="on-drag"
 				inverted
 				onEndReached={() => {
-					if(announcements.length > 0)
+					if(mergedBoard.length > 0)
 						loadAnnouncements();
 				}}
 				onEndReachedThreshold={0.5}

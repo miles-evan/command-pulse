@@ -181,7 +181,7 @@ shiftRouter.delete(
 		const { shiftIds } = request.body;
 		
 		await deleteAndUnassignShifts(shiftIds);
-		response.sendStatus(200);
+		return response.sendStatus(200);
 	}
 );
 
@@ -196,7 +196,7 @@ shiftRouter.put(
 		const { shiftIds, updatedInfo } = matchedData(request);
 		
 		await updateShiftInfos(shiftIds, updatedInfo);
-		response.sendStatus(200);
+		return response.sendStatus(200);
 	}
 );
 
@@ -213,7 +213,7 @@ shiftRouter.post(
 		
 		await (inOrOut === "in"? clockIn : clockOut)(shiftId);
 		
-		response.sendStatus(200);
+		return response.sendStatus(200);
 	}
 );
 

@@ -63,7 +63,10 @@ export const getShiftRequests = async (startDate, endDate) => {
 	const response = await BetterFetch.get(rootURL + "/requests", {
 		startDate: startDate.toISOString(), endDate: endDate.toISOString()
 	});
-	response.body.shiftRequests?.forEach(({ shift }) => expandShiftDates(shift));
+	response.body.shiftRequests?.forEach((shiftRequest) => {
+		expandShiftDates(shiftRequest.shift);
+		shiftRequest.timeSent = new Date(shiftRequest.timeSent);
+	});
 	return response;
 }
 

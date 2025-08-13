@@ -158,10 +158,10 @@ export async function getShiftRequests(companyId, startDate, endDate) {
 	let shiftRequests = await ShiftRequest.find({ _id: { $in: company.shiftRequestIds } });
 	
 	shiftRequests = (await Promise.all(shiftRequests.map(async shiftRequest => {
-		const shift = await Shift.findById(shiftRequest.shiftId);
-		return shift.shiftStart >= startDate && shift.shiftStart < endDate?
+		return shiftRequest.timeSent >= startDate && shiftRequest.timeSent < endDate?
 			[{
-				shift: (await projectShifts([shift]))[0],
+				shiftRequestId: shiftRequest.id,
+				shift: (await projectShifts([await Shift.findById(shiftRequest.shiftId)]))[0],
 				message: shiftRequest.message,
 				isCover: shiftRequest.isCover,
 				timeSent:  shiftRequest.timeSent,

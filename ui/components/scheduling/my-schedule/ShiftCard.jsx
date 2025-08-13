@@ -76,7 +76,7 @@ export default function ShiftCard({
 				}),
 			}}
 		>
-			<HeaderComponent/>
+			{HeaderComponent}
 			
 			<DateAndTime shiftStart={shiftStart} shiftEnd={shiftEnd}/>
 			<Gap size={5}/>
@@ -104,7 +104,7 @@ export default function ShiftCard({
 				<ShiftCardPayCycleExtension shift={shift} isSupervisor={false}/>
 			) : null}
 			
-			<FooterComponent/>
+			{FooterComponent}
 		</Card>
 	);
 	
