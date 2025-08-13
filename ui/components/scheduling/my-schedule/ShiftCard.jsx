@@ -21,7 +21,15 @@ import { router } from "expo-router";
 // default mode shows the shifts like when you're viewing your schedule, lets you clock in and out
 // pay cycle modes ("pay cycle supervisor" and "pay cycle officer") show information like registered and revised hours
 // plain mode ("plain") just makes sure there's no buttons
-export default function ShiftCard({ shift, mode="default", onPress, showPressFeedback=false }) {
+// header and footer are to add components to the top and bottom of the card if you need to
+export default function ShiftCard({
+	shift,
+	mode="default",
+	HeaderComponent,
+	FooterComponent,
+	onPress,
+	showPressFeedback=false
+}) {
 	
 	const {
 		shiftId, firstName, lastName, shiftStart, shiftEnd, location, payRate, clockInTime, clockOutTime
@@ -68,6 +76,7 @@ export default function ShiftCard({ shift, mode="default", onPress, showPressFee
 				}),
 			}}
 		>
+			<HeaderComponent/>
 			
 			<DateAndTime shiftStart={shiftStart} shiftEnd={shiftEnd}/>
 			<Gap size={5}/>
@@ -94,6 +103,8 @@ export default function ShiftCard({ shift, mode="default", onPress, showPressFee
 			) : mode === "pay cycle officer"? (
 				<ShiftCardPayCycleExtension shift={shift} isSupervisor={false}/>
 			) : null}
+			
+			<FooterComponent/>
 		</Card>
 	);
 	

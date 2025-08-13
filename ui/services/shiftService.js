@@ -3,6 +3,16 @@ import BetterFetch from "../utils/BetterFetch.js";
 
 const rootURL = "http://192.168.1.202:80/command-pulse/api/v1/shifts"
 
+// assign shift
+export const assignShift = (shiftStart, shiftEnd, location, payRate, userId=null) =>
+	BetterFetch.post(rootURL + "/assign", {
+		shiftStart: shiftStart.toISOString(), shiftEnd: shiftEnd.toISOString(), location, payRate, userId
+	});
+
+// reassign shift
+export const reassignShift = (shiftId, userId) =>
+	BetterFetch.post(rootURL + "/reassign", { shiftId, userId });
+
 // get my shifts
 export const getMy = async (date, dir, skip, limit) => {
 	const response = await BetterFetch.get(rootURL, { date: date.toISOString(), dir, skip, limit });
@@ -26,16 +36,6 @@ export const clockIn = shiftId =>
 export const clockOut = shiftId =>
 	BetterFetch.post(rootURL + `/${shiftId}/clock/out`);
 
-// assign shift
-export const assignShift = (shiftStart, shiftEnd, location, payRate, userId=null) =>
-	BetterFetch.post(rootURL + "/assign", {
-		shiftStart: shiftStart.toISOString(), shiftEnd: shiftEnd.toISOString(), location, payRate, userId
-	});
-
-// reassign shift
-export const reassignShift = (shiftId, userId) =>
-	BetterFetch.post(rootURL + "/reassign", { shiftId, userId });
-
 // update shift(s)
 export const updateShifts = (shiftIds, updatedInfo) => {
 	serializeUpdatedInfoDates(updatedInfo);
@@ -45,6 +45,27 @@ export const updateShifts = (shiftIds, updatedInfo) => {
 // remove shift(s)
 export const deleteShifts = shiftIds =>
 	BetterFetch.delete(rootURL, { shiftIds });
+
+// make cover request
+export const makeCoverRequest = (shiftId, message) =>
+	BetterFetch.post(rootURL + `/requests/add/${shiftId}`, { message });
+
+// delete cover request
+export const deleteCoverRequest = shiftRequestId  =>
+	BetterFetch.delete(rootURL + `/requests/${shiftRequestId}`);
+
+// accept shift request
+export const acceptShiftRequest = shiftRequestId  =>
+	BetterFetch.post(rootURL + `/requests/${shiftRequestId}/accept`);
+
+// get shift requests
+export const getShiftRequests = async (startDate, endDate) => {
+	const response = await BetterFetch.get(rootURL + "/requests", {
+		startDate: startDate.toISOString(), endDate: endDate.toISOString()
+	});
+	response.body.shiftRequests?.forEach(({ shift }) => expandShiftDates(shift));
+	return response;
+}
 
 
 // -------------------------------- Helper functions:

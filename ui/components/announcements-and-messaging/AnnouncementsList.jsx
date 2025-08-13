@@ -8,47 +8,53 @@ import { View } from "react-native";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
 import LinearAnimatedView from "@/components/general-utility-components/LinearAnimatedView.jsx";
+import * as shiftService from "@/services/shiftService.js";
 
 
 // retrieves and shows list of announcements and shift requests
 export default function AnnouncementsList({ isFocused=true, sendMessageRef, style }) {
 	
-	const [announcements, setAnnouncements] = useState([]); // from newest to oldest
+	// from newest to oldest
+	let [announcements, setAnnouncements] = useState([]);
+	let [shiftRequests, setShiftRequests] = useState([]);
+	let [mergedBoard, setMergedBoard] = useState([]); // announcements and shift requests
+	
 	const [isLoading, setIsLoading] = useState(false);
 	sendMessageRef.current = sendMessage;
-	const [numNewMessages, setNumNewMessages] = useState(false);
 	const globalState = useGlobalState();
 	
 	
 	
 	useEffect(() => {
 		if(!isFocused) return;
-		setAnnouncements([]);
-		loadAnnouncements();
-	}, [isFocused, numNewMessages]);
-	
-	
-	function loadAnnouncements() {
-		if(isLoading) return;
 		
-		// I know this is weird, but its necessary to sync a stale "prev" with fetched data
-		setAnnouncements(prev => {
-			setIsLoading(true);
-			
-			(async () => {
-				let response = await announcementService.get(
-					prev.length === 0? new Date() : prev[prev.length - 1].timeSent,
-					0,
-					15,
-				);
-				const { announcements: newAnnouncements } = response.body;
-				setAnnouncements([...prev, ...newAnnouncements]);
-				
-				setIsLoading(false);
-			})();
-			
-			return prev; // don't update announcements, this was just used to get the most up-to-date value (prev)
-		});
+		// doesn't actually change state, but makes it so when it fetches, it doesn't append
+		announcements = [];
+		shiftRequests = [];
+		mergedBoard = [];
+		
+		loadAnnouncements();
+	}, [isFocused]);
+	
+	
+	async function loadAnnouncements() {
+		if(isLoading) return;
+		setIsLoading(true);
+		
+		const startDate = announcements.length === 0? new Date() : announcements[announcements.length - 1].timeSent;
+		
+		let response = await announcementService.get(startDate, 0, 15);
+		const { announcements: newAnnouncements } = response.body;
+		setAnnouncements([...announcements, ...newAnnouncements]); // using stale value on purpose (so no duplicates)
+		
+		response = await shiftService.getShiftRequests(startDate, newAnnouncements[announcements.length - 1].timeSent);
+		const { newShiftRequests } = response.body;
+		setShiftRequests([...shiftRequests, ...newShiftRequests]); // using stale value on purpose (so no duplicates)
+		
+		const newMerged = [...newAnnouncements, ...newShiftRequests].sort((a, b) => a.timeSent - b.timeSent);
+		setMergedBoard([...mergedBoard, newMerged]) // using stale value on purpose (so no duplicates)
+		
+		setIsLoading(false);
 	}
 	
 	
@@ -73,7 +79,6 @@ export default function AnnouncementsList({ isFocused=true, sendMessageRef, styl
 				data={announcements}
 				keyExtractor={announcement => announcement.messageId}
 				renderItem={({ item: announcement, index }) => {
-					console.log(announcement.messageId)
 					const disconnectedFromAboveMessage = index === announcements.length - 1
 						|| announcement.userId !== announcements[index + 1].userId
 						|| announcement.timeSent - announcements[index + 1].timeSent > 1000 * 60 * 2
