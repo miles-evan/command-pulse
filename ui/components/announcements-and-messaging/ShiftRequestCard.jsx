@@ -7,18 +7,22 @@ import * as shiftService from "@/services/shiftService.js";
 import { useState } from "react";
 import { Colors } from "@/constants/Colors.js";
 import MessageSenderAndTime from "@/components/announcements-and-messaging/MessageSenderAndTime.jsx";
+import { useGlobalState } from "@/hooks/useGlobalState.js";
 
 
 export default function ShiftRequestCard({ shiftRequest }) {
 	
 	const { shiftRequestId, shift, message, isCover, timeSent, userId, firstName, lastName } = shiftRequest;
 	const [loadingAccept, setLoadingAccept] = useState(false);
+	const [accepted, setAccepted] = useState(false);
+	const { userId: myUserId } = useGlobalState();
 	
 	
 	async function accept() {
 		setLoadingAccept(true);
-		await shiftService.acceptShiftRequest(shiftRequestId);
+		const response = await shiftService.acceptShiftRequest(shiftRequestId);
 		setLoadingAccept(false);
+		if(response.ok) setAccepted(true);
 	}
 	
 	
@@ -35,7 +39,11 @@ export default function ShiftRequestCard({ shiftRequest }) {
 						<If condition={message}>
 							<StyledText look="24 regular veryHard">{message}</StyledText>
 						</If>
-						<Button onPress={accept} disabled={loadingAccept} style={{ width: "100%" }}>Accept</Button>
+						{!accepted? (
+							<Button onPress={accept} disabled={loadingAccept} style={{ width: "100%" }}>Accept</Button>
+						) : (
+							<StyledText look="20 light veryHard">Accepted</StyledText>
+						)}
 					</>
 				}
 				style={{
