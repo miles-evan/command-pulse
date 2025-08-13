@@ -28,7 +28,8 @@ export default function ShiftCard({
 	HeaderComponent,
 	FooterComponent,
 	onPress,
-	showPressFeedback=false
+	showPressFeedback=false,
+	style={},
 }) {
 	
 	const {
@@ -74,6 +75,7 @@ export default function ShiftCard({
 					...(stage > 0 && { borderColor: Colors.accent }),
 					...(stage === 3 && { borderColor: Colors.mediumHard }),
 				}),
+				...style
 			}}
 		>
 			{HeaderComponent}

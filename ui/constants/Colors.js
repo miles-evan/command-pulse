@@ -27,7 +27,7 @@ export const Colors = {
 	veryHard: "#161616",
 	black: "#000000",
 	
-	blendColors(color1Name, color2Name) {
+	blend(color1Name, color2Name) {
 		const hex1 = Colors[color1Name];
 		const hex2 = Colors[color2Name];
 		if (!hex1 || !hex2) throw new Error("Invalid color name");
