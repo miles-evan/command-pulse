@@ -48,7 +48,7 @@ export const deleteShifts = shiftIds =>
 
 // make cover request
 export const makeCoverRequest = (shiftId, message) =>
-	BetterFetch.post(rootURL + `/requests/add/${shiftId}`, { message });
+	BetterFetch.post(rootURL + `/requests/add/${shiftId}`, message? { message } : {});
 
 // delete cover request
 export const deleteCoverRequest = shiftRequestId  =>

@@ -35,7 +35,7 @@ export default function MySchedule() {
 			
 			<Gap size={5}/>
 			
-			<ShiftList dir={dir} isFocused={isFocused}/>
+			<ShiftList dir={dir} isFocused={isFocused} coverRequestable/>
 		
 		</SafeAreaViewWithBackground>
 	);

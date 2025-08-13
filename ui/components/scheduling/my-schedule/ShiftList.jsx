@@ -9,7 +9,9 @@ import LoadingText from "@/components/project-specific-utility-components/Loadin
 
 // retrieves and shows list of shifts
 // dir (1 or -1) is direction to look for shifts (forward in time or backward)
-export default function ShiftList({ dir, isFocused=true, showPressFeedback=false, onPressShift=_=>{}, mode="default" }) {
+export default function ShiftList({
+	dir, isFocused=true, showPressFeedback=false, onPressShift=_=>{}, mode="default", coverRequestable
+}) {
 	
 	const [shifts, setShifts] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
@@ -63,6 +65,7 @@ export default function ShiftList({ dir, isFocused=true, showPressFeedback=false
 					showPressFeedback={showPressFeedback}
 					onPress={() => onPressShift(shift.shiftId)}
 					mode={mode}
+					coverRequestable={coverRequestable}
 				/>
 			)}
 			keyboardDismissMode="on-drag"
