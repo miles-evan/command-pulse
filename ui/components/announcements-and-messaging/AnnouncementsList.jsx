@@ -76,8 +76,9 @@ export default function AnnouncementsList({ isFocused=true, sendMessageRef, styl
 			timeSent: new Date(),
 			message,
 			numLikes: 0,
-		}
-		setAnnouncements(prev => [messageObj, ...prev])
+		};
+		setAnnouncements(prev => [messageObj, ...prev]);
+		setMergedBoard(prev => [messageObj, ...prev]);
 	}
 	
 	
