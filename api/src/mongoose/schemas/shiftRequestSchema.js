@@ -14,7 +14,11 @@ const shiftRequestSchema = new mongoose.Schema({
 	isCover: {
 		type: Boolean,
 		required: true,
-	}
+	},
+	timeSent: {
+		type: Date,
+		default: Date.now,
+	},
 });
 
 export const ShiftRequest = mongoose.model("ShiftRequest", shiftRequestSchema);

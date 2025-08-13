@@ -163,12 +163,13 @@ export async function getShiftRequests(companyId, startDate, endDate) {
 			[{
 				shift: (await projectShifts([shift]))[0],
 				message: shiftRequest.message,
-				isCover: shiftRequest.isCover
+				isCover: shiftRequest.isCover,
+				timeSent:  shiftRequest.timeSent,
 			}]
 			: [];
 	}))).flat();
 	
-	return shiftRequests;
+	return shiftRequests.sort((a, b) => a.timeSent - b.timeSent);
 }
 
 
