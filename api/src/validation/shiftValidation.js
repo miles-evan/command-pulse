@@ -149,3 +149,5 @@ export const clockInOutValidation = [
 		.exists().withMessage("inOrOut param is required")
 		.isIn(["in", "out"]).withMessage("inOrOut must be 'in' or 'out'"),
 ];
+
+export const getShiftRequestsValidation = getAllShiftsValidation;

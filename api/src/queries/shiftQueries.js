@@ -152,6 +152,26 @@ export async function getAllShifts(companyId, startDate, endDate) {
 }
 
 
+export async function getShiftRequests(companyId, startDate, endDate) {
+	const company = await Company.findById(companyId);
+	
+	let shiftRequests = await ShiftRequest.find({ _id: { $in: company.shiftRequestIds } });
+	
+	shiftRequests = (await Promise.all(shiftRequests.map(async shiftRequest => {
+		const shift = await Shift.findById(shiftRequest.shiftId);
+		return shift.shiftStart >= startDate && shift.shiftStart < endDate?
+			[{
+				shift: (await projectShifts([shift]))[0],
+				message: shiftRequest.message,
+				isCover: shiftRequest.isCover
+			}]
+			: [];
+	}))).flat();
+	
+	return shiftRequests;
+}
+
+
 export async function projectShifts(shifts) {
 	const userIds = [...new Set(shifts.map(shift => shift.userId))];
 	const users = await User.find({ _id: { $in: userIds } });

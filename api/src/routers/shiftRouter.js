@@ -11,7 +11,7 @@ import {
 	createShiftRequest,
 	deleteAndUnassignShifts,
 	deleteShiftRequest,
-	getAllShifts,
+	getAllShifts, getShiftRequests,
 	getShifts,
 	reassignShift,
 	updateShiftInfo,
@@ -21,10 +21,18 @@ import { isMyShift, isMyShiftRequest } from "../middleware/isMy.js";
 import { clockInOutPermission } from "../middleware/clockInOutPermission.js";
 import { validateRequest } from "../middleware/validate.js";
 import {
-	acceptShiftRequestValidation, clockInOutValidation,
-	createAssignShiftValidation, deleteCoverRequestValidation, deleteUnassignShiftsValidation,
-	getAllShiftsValidation, getMyShiftsValidation, getSomeonesShiftsValidation, makeCoverRequestValidation,
-	reassignShiftValidation, updateShiftInfoValidation
+	acceptShiftRequestValidation,
+	clockInOutValidation,
+	createAssignShiftValidation,
+	deleteCoverRequestValidation,
+	deleteUnassignShiftsValidation,
+	getAllShiftsValidation,
+	getMyShiftsValidation,
+	getShiftRequestsValidation,
+	getSomeonesShiftsValidation,
+	makeCoverRequestValidation,
+	reassignShiftValidation,
+	updateShiftInfoValidation
 } from "../validation/shiftValidation.js";
 import { matchedData } from "express-validator";
 
@@ -208,6 +216,21 @@ shiftRouter.post(
 		response.sendStatus(200);
 	}
 );
+
+
+// Get shift requests
+shiftRouter.get(
+	"/requests",
+	...validateRequest(getShiftRequestsValidation),
+	...permission("in company"),
+	async (request, response) => {
+		const { startDate, endDate } = matchedData(request);
+		
+		const shiftRequests = await getShiftRequests(request.user.companyId, startDate, endDate);
+		return response.send({ shiftRequests });
+	}
+);
+
 
 
 // --------------------------------
