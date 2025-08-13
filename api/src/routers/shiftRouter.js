@@ -52,7 +52,8 @@ shiftRouter.post(
 		
 		try {
 			const newShift = await createAndAssignShift(
-				shiftStart, shiftEnd, location, payRate, userId, shiftRequestMessage, request.user.companyId
+				shiftStart, shiftEnd, location, payRate, userId,
+				shiftRequestMessage, request.user.companyId, request.user.id
 			);
 			return response.status(201).send({ shiftId: newShift.id });
 		} catch ({ message }) {
@@ -72,7 +73,7 @@ shiftRouter.post(
 	async (request, response) => {
 		const { shiftId, userId, shiftRequestMessage } = request.body;
 		
-		await reassignShift(shiftId, userId, shiftRequestMessage, request.user.companyId)
+		await reassignShift(shiftId, userId, shiftRequestMessage, request.user.companyId, request.user.id);
 		return response.sendStatus(200);
 	}
 );
@@ -132,7 +133,9 @@ shiftRouter.post(
 		} = request;
 		
 		try {
-			const newShiftRequest = await createShiftRequest(shiftId, message, true, request.user.companyId);
+			const newShiftRequest = await createShiftRequest(
+				shiftId, message, true, request.user.companyId, request.user.id
+			);
 			response.status(201).send({ shiftRequestId: newShiftRequest.id });
 		} catch ({ message }) {
 			return response.status(400).send({ message });

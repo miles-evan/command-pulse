@@ -12,7 +12,7 @@ import MessageSenderAndTime from "@/components/announcements-and-messaging/Messa
 
 export default function ShiftRequestCard({ shiftRequest }) {
 	
-	const { shiftRequestId, shift, message, isCover, timeSent } = shiftRequest;
+	const { shiftRequestId, shift, message, isCover, timeSent, userId, firstName, lastName } = shiftRequest;
 	const [loadingAccept, setLoadingAccept] = useState(false);
 	
 	
@@ -25,7 +25,7 @@ export default function ShiftRequestCard({ shiftRequest }) {
 	
 	return (
 		<>
-			<MessageSenderAndTime timeSent={timeSent} firstName={shift.firstName} lastName={shift.lastName}/>
+			<MessageSenderAndTime timeSent={timeSent} firstName={firstName} lastName={lastName}/>
 			
 			<ShiftCard
 				shift={shift}

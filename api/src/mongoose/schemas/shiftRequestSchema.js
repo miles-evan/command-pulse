@@ -15,6 +15,12 @@ const shiftRequestSchema = new mongoose.Schema({
 		type: Boolean,
 		required: true,
 	},
+	// sender:
+	userId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User",
+		required: true,
+	},
 	timeSent: {
 		type: Date,
 		default: Date.now,

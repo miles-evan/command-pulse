@@ -5,7 +5,7 @@ import { Company } from "../mongoose/schemas/companySchema.js";
 
 
 export async function createAndAssignShift(
-	shiftStart, shiftEnd, location, payRate, userId, shiftRequestMessage, companyId
+	shiftStart, shiftEnd, location, payRate, userId, shiftRequestMessage, companyId, assignerUserId
 ) {
 	const newShift = new Shift({ shiftStart, shiftEnd, location, payRate, userId });
 	await newShift.save();
@@ -13,7 +13,7 @@ export async function createAndAssignShift(
 	if(userId) {
 		await assignShift(newShift.id, userId);
 	} else {
-		await createShiftRequest(newShift.id, shiftRequestMessage, false, companyId);
+		await createShiftRequest(newShift.id, shiftRequestMessage, false, companyId, assignerUserId);
 	}
 	
 	return newShift;
@@ -29,7 +29,7 @@ export async function acceptShiftRequest(userId, shiftRequestId) {
 }
 
 
-export async function reassignShift(shiftId, userId, shiftRequestMessage, companyId) {
+export async function reassignShift(shiftId, userId, shiftRequestMessage, companyId, reassignerUserId) {
 	// remove connections
 	await removeAllShiftConnections(shiftId);
 	
@@ -38,7 +38,7 @@ export async function reassignShift(shiftId, userId, shiftRequestMessage, compan
 		await assignShift(shiftId, userId);
 	} else {
 		console.log("yep we're adding a shift request")
-		await createShiftRequest(shiftId, shiftRequestMessage, false, companyId);
+		await createShiftRequest(shiftId, shiftRequestMessage, false, companyId, reassignerUserId);
 	}
 }
 
@@ -77,8 +77,8 @@ async function unassignShift(userId, shiftId) {
 }
 
 
-export async function createShiftRequest(shiftId, message, isCover, companyId) {
-	const newShiftRequest = new ShiftRequest({ shiftId, message, isCover });
+export async function createShiftRequest(shiftId, message, isCover, companyId, /*sender:*/ senderUserId)  {
+	const newShiftRequest = new ShiftRequest({ shiftId, message, isCover, userId: senderUserId });
 	await newShiftRequest.save();
 	
 	await Company.findByIdAndUpdate(companyId, { $addToSet: { shiftRequestIds: newShiftRequest.id } });
@@ -158,9 +158,13 @@ export async function getShiftRequests(companyId, startDate, endDate) {
 	let shiftRequests = await ShiftRequest.find({ _id: { $in: company.shiftRequestIds } });
 	
 	shiftRequests = (await Promise.all(shiftRequests.map(async shiftRequest => {
+		const user = await User.findById(shiftRequest.userId);
 		return shiftRequest.timeSent >= startDate && shiftRequest.timeSent < endDate?
 			[{
 				shiftRequestId: shiftRequest.id,
+				userId: shiftRequest.userId,
+				firstName: user.firstName,
+				lastName: user.lastName,
 				shift: (await projectShifts([await Shift.findById(shiftRequest.shiftId)]))[0],
 				message: shiftRequest.message,
 				isCover: shiftRequest.isCover,
