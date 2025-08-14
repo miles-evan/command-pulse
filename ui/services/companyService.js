@@ -4,37 +4,41 @@ import BetterFetch from "../utils/BetterFetch.js";
 const rootURL = "http://192.168.1.202:80/command-pulse/api/v1/companies"
 
 // create company
-export const create = async companyName =>
-	await BetterFetch.post(rootURL, { companyName });
+export const create = companyName =>
+	BetterFetch.post(rootURL, { companyName });
 
 // check invite code
-export const checkInviteCode = async inviteCode =>
-	await BetterFetch.get(rootURL + `/invite-codes/check/${inviteCode}`);
+export const checkInviteCode = inviteCode =>
+	BetterFetch.get(rootURL + `/invite-codes/check/${inviteCode}`);
 
 // join company
-export const join = async inviteCode =>
-	await BetterFetch.post(rootURL + "/join", { inviteCode });
+export const join = inviteCode =>
+	BetterFetch.post(rootURL + "/join", { inviteCode });
 
 // leave company
-export const leave = async () =>
-	await BetterFetch.post(rootURL + "/leave");
+export const leave = () =>
+	BetterFetch.post(rootURL + "/leave");
 
 // check company name availability
-export const companyNameIsAvailable = async companyName =>
-	await BetterFetch.get(rootURL + `/check-name/${companyName}`);
+export const companyNameIsAvailable = companyName =>
+	BetterFetch.get(rootURL + `/check-name/${companyName}`);
 
 // get contacts
-export const getContacts = async () =>
-	await BetterFetch.get(rootURL + "/contacts");
+export const getContacts = () =>
+	BetterFetch.get(rootURL + "/contacts");
 
 // get invite codes
-export const getInviteCodes = async () =>
-	await BetterFetch.get(rootURL + "/invite-codes");
+export const getInviteCodes = () =>
+	BetterFetch.get(rootURL + "/invite-codes");
 
 // reset invite codes
-export const resetInviteCodes = async () =>
-	await BetterFetch.post(rootURL + "/invite-codes/reset");
+export const resetInviteCodes = () =>
+	BetterFetch.post(rootURL + "/invite-codes/reset");
+
+// remove user from company
+export const removeUser = userId =>
+	BetterFetch.post(rootURL + `/remove/${userId}`);
 
 // get company status
-export const status = async () =>
-	await BetterFetch.get(rootURL + "/status");
+export const status = () =>
+	BetterFetch.get(rootURL + "/status");

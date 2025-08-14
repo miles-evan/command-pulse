@@ -58,6 +58,7 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 				<PersonDropDown
 					initialSelectionUserId={userId}
 					onNewValue={newUserId => addEdit("userId", newUserId)}
+					withShiftRequestOption
 					style={{ flex: 2 }}
 				/>
 				

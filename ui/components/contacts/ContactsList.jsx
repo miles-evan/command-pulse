@@ -8,6 +8,7 @@ import If from "@/components/general-utility-components/If.jsx";
 import InviteUserButton from "@/components/contacts/InviteUserButton.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import Button from "@/components/project-specific-utility-components/Button.jsx";
+import RemoveUserButton from "@/components/contacts/RemoveUserButton.jsx";
 
 
 export default function ContactsList({
@@ -15,7 +16,8 @@ export default function ContactsList({
 	showSupervisors=true,
 	showOfficers=true,
 	iconAfterContact=user=>null,
-	showInviteButton=true
+	showInviteButton=true,
+	showRemoveButton=true,
 }) {
 	
 	const { contacts: { supervisors, officers }, loading } = useContactsList();
@@ -59,6 +61,11 @@ export default function ContactsList({
 			<If condition={showInviteButton}>
 				<Gap size={8}/>
 				<InviteUserButton/>
+			</If>
+			
+			<If condition={showRemoveButton}>
+				<Gap size={8}/>
+				<RemoveUserButton/>
 			</If>
 			
 		</ScrollView>

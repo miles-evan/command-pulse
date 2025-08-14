@@ -14,18 +14,21 @@ export default function useContactsList() {
 		if("contacts" in globalState) {
 			setContacts(globalState.contacts);
 			setLoading(false);
-			return;
+		} else {
+			fetchContacts();
 		}
-		
-		companyService.getContacts()
-			.then(({ body: contacts }) => {
-				globalState.contacts = contacts;
-				setContacts(contacts)
-				setLoading(false);
-			});
-	}, []);
+	});
+
+	
+	async function fetchContacts() {
+		setLoading(true);
+		const contacts = (await companyService.getContacts()).body;
+		globalState.contacts = contacts;
+		setContacts(contacts)
+		setLoading(false);
+	}
 	
 	
-	return { contacts, loading };
+	return { contacts, loading, refetch: fetchContacts };
 	
 }

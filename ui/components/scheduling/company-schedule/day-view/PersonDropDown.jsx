@@ -4,7 +4,9 @@ import useContactsList from "@/hooks/useContactsList.js";
 import { useMemo, useState } from "react";
 import { Colors } from "@/constants/Colors.js";
 
-export default function PersonDropDown({ initialSelectionUserId, placeholder, onNewValue=_=>{}, style, ...rest }) {
+export default function PersonDropDown({
+	initialSelectionUserId, placeholder, onNewValue=_=>{}, style, withShiftRequestOption=false, ...rest
+}) {
 	
 	const { contacts, loading } = useContactsList();
 	const data = useMemo(() => {
@@ -12,10 +14,12 @@ export default function PersonDropDown({ initialSelectionUserId, placeholder, on
 			label: person.firstName + " " + person.lastName,
 			value: person.userId
 		}));
-		data.push({
-			label: "--Shift Request--",
-			value: null,
-		});
+		if(withShiftRequestOption) {
+			data.push({
+				label: "--Shift Request--",
+				value: null,
+			});
+		}
 		return data;
 	}, [contacts]);
 	const [isDifferent, setIsDifferent] = useState(false);
