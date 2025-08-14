@@ -9,8 +9,9 @@ import {
     checkCompanyNameAvailabilityValidation,
     checkInviteCodeValidation,
     createCompanyValidation,
-    joinCompanyValidation
+    joinCompanyValidation, removeUserValidation
 } from "../validation/companyValidation.js";
+import { sameCompanyAsUser } from "../middleware/sameCompanyAs.js";
 
 const companyRouter = Router();
 
@@ -111,6 +112,21 @@ companyRouter.get(
         
         const isAvailable = await checkCompanyNameAvailability(companyName);
         return response.send({ isAvailable });
+    }
+);
+
+
+// Remove user from company
+companyRouter.post(
+    "/remove/:userId",
+    ...validateRequest(removeUserValidation),
+    ...permission("supervisor"),
+    sameCompanyAsUser("params.userId"),
+    async (request, response) => {
+        const { userId } = request.params;
+        
+        await leaveCompany(userId);
+        return response.sendStatus(200);
     }
 );
 

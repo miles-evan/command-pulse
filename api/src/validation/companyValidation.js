@@ -39,3 +39,10 @@ export const checkCompanyNameAvailabilityValidation = [
 		.notEmpty().withMessage("Company name is required")
 		.isLength({ min: 2, max: 50 }).withMessage("Company name must be 2-50 characters")
 ];
+
+export const removeUserValidation = [
+	param("userId")
+		.exists().withMessage("userId param is required")
+		.isString().withMessage("userId must be a string")
+		.isLength({ min: 1 }).withMessage("userId cannot be empty"),
+];
