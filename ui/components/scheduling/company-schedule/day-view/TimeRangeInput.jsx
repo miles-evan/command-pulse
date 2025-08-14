@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { formatTimeRange, parseTimeRange } from "@/utils/newDateUtils.js";
+import { formatTimeRange, parseTimeRange } from "@/utils/dateUtils.js";
 import StyledTextInput from "@/components/project-specific-utility-components/StyledTextInput.jsx";
 
 

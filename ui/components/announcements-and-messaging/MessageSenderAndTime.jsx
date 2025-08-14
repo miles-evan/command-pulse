@@ -1,5 +1,5 @@
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
-import { shortDate, shortTime } from "@/utils/newDateUtils.js";
+import { shortDate, shortTime } from "@/utils/dateUtils.js";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 
 

@@ -1,6 +1,6 @@
 import * as Notifications from "expo-notifications";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
-import { shortTime } from "@/utils/newDateUtils.js";
+import { shortTime } from "@/utils/dateUtils.js";
 
 export async function scheduleReminder(title, body, date) {
 	const { status } = await Notifications.getPermissionsAsync();
@@ -37,6 +37,11 @@ export async function updateShiftNotifications(shifts, userId) {
 			"Your shift begins in 1 hour",
 			`You're scheduled to work at ${shortTime(shift.shiftStart)}`,
 			new Date(shift.shiftStart.getTime() - 1000 * 60 * 60),
+		);
+		scheduleReminder(
+			"Remember to clock in!",
+			`Your shift just started`,
+			shift.shiftStart,
 		);
 	})
 }

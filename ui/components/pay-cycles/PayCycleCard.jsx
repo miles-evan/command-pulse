@@ -1,7 +1,7 @@
 import Card from "@/components/project-specific-utility-components/Card.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import LeftRightSelector from "@/components/project-specific-utility-components/LeftRightSelector.jsx";
-import { formatDateRange, shortDate } from "@/utils/newDateUtils.js";
+import { formatDateRange, shortDate } from "@/utils/dateUtils.js";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import Button from "@/components/project-specific-utility-components/Button.jsx";

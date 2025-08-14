@@ -2,7 +2,7 @@ import { View } from "react-native";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { Colors } from "@/constants/Colors.js";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
-import { shortDate, shortTime } from "@/utils/newDateUtils.js";
+import { shortDate, shortTime } from "@/utils/dateUtils.js";
 import If from "@/components/general-utility-components/If.jsx";
 import MessageSenderAndTime from "@/components/announcements-and-messaging/MessageSenderAndTime.jsx";
 

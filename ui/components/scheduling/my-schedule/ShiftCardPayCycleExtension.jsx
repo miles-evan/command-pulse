@@ -1,6 +1,6 @@
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
-import { superShortTime } from "@/utils/newDateUtils.js";
+import { superShortTime } from "@/utils/dateUtils.js";
 import If from "@/components/general-utility-components/If.jsx";
 import StyledTextInput from "@/components/project-specific-utility-components/StyledTextInput.jsx";
 import { useGlobalState } from "@/hooks/useGlobalState.js";

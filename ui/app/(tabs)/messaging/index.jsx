@@ -3,12 +3,14 @@ import SafeAreaViewWithBackground from "@/components/project-specific-utility-co
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { scheduleReminder } from "@/utils/notifications.js";
 import Button from "@/components/project-specific-utility-components/Button.jsx";
+import * as React from "react";
 
 
 export default function Messaging() {
 	return (
 		<SafeAreaViewWithBackground>
-			<TabHeader/>
+			<TabHeader widthDivider/>
+			
 			<StyledText look="24 semibold hard">This is a placeholder page</StyledText>
 			
 			<Button onPress={() => scheduleReminder("Bruh", "Shift soon!", new Date(Date.now() + 10 * 1000))}>Notify</Button>

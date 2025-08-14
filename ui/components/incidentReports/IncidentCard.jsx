@@ -3,7 +3,7 @@ import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
 import If from "@/components/general-utility-components/If.jsx";
 import Contact from "@/components/contacts/Contact.jsx";
-import { shortDate } from "@/utils/newDateUtils.js";
+import { shortDate } from "@/utils/dateUtils.js";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 

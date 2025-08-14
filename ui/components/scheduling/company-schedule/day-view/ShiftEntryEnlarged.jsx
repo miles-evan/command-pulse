@@ -1,6 +1,6 @@
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
-import { superShortTime } from "@/utils/newDateUtils.js";
+import { superShortTime } from "@/utils/dateUtils.js";
 import PersonDropDown from "@/components/scheduling/company-schedule/day-view/PersonDropDown.jsx";
 import { StyleSheet } from "react-native";
 import TimeRangeInput from "@/components/scheduling/company-schedule/day-view/TimeRangeInput.jsx";

@@ -144,7 +144,7 @@ export function parseTimeRange(timeRangeStr, baseDate) {
 			return date;
 		});
 	
-	if(!result.every(isValidDate)) return null;
+	if(result.length !== 2 || !result.every(isValidDate)) return null;
 	
 	// if start is after end, assume end is next day
 	if(result[0] > result[1])

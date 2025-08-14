@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState } from "react";
 import Card from "@/components/project-specific-utility-components/Card.jsx";
 import LeftRightSelector from "@/components/project-specific-utility-components/LeftRightSelector.jsx";
-import { dayOfWeek } from "@/utils/newDateUtils.js";
+import { dayOfWeek } from "@/utils/dateUtils.js";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import If from "@/components/general-utility-components/If.jsx";
 import AddShiftButton from "@/components/scheduling/company-schedule/day-view/AddShiftButton.jsx";

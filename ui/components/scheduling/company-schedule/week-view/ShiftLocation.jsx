@@ -13,7 +13,7 @@ import StyledTextInput from "@/components/project-specific-utility-components/St
 import * as shiftService from "@/services/shiftService.js";
 import RemoveButton from "@/components/project-specific-utility-components/RemoveButton.jsx";
 import FlexRow from "@/components/general-utility-components/FlexRow.jsx";
-import { areSameDay } from "@/utils/newDateUtils.js";
+import { areSameDay } from "@/utils/dateUtils.js";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import SpringyAnimatedView from "@/components/general-utility-components/SpringyAnimatedView.jsx";
 

@@ -27,7 +27,7 @@ export default function Announcements() {
 	
 	return (
 		<SafeAreaViewWithBackground style={{ flex: 1 }}>
-			<TabHeader />
+			<TabHeader widthDivider/>
 			
 			<KeyboardAvoidingView
 				style={{ flex: 1, width: "90%", alignSelf: "center" }}
