@@ -11,6 +11,8 @@ import Animated, { LinearTransition } from "react-native-reanimated";
 import SpringyAnimatedView from "@/components/general-utility-components/SpringyAnimatedView.jsx";
 import If from "@/components/general-utility-components/If.jsx";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
+import { updateShiftNotifications } from "@/utils/notifications.js";
+import { useGlobalState } from "@/hooks/useGlobalState.js";
 
 
 export default function ShiftLocationList({ weekRange }) {
@@ -19,6 +21,7 @@ export default function ShiftLocationList({ weekRange }) {
 	const [isLoading, setIsLoading] = useState([]);
 	const [newLocationsNextKey, setNewLocationsNextKey] = useState(0);
 	const isFocused = useIsScreenFocused();
+	const { userId } = useGlobalState();
 	
 	
 	useEffect(() => {
@@ -28,6 +31,11 @@ export default function ShiftLocationList({ weekRange }) {
 			const shifts = (await shiftService.getAll(...weekRange)).body.shifts;
 			setShiftLocations(groupShiftsByLocation(shifts));
 			setIsLoading(false);
+			
+			// notifications
+			const now = new Date();
+			if(now >= weekRange[0] && now <= weekRange[1])
+				await updateShiftNotifications(shifts, userId);
 		})();
 	}, [weekRange, isFocused]);
 	
