@@ -5,6 +5,8 @@ import * as shiftService from "@/services/shiftService.js";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import { computeShiftStage } from "@/components/scheduling/my-schedule/computeShiftStage.js";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
+import { updateShiftNotifications } from "@/utils/notifications.js";
+import { useGlobalState } from "@/hooks/useGlobalState.js";
 
 
 // retrieves and shows list of shifts
@@ -15,6 +17,7 @@ export default function ShiftList({
 	
 	const [shifts, setShifts] = useState([]);
 	const [isLoading, setIsLoading] = useState(false);
+	const { userId } = useGlobalState();
 	
 	
 	useEffect(() => {
@@ -35,6 +38,9 @@ export default function ShiftList({
 				let response = await shiftService.getMy(new Date(), dir, prev.length, 10);
 				const { shifts: newShifts } = response.body;
 				setShifts([...prev, ...newShifts]);
+				
+				// notifications
+				if(dir === 1) await updateShiftNotifications(shifts, userId);
 				
 				// show previous shift if you haven't clocked out yet
 				if(dir === 1) {

@@ -7,9 +7,12 @@ import { Colors } from "@/constants/Colors";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import TabTitle from "@/components/project-specific-utility-components/TabTitle";
 import CheckAuthentication from "@/components/CheckAuthentication";
+import useInitNotifications from "@/hooks/useInitNotifications";
 
 
 export default function TabLayout() {
+	
+	useInitNotifications();
 	
 	return (
 		<SafeAreaProvider>
