@@ -76,7 +76,7 @@ export default function Create() {
 			
 			{!incidentReportId? (
 				
-				<SpringyAnimatedView>
+				<SpringyAnimatedView style={{ flex: 1 }}>
 					<StyledText
 						look="22 medium mediumHard"
 						hCenter={false}
