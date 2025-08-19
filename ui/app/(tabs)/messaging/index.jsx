@@ -4,6 +4,8 @@ import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { scheduleReminder } from "@/utils/notifications.js";
 import Button from "@/components/project-specific-utility-components/Button.jsx";
 import * as React from "react";
+import { View } from "react-native";
+import Gap from "@/components/general-utility-components/Gap.jsx";
 
 
 export default function Messaging() {
@@ -11,9 +13,11 @@ export default function Messaging() {
 		<SafeAreaViewWithBackground>
 			<TabHeader widthDivider/>
 			
-			<StyledText look="24 semibold hard">This is a placeholder page</StyledText>
+			<View style={{ width: "90%", marginHorizontal: "auto" }}>
+				<Gap size={50}/>
+				<StyledText look="46 semibold hard" style={{ textAlign: "center" }}>Direct messaging coming soon!</StyledText>
+			</View>
 			
-			<Button onPress={() => scheduleReminder("Bruh", "Shift soon!", new Date(Date.now() + 10 * 1000))}>Notify</Button>
 		</SafeAreaViewWithBackground>
 	);
 }

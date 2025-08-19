@@ -48,7 +48,7 @@ export default function RemoveUsers() {
 				<PersonDropDown onNewValue={setUserIdToRemove}/>
 				
 				<Gap size={10}/>
-				<Button look="white" disabled={loading} onPress={removeUser} textStyle={{ color: Colors.danger }}>
+				<Button look="danger" disabled={loading} onPress={removeUser}>
 					Remove user
 				</Button>
 			

@@ -91,6 +91,11 @@ function getButtonStyles(look, buttonStyle, showFeedback) {
 				borderColor: Colors.aiAccent,
 				height: 50
 			},
+			"danger": {
+				backgroundColor: Colors.verySoft,
+				borderWidth: 1,
+				borderColor: Colors.soft,
+			},
 		}[look],
 		
 		...buttonStyle
@@ -105,6 +110,7 @@ function getTextStyles(look, textStyle, showFeedback) {
 			: look === "lightBlue"? showFeedback? Colors.soft : Colors.white
 			: look === "graySmall"? showFeedback? Colors.mediumSoft : Colors.medium
 			: look === "ai"? showFeedback? Colors.aiAccent : Colors.white
+			: look === "danger"? showFeedback? Colors.softDanger : Colors.danger
 			: "#000000",
 		
 		...{

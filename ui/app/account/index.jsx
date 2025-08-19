@@ -27,10 +27,13 @@ export default function Account() {
 	return (
 		<SafeAreaViewWithBackground>
 			<StyledText look="48 semibold veryHard">Account</StyledText>
-			<StyledText look="24 semibold hard">This is a placeholder page</StyledText>
 			<BackButton/>
-			<Gap size={50}/>
-			<Button onPress={logout} disabled={loading}>Log out</Button>
+			
+			<Gap size={25}/>
+			<StyledText look="24 semibold hard">
+				{`Logged into: ${globalState.firstName} ${globalState.lastName}`}
+			</StyledText>
+			<Button look="danger" onPress={logout} disabled={loading}>Log out</Button>
 		</SafeAreaViewWithBackground>
 	);
 	
