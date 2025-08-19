@@ -1,5 +1,4 @@
 import * as Notifications from "expo-notifications";
-import { useGlobalState } from "@/hooks/useGlobalState.js";
 import { shortTime } from "@/utils/dateUtils.js";
 
 export async function scheduleReminder(title, body, date) {

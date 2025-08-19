@@ -5,13 +5,16 @@ import { useEffect } from "react";
 import { Asset } from "expo-asset";
 // @ts-ignore
 import background from "@/assets/images/squares-background.png";
+// @ts-ignore
+import logo from "@/assets/images/logo.png";
 
 
 export default function RootLayout() {
 
     useEffect(() => {
-        // preload image background to avoid flicker
+        // preload images to avoid flicker
         Asset.loadAsync(background);
+        Asset.loadAsync(logo);
     }, []);
 
 

@@ -8,17 +8,23 @@ import WrapChildrenIf from "@/components/general-utility-components/WrapChildren
 const { width } = Dimensions.get("window");
 
 
-export default function SafeAreaViewWithBackground({ dismissKeyboardOnPress, children, style }) {
+export default function SafeAreaViewWithBackground({
+	dismissKeyboardOnPress, children, backgroundImageComponent, style
+}) {
+	
 	const insets = useSafeAreaInsets();
 	
 	return (
 		<View style={{ flex: 1, backgroundColor: "white" }}>
 		
 			<StatusBar style="dark" />
-
-			<Image source={background} resizeMode="cover" style={{
-				position: "absolute", bottom: 0, width: width, height: undefined, aspectRatio: 598/984, opacity: 0.75
-			}}/>
+			
+			{backgroundImageComponent ?? (
+				<Image source={background} resizeMode="cover" style={{
+					position: "absolute", bottom: 0, width: width, height: undefined, aspectRatio: 598/984, opacity: 0.75
+				}}/>
+			)}
+			
 
 			<WrapChildrenIf
 				condition={dismissKeyboardOnPress}
@@ -33,10 +39,8 @@ export default function SafeAreaViewWithBackground({ dismissKeyboardOnPress, chi
 					</View>
 				}
 			/>
-
-
+			
 		</View>
 	);
-	
 	
 }

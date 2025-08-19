@@ -1,12 +1,14 @@
 import React from "react";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
-import { Pressable } from "react-native";
+import { Image, Pressable } from "react-native";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import { router } from "expo-router";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
 import ConnectionStatus from "@/components/project-specific-utility-components/ConnectionStatus.jsx";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import { Colors } from "@/constants/Colors.js";
+import commandPulseText from "@/assets/images/logo.png"
+import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 
 
 // shows the company name at the top
@@ -17,7 +19,33 @@ export default function TabHeader({ widthDivider=false }) {
 	
 	return (
 		<Pressable onPress={() => router.push("/account")}>
-			<StyledText look="40 medium veryHard" numberOfLines={1} adjustsFontSizeToFit>{companyName}</StyledText>
+			<FlexRowSpaceBetween style={{ width: "90%", marginHorizontal: "auto" }}>
+				<Image
+					source={commandPulseText}
+					resizeMode="contain"
+					style={{
+						width: 55,
+						height: 55,
+						alignSelf: "center",
+						justifyContent: "center",
+						marginVertical: "auto"
+					}}
+				/>
+				
+				<Gap horizontal size={12}/>
+				
+				<StyledText
+					look="40 medium veryHard"
+					numberOfLines={1}
+					adjustsFontSizeToFit
+					vCenter
+					style={{ flexShrink: 1 }}
+				>
+					{companyName}
+				</StyledText>
+			</FlexRowSpaceBetween>
+			
+			<Gap size={5}/>
 			
 			{/* this is temporary, I'll find a shadow library later */}
 			{widthDivider && (<>
