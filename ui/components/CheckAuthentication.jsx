@@ -41,7 +41,7 @@ export default function CheckAuthentication({ children }) {
 				<Image
 					source={loadingScreen}
 					resizeMode="contain"
-					style={{ alignSelf: "center", justifyContent: "center" }}
+					style={{ alignSelf: "center", justifyContent: "center", width: "100%", height: "100%" }}
 				/>
 			}
 		>
