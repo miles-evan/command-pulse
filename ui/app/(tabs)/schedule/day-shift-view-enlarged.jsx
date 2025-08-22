@@ -5,7 +5,7 @@ import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { useState } from "react";
 import SafeAreaViewWithBackground from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
 import { KeyboardAvoidingView, ScrollView } from "react-native";
-import PersonDropDown from "@/components/scheduling/company-schedule/day-view/PersonDropDown.jsx";
+import PersonDropDown from "@/components/project-specific-utility-components/PersonDropDown.jsx";
 import TabHeader from "@/components/project-specific-utility-components/TabHeader.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 

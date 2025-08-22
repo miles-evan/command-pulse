@@ -7,7 +7,7 @@ import Button from "@/components/project-specific-utility-components/Button.jsx"
 import SafeAreaViewWithBackground
 	from "@/components/project-specific-utility-components/SafeAreaViewWithBackground.jsx";
 import * as React from "react";
-import PersonDropDown from "@/components/scheduling/company-schedule/day-view/PersonDropDown.jsx";
+import PersonDropDown from "@/components/project-specific-utility-components/PersonDropDown.jsx";
 import { useState } from "react";
 import * as companyService from "@/services/companyService.js";
 import useContactsList from "@/hooks/useContactsList.js";
