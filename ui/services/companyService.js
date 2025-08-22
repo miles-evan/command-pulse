@@ -1,7 +1,8 @@
 import BetterFetch from "../utils/BetterFetch.js";
+import { API_URL } from "@/constants/apiUrl.js";
 
 
-const rootURL = "http://192.168.1.202:80/command-pulse/api/v1/companies"
+const rootURL = API_URL + "/companies";
 
 // create company
 export const create = companyName =>

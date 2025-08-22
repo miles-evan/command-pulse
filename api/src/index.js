@@ -50,7 +50,7 @@ app.use((request, response, next) => {
 		Request #${++requestCount}
 		${request.method} ${request.originalUrl}
 		Body: ${JSON.stringify(request.body)}
-		User: ${request?.user?.id}
+		User: ${request.user?.id}
 		Session: ${request.sessionID}
 	`);
 	next();

@@ -60,7 +60,7 @@ export default function TabHeader({ widthDivider=false }) {
 			</>)}
 			
 			
-			<ConnectionStatus pingInterval={1000}/>
+			{/*<ConnectionStatus pingInterval={1000}/>*/}
 			<Gap size={10}/>
 		</Pressable>
 	);

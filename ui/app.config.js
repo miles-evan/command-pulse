@@ -1,4 +1,7 @@
-{
+import 'dotenv/config';
+
+
+export default {
   "expo": {
     "name": "Command Pulse",
     "slug": "commandpulse",
@@ -44,6 +47,7 @@
     },
     "extra": {
       "router": {},
+      "apiUrl": process.env.API_URL,
       "eas": {
         "projectId": "d13f7c9d-fb7a-4571-9ddf-c2b605fa840c"
       }

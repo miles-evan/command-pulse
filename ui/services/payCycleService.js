@@ -1,8 +1,9 @@
 import BetterFetch from "../utils/BetterFetch.js";
 import { expandShiftDates } from "@/services/shiftService.js";
+import { API_URL } from "@/constants/apiUrl.js";
 
 
-const rootURL = "http://192.168.1.202:80/command-pulse/api/v1/pay-cycles";
+const rootURL = API_URL + "/pay-cycles";
 
 // get someone else's pay cycle summary
 export const getSummary = async (userId=null, startDate, endDate) => {

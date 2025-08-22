@@ -1,6 +1,7 @@
 import BetterFetch from "@/utils/BetterFetch.js";
 import { useEffect, useState } from "react";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
+import { API_URL } from "@/constants/apiUrl.js";
 
 export default function ConnectionStatus({ pingInterval=10000 }) {
 	
@@ -14,7 +15,7 @@ export default function ConnectionStatus({ pingInterval=10000 }) {
 			const timeBeforeRequest = Date.now();
 			if(timeBeforeRequest - timeOfLastResponse > pingInterval)
 				setConnected(false);
-			BetterFetch.get("http://192.168.1.202:80/command-pulse/api/v1")
+			BetterFetch.get(API_URL)
 				.then(() => {
 					timeOfLastResponse = Date.now();
 					setConnected(true);
