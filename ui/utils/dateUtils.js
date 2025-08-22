@@ -35,36 +35,40 @@ export function getWeekRange(week=0) {
 
 
 // returns { dateRange: [startDate, endDate], payDay }
-// shows the pending cycle (you stay in the cycle until its payDay passes)
-// NOTE: pay cycles are Monday-Sunday, 2-weeks, and anchored at Monday, 2025-01-06
-// offset: 0 for current cycle, 1 for next cycle, -2 for 2 cycles ago, and so on
-export function getPayCycleRange(offset = 0) {
+// payDay is the friday after the week
+// cycles are Monday–Sunday by default, anchored at Monday, 2025-01-06
+// cycleDays: length of cycle in days (e.g. 7 or 14)
+// offset: 0 current, 1 next, -2 two cycles ago, etc.
+export function getPayCycleRange(offset = 0, cycleDays = 7) {
 	const MS_PER_DAY = 24 * 60 * 60 * 1000;
-	const anchor = new Date(2025, 0, 6);
+	
+	const anchor = new Date(2025, 0, 6); // Mon 2025-01-06
 	anchor.setHours(0, 0, 0, 0);
 	
 	const today = new Date();
 	today.setHours(0, 0, 0, 0);
 	
+	// Stay in the cycle until its Friday (payDay) passes
 	const pivot = new Date(today);
 	pivot.setDate(pivot.getDate() - 5);
 	
 	const diffDays = Math.floor((pivot - anchor) / MS_PER_DAY);
-	const currentIndex = Math.floor(diffDays / 14);
+	const currentIndex = Math.floor(diffDays / cycleDays);
 	const targetIndex = currentIndex + offset;
 	
 	const start = new Date(anchor);
-	start.setDate(anchor.getDate() + targetIndex * 14);
+	start.setDate(anchor.getDate() + targetIndex * cycleDays);
 	
 	const end = new Date(start);
-	end.setDate(start.getDate() + 13);
+	end.setDate(start.getDate() + (cycleDays - 1));
 	
 	const payDay = new Date(end);
-	payDay.setDate(end.getDate() + 5);
+	payDay.setDate(end.getDate() + 5); // Friday after cycle ends
 	payDay.setHours(0, 0, 0, 0);
 	
 	return { dateRange: [start, end], payDay };
 }
+
 
 
 // -------------------------------- Formatting to look good:
