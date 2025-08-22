@@ -21,7 +21,7 @@ export default function CompanySchedule() {
 			<LeftRightSelector
 				onLeft={() => setWeek(prev => prev - 1)}
 				onRight={() => setWeek(prev => prev + 1)}
-				containerStyle={{ width: "75%" }}
+				containerStyle={{ width: "85%" }}
 			>
 				{formatDateRange(weekRange)}
 			</LeftRightSelector>

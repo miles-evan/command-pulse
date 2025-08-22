@@ -70,16 +70,17 @@ export function getPayCycleRange(offset = 0) {
 // -------------------------------- Formatting to look good:
 
 
-// [date1, date2] -> "7/14 - 7/27"
+// [date1, date2] -> "Jul 14 - Jul 27"
 export function formatDateRange(weekRange) {
 	const [startDate, endDate] = weekRange;
 	return `${shortDate(startDate)} - ${shortDate(endDate)}`;
 }
 
 
-// Date -> "7/14"
+// Date -> "Jul 14"
 export function shortDate(date) {
-	return `${date.getMonth() + 1}/${date.getDate()}`;
+	const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	return `${months[date.getMonth()]} ${date.getDate()}`;
 }
 
 
