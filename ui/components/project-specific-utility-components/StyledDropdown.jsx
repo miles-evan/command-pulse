@@ -1,9 +1,12 @@
 import { Colors } from "@/constants/Colors.js";
 import { Dropdown } from "react-native-element-dropdown";
 import * as React from "react";
+import { useState } from "react";
 
 
 export default function StyledDropdown({ data, value, onChange, style, whiteTintedBackground, ...rest }) {
+	
+	const [val, setVal] = useState(value);
 	
 	return (
 		<Dropdown
@@ -23,8 +26,11 @@ export default function StyledDropdown({ data, value, onChange, style, whiteTint
 			labelField="label"
 			valueField="value"
 			data={data}
-			value={value}
-			onChange={onChange}
+			value={value ?? val}
+			onChange={newVal => {
+				onChange?.(newVal);
+				setVal(newVal);
+			}}
 			{...rest}
 		/>
 	);

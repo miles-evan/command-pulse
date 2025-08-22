@@ -32,6 +32,7 @@ export default function Questions({ questions, answerRefsRef }) {
 				{question.type === "select"? (
 					<StyledDropdown
 						data={ question.options.map(option => ({ label: option, value: option })) }
+						value={answerRef.current}
 						onChange={ item => answerRef.current = item.value }
 						whiteTintedBackground
 					/>
