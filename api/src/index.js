@@ -14,8 +14,10 @@ import announcementRouter from "./routers/announcementRouter.js";
 
 const app = express();
 
-mongoose.connect("mongodb://localhost/command-pulse")
-	.then(() => console.log("Connected to database"));
+const MONGO_URL = process.env.MONGO_URL || "mongodb://localhost:27017/command-pulse";
+await mongoose.connect(MONGO_URL);
+console.log("Connected to database")
+
 
 // --------------------------------
 
@@ -44,7 +46,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 let requestCount = 0;
 app.use((request, response, next) => {
-	if(["/command-pulse/api/v1", "/command-pulse/api/v1/"].includes(request.originalUrl))
+	if(["/api/v1", "/api/v1/"].includes(request.originalUrl))
 		return next();
 	console.log(`
 		Request #${++requestCount}
@@ -58,21 +60,21 @@ app.use((request, response, next) => {
 
 
 // routers
-app.use("/command-pulse/api/v1/users", userRouter);
-app.use("/command-pulse/api/v1/companies", companyRouter);
-app.use("/command-pulse/api/v1/shifts", shiftRouter);
-app.use("/command-pulse/api/v1/pay-cycles", payCycleRouter);
-app.use("/command-pulse/api/v1/incident-reports", incidentReportRouter);
-app.use("/command-pulse/api/v1/announcements", announcementRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/companies", companyRouter);
+app.use("/api/v1/shifts", shiftRouter);
+app.use("/api/v1/pay-cycles", payCycleRouter);
+app.use("/api/v1/incident-reports", incidentReportRouter);
+app.use("/api/v1/announcements", announcementRouter);
 
 
 // ping
-app.get("/command-pulse/api/v1/", (request, response) => {
+app.get("/api/v1/", (request, response) => {
 	response.sendStatus(200);
 });
 
 
 // --------------------------------
 
-const PORT = process.env.PORT || 80;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`server started on port ${PORT}`));
