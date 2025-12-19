@@ -1,5 +1,5 @@
 import { Company } from "../mongoose/schemas/companySchema.js";
-import { promoCodeExists } from "../queries/promoCodeQueries";
+import { promoCodeExists } from "../queries/promoCodeQueries.js";
 
 
 export async function generateUniqueCompanyInviteCode(): Promise<string> {

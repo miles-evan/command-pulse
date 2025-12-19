@@ -1,19 +1,20 @@
 import { Router } from "express";
 import "../strategies/local-strategy.js";
 import { validateRequest } from "../middleware/validate.js";
-import { createPromoCodes, getAllPromoCodes, promoCodeExists } from "../queries/promoCodeQueries";
+import { createPromoCodes, getAllPromoCodes, promoCodeExists } from "../queries/promoCodeQueries.js";
 import {
 	createPromoCodesValidation,
 	getAllPromoCodesValidation,
 	promoCodeExistsValidation
-} from "../validation/promoCodeValidation";
+} from "../validation/promoCodeValidation.js";
 
 const promoCodeRouter = Router();
 
 // --------------------------------
 
 
-const ADMIN_PASSWORD: string = process.env.ADMIN_PASSWORD;
+const ADMIN_PASSWORD: string | undefined = process.env.ADMIN_PASSWORD;
+if(!ADMIN_PASSWORD) throw new Error("ADMIN_PASSWORD missing from .env");
 
 
 const passwordMiddleware = (request, response, next) => {
@@ -39,7 +40,6 @@ promoCodeRouter.get(
 promoCodeRouter.get(
 	"/exists/:code",
 	...validateRequest(promoCodeExistsValidation),
-	passwordMiddleware,
 	async (request, response) => {
 		const code: string = request.params.code;
 		const exists: boolean = await promoCodeExists(code);

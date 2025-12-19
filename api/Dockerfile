@@ -12,7 +12,7 @@ ENV NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/global-bundle.pem
 COPY package*.json ./
 RUN npm ci --omit=dev
 
-COPY . .
+COPY dist ./dist
 
 EXPOSE 8080
 

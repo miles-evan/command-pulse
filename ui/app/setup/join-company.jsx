@@ -7,7 +7,7 @@ import InputBubble from "@/components/form-card/InputBubble";
 import SubmitButton from "@/components/form-card/SubmitButton";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
-import { validateInviteCode } from "@/utils/validation";
+import { validateInviteCode } from "@/utils/validation.ts";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
 import If from "@/components/general-utility-components/If.jsx";

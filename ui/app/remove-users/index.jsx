@@ -9,7 +9,7 @@ import SafeAreaViewWithBackground
 import * as React from "react";
 import PersonDropDown from "@/components/project-specific-utility-components/PersonDropDown.jsx";
 import { useState } from "react";
-import * as companyService from "@/services/companyService.js";
+import * as companyService from "@/services/companyService.ts";
 import useContactsList from "@/hooks/useContactsList.js";
 import { Colors } from "@/constants/Colors.js";
 import { router } from "expo-router";

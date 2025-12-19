@@ -1,6 +1,6 @@
 import { User } from "../mongoose/schemas/userSchema.js";
 import { Company } from "../mongoose/schemas/companySchema.js";
-import { generateUniqueCompanyInviteCode } from "../utils/uniqueCodes.ts";
+import { generateUniqueCompanyInviteCode } from "../utils/uniqueCodes.js";
 import { expandUserIdArray } from "./userQueries.js";
 
 

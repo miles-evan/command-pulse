@@ -8,7 +8,7 @@ import SubmitButton from "@/components/form-card/SubmitButton";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import { router, useLocalSearchParams } from "expo-router";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
-import { validateSignupInfo } from "@/utils/validation";
+import { validateSignupInfo } from "@/utils/validation.ts";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import {Keyboard, TouchableWithoutFeedback} from "react-native";
 import If from "@/components/general-utility-components/If.jsx";

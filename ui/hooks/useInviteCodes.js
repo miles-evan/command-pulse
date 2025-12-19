@@ -1,5 +1,5 @@
 import { useGlobalState } from "@/hooks/useGlobalState.js";
-import * as companyService from "@/services/companyService.js";
+import * as companyService from "@/services/companyService.ts";
 import { useEffect, useState } from "react";
 
 

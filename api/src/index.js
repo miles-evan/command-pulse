@@ -10,7 +10,7 @@ import cors from "cors";
 import payCycleRouter from "./routers/payCycleRouter.js";
 import incidentReportRouter from "./routers/incidentReportRouter.js";
 import announcementRouter from "./routers/announcementRouter.js";
-import promoCodeRouter from "./routers/promoCodeRouter.ts";
+import promoCodeRouter from "./routers/promoCodeRouter.js";
 
 
 const app = express();

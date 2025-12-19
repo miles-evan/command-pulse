@@ -8,7 +8,7 @@ import SubmitButton from "@/components/form-card/SubmitButton";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import { router, useLocalSearchParams } from "expo-router";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
-import { validateLoginInfo } from "@/utils/validation";
+import { validateLoginInfo } from "@/utils/validation.ts";
 import * as userService from "@/services/userService.js";
 import * as companyService from "@/services/companyService";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";

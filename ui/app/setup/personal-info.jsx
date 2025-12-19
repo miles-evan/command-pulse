@@ -9,7 +9,7 @@ import Gap from "@/components/general-utility-components/Gap.jsx";
 import { router, useLocalSearchParams } from "expo-router";
 import * as userService from "@/services/userService";
 import * as companyService from "@/services/companyService";
-import { validatePersonalInfo } from "@/utils/validation";
+import { validatePersonalInfo } from "@/utils/validation.ts";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import { storeCredentials } from "@/utils/AsyncStorageAuthentication";

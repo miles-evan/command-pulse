@@ -1,5 +1,5 @@
 import { PromoCode } from "../mongoose/schemas/promoCodeSchema.js";
-import { generateUniquePromoCode } from "../utils/uniqueCodes";
+import { generateUniquePromoCode } from "../utils/uniqueCodes.js";
 
 
 export async function getAllPromoCodes(): Promise<string[]> {

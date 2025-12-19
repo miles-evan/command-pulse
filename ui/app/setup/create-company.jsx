@@ -7,9 +7,8 @@ import InputBubble from "@/components/form-card/InputBubble";
 import SubmitButton from "@/components/form-card/SubmitButton";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import ErrorMessages from "@/components/form-card/ErrorMessages";
-import { validateCompanyName } from "@/utils/validation";
+import { validateCompanyName, validateCompanyNameAndPromoCode } from "@/utils/validation.ts";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
-import {Keyboard, TouchableWithoutFeedback} from "react-native";
 import If from "@/components/general-utility-components/If.jsx";
 import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
 
@@ -39,8 +38,9 @@ export default function CreateCompany() {
 
 			<FormCard>
 				<FormHeader>Create company</FormHeader>
-				<InputBubble fieldName="companyName" placeholder={"Company name"} submitOnEnter/>
-				<ErrorMessages validate={validateCompanyName}/>
+				<InputBubble fieldName="companyName" placeholder="Company name"/>
+				<InputBubble fieldName="promoCode" placeholder="Promo code" submitOnEnter/>
+				<ErrorMessages validate={validateCompanyNameAndPromoCode}/>
 				<SubmitButton to="/setup/create-account">Next</SubmitButton>
 			</FormCard>
 

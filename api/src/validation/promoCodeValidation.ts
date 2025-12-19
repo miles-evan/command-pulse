@@ -11,7 +11,6 @@ export const getAllPromoCodesValidation = [
 ];
 
 export const promoCodeExistsValidation = [
-	adminPasswordValidation,
 	param("code")
 		.exists().withMessage("code param is required")
 		.isString().withMessage("code must be a string")
