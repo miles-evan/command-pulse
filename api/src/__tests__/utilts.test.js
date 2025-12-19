@@ -1,6 +1,6 @@
 import extractFromRequest from "../utils/extractFromRequest.js";
 import { hashPassword, comparePasswords } from "../utils/hashPassword.js";
-import { generateUniqueCode } from "../utils/inviteCodes.js";
+import { generateUniqueCompanyInviteCode } from "../utils/uniqueCodes.ts";
 import { Company } from "../mongoose/schemas/companySchema.js";
 
 
@@ -91,7 +91,7 @@ describe("generateUniqueCode", () => {
 	
 	it("returns an 8-digit string", async () => {
 		exists.mockResolvedValue(false);
-		const code = await generateUniqueCode();
+		const code = await generateUniqueCompanyInviteCode();
 		expect(code).toMatch(/^\d{8}$/);
 	});
 	
@@ -106,7 +106,7 @@ describe("generateUniqueCode", () => {
 			.mockResolvedValueOnce(true)  // supervisorInviteCode exists
 			.mockResolvedValue(false);    // final both false
 		
-		const code = await generateUniqueCode();
+		const code = await generateUniqueCompanyInviteCode();
 		expect(code).toMatch(/^\d{8}$/);
 		
 		// Ensure it retried more than once
@@ -127,7 +127,7 @@ describe("generateUniqueCode", () => {
 			.mockResolvedValueOnce(true)
 			.mockResolvedValue(false);
 		
-		const code = await generateUniqueCode();
+		const code = await generateUniqueCompanyInviteCode();
 		expect(code).toMatch(/^\d{8}$/);
 		
 		expect(exists).toHaveBeenCalled();

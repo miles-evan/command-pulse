@@ -1,14 +1,14 @@
 import { User } from "../mongoose/schemas/userSchema.js";
 import { Company } from "../mongoose/schemas/companySchema.js";
-import { generateUniqueCode } from "../utils/inviteCodes.js";
+import { generateUniqueCompanyInviteCode } from "../utils/uniqueCodes.ts";
 import { expandUserIdArray } from "./userQueries.js";
 
 
 export async function createCompany(companyName, supervisorId) {
 	const newCompany = new Company({
 		name: companyName,
-		supervisorInviteCode: await generateUniqueCode("supervisorInviteCode"),
-		officerInviteCode: await generateUniqueCode("officerInviteCode")
+		supervisorInviteCode: await generateUniqueCompanyInviteCode("supervisorInviteCode"),
+		officerInviteCode: await generateUniqueCompanyInviteCode("officerInviteCode")
 	});
 	await newCompany.save();
 	
@@ -131,8 +131,8 @@ export async function getInviteCodes(companyId) {
 
 export async function resetInviteCodes(companyId) {
 	await Company.findByIdAndUpdate(companyId, {
-		supervisorInviteCode: await generateUniqueCode("supervisorInviteCode"),
-		officerInviteCode: await generateUniqueCode("officerInviteCode")
+		supervisorInviteCode: await generateUniqueCompanyInviteCode("supervisorInviteCode"),
+		officerInviteCode: await generateUniqueCompanyInviteCode("officerInviteCode")
 	});
 }
 

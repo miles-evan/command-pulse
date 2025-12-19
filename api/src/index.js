@@ -10,6 +10,7 @@ import cors from "cors";
 import payCycleRouter from "./routers/payCycleRouter.js";
 import incidentReportRouter from "./routers/incidentReportRouter.js";
 import announcementRouter from "./routers/announcementRouter.js";
+import promoCodeRouter from "./routers/promoCodeRouter.ts";
 
 
 const app = express();
@@ -68,6 +69,7 @@ app.use("/api/v1/shifts", shiftRouter);
 app.use("/api/v1/pay-cycles", payCycleRouter);
 app.use("/api/v1/incident-reports", incidentReportRouter);
 app.use("/api/v1/announcements", announcementRouter);
+app.use("/api/v1/promo-codes", promoCodeRouter);
 
 
 // ping
