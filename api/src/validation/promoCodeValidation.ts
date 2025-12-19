@@ -14,7 +14,8 @@ export const promoCodeExistsValidation = [
 	adminPasswordValidation,
 	param("code")
 		.exists().withMessage("code param is required")
-		.isString().withMessage("code must be a string"),
+		.isString().withMessage("code must be a string")
+		.isLength({ min: 8, max: 8 }).withMessage("promo code must be 8 characters"),
 ];
 
 export const createPromoCodesValidation = [

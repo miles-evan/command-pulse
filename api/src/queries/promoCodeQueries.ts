@@ -24,3 +24,8 @@ export async function createPromoCodes(numCodes: number): Promise<string[]> {
 	
 	return codes;
 }
+
+
+export async function deletePromoCode(code: string): Promise<void> {
+	PromoCode.deleteOne({ code: code });
+}
