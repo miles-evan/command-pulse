@@ -15,5 +15,5 @@ export async function createPromoCodes(numCodes) {
     return codes;
 }
 export async function deletePromoCode(code) {
-    PromoCode.deleteOne({ code: code });
+    await PromoCode.deleteOne({ code: code });
 }

@@ -11,6 +11,7 @@ import { validateCompanyName, validateCompanyNameAndPromoCode } from "@/utils/va
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import If from "@/components/general-utility-components/If.jsx";
 import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
+import { router } from "expo-router";
 
 
 export default function CreateCompany() {

@@ -27,5 +27,5 @@ export async function createPromoCodes(numCodes: number): Promise<string[]> {
 
 
 export async function deletePromoCode(code: string): Promise<void> {
-	PromoCode.deleteOne({ code: code });
+	await PromoCode.deleteOne({ code: code });
 }

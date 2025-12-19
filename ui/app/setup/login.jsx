@@ -14,14 +14,13 @@ import * as companyService from "@/services/companyService";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import {useRef} from "react";
 import {storeCredentials} from "@/utils/AsyncStorageAuthentication";
-import {Keyboard, TouchableWithoutFeedback} from "react-native";
 import If from "@/components/general-utility-components/If.jsx";
 import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
 
 
 export default function Login() {
 	
-	const { isCreatingCompany, inviteCode, companyName, alreadyInCompany } = useLocalSearchParams();
+	const { isCreatingCompany, inviteCode, companyName, promoCode, alreadyInCompany } = useLocalSearchParams();
 	const setErrorMessagesRef = useRef(() => {});
 	const keyboardVisible = useKeyboardVisible();
 	
@@ -36,7 +35,7 @@ export default function Login() {
 		if(!alreadyInCompany) {
 			await companyService.leave();
 			if(isCreatingCompany) {
-				await companyService.create(companyName);
+				await companyService.create(companyName, promoCode);
 			} else {
 				await companyService.join(inviteCode);
 			}

@@ -19,7 +19,7 @@ import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
 
 export default function PersonalInfo() {
 	
-	const { isCreatingCompany, inviteCode, email, password, companyName } = useLocalSearchParams();
+	const { isCreatingCompany, inviteCode, email, password, companyName, promoCode } = useLocalSearchParams();
 	const keyboardVisible = useKeyboardVisible();
 	
 	
@@ -30,7 +30,7 @@ export default function PersonalInfo() {
 		await storeCredentials(email, password);
 		
 		if(isCreatingCompany) {
-			await companyService.create(companyName);
+			await companyService.create(companyName, promoCode);
 		} else {
 			await companyService.join(inviteCode);
 		}

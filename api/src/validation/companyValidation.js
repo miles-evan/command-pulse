@@ -8,8 +8,8 @@ export const createCompanyValidation = [
 		.trim()
 		.notEmpty().withMessage("Company name is required")
 		.isLength({ min: 2, max: 50 }).withMessage("Company name must be 2-50 characters"),
-	param("promoCode")
-		.exists().withMessage("promoCode param is required")
+	body("promoCode")
+		.exists().withMessage("promoCode must be included")
 		.isString().withMessage("promoCode must be a string")
 		.isLength({ min: 8, max: 8 }).withMessage("promo code must be 8 characters"),
 ];

@@ -9,11 +9,10 @@ const companyRouter = Router();
 // --------------------------------
 // Create company
 companyRouter.post("/", ...validateRequest(createCompanyValidation), ...permission("not in company"), async (request, response) => {
-    const { promoCode } = request.body;
+    const { companyName, promoCode } = request.body;
     if (!await promoCodeExists(promoCode))
         return response.status(401).send("promo code incorrect");
     await deletePromoCode(promoCode);
-    const { companyName } = request.body;
     try {
         const newCompany = await createCompany(companyName, request.user.id);
         return response.status(201).send({ companyId: newCompany.id });
