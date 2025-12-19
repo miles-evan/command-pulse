@@ -14,7 +14,9 @@ import announcementRouter from "./routers/announcementRouter.js";
 
 const app = express();
 
+console.log("I WILL NOW TRY TO CONNECT TO THE DATABASE!")
 const MONGO_URL = process.env.MONGO_URL || "mongodb://localhost:27017/command-pulse";
+console.log("MONGO_URL:", MONGO_URL);
 await mongoose.connect(MONGO_URL);
 console.log("Connected to database")
 
@@ -71,6 +73,18 @@ app.use("/api/v1/announcements", announcementRouter);
 // ping
 app.get("/api/v1/", (request, response) => {
 	response.sendStatus(200);
+});
+
+
+// global error handler
+app.use((err, request, response, _) => {
+	console.error("internal server error");
+	console.error("METHOD:", request.method);
+	console.error("URL:", request.originalUrl);
+	console.error("BODY:", request.body);
+	console.error(err.stack || err);
+	
+	response.status(500).send("Internal Server Error");
 });
 
 

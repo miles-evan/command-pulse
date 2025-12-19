@@ -44,7 +44,7 @@ export default function ShiftDayCard({ date, shifts, onPress, editing=false, onD
 						
 						<StyledText
 							look={`18 light ${userId? "veryHard" : "accent"}`} numberOfLines={1} style={styles.name}>
-							{userId? firstName[0] + ". " + lastName : "???"}
+							{userId? lastName : "???"}
 						</StyledText>
 						
 						<StyledText look="18 regular veryHard" numberOfLines={1} style={styles.times}>

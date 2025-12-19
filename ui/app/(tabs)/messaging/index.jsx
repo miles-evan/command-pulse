@@ -15,7 +15,7 @@ export default function Messaging() {
 			
 			<View style={{ width: "90%", marginHorizontal: "auto" }}>
 				<Gap size={50}/>
-				<StyledText look="46 semibold hard" style={{ textAlign: "center" }}>Direct messaging coming soon!</StyledText>
+				<StyledText look="46 semibold hard" style={{ textAlign: "center" }}>Direct messaging in development!</StyledText>
 			</View>
 			
 		</SafeAreaViewWithBackground>

@@ -8,11 +8,13 @@ import LoadingText from "@/components/project-specific-utility-components/Loadin
 import BackButton from "@/components/project-specific-utility-components/BackButton.jsx";
 import If from "@/components/general-utility-components/If.jsx";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
+import { useMemo } from "react";
 
 
 export default function SeePayCycles() {
 	
-	let { user=null, currentPayCycles=null } = useGlobalState().params;
+	const params = useMemo(() => useGlobalState().params, []); // prevents other tabs from overwriting params
+	let { user=null, currentPayCycles=null } = params;
 	const isSupervisor = !!user;
 	const {
 		dateRange, payDay, previousPayCycleSummary, nextPayCycleSummary, updatePayCycle, payCycleSummary, loading

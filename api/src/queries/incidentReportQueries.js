@@ -72,38 +72,11 @@ export async function getIncidents(userId, skip, limit) {
 
 
 export async function getAllIncidents(companyId, skip, limit) {
-	const incidentReports = await Company.aggregate([
-		{ $match: { _id: new mongoose.Types.ObjectId(companyId) } },
-		{ $lookup: {
-			from: "users",
-			let: {
-				supervisorIds: "$supervisorIds",
-				officerIds: "$officerIds"
-			},
-			pipeline: [{ $match: { $expr: {
-				$or: [
-					{ $in: ["$_id", "$$supervisorIds"] },
-					{ $in: ["$_id", "$$officerIds"] }
-				]
-			}}}],
-			as: "companyUsers"
-		}},
-		{ $unwind: "$companyUsers" },
-		{ $replaceWith: "$companyUsers" },
-		{ $lookup: {
-			from: "incidentreports",
-			localField: "_id",
-			foreignField: "userId",
-			as: "incidentReports"
-		}},
-		{ $unwind: "$incidentReports" },
-		{ $replaceWith: "$incidentReports" },
-		{ $sort: { dateCreated: -1 } },
-		{ $skip: skip },
-		{ $limit: limit }
-	]);
-	
-	return projectIncidentReports(incidentReports)
+	const company = await Company.findById(companyId, { supervisorIds: 1, officerIds: 1 });
+	const userIds = [...company.supervisorIds, ...company.officerIds];
+	const incidentReports = await IncidentReport.find({ userId: { $in: userIds } })
+		.sort({ dateCreated: -1 }).skip(skip).limit(limit);
+	return projectIncidentReports(incidentReports);
 }
 
 

@@ -43,9 +43,9 @@ async function fetchWithBody(url, method, body, retries=3) {
 		}
 		if(method === "GET") delete options.body
 		
-		// if(url !== "http://192.168.1.202:80/command-pulse/api/v1") console.log("about to fetch", method, url)
+		// console.log("about to fetch", method, url, body);
 		const response = await fetch(url, options);
-		// if(url !== "http://192.168.1.202:80/command-pulse/api/v1") console.log("fetch complete", method, url)
+		// console.log("fetch complete", method, url, body ?? "{ no body }");
 		
 		const responseBody = await response.json()
 			.catch(() => response.text())
