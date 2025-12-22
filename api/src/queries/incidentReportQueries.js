@@ -129,6 +129,6 @@ export async function userOwnsIncidentReport(userId, incidentReportId) {
 
 
 export async function userInSameCompanyAsIncidentReport(userId, incidentReportId) {
-	const incident = IncidentReport.findOne({ _id: incidentReportId });
+	const incident = await IncidentReport.findOne({ _id: incidentReportId });
 	return await usersInSameCompany(userId, incident.userId);
 }

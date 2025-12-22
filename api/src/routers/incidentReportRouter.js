@@ -43,7 +43,7 @@ incidentReportRouter.post(
 	"/generate",
 	...validateRequest(generateIncidentReportValidation),
 	...permission("in company"),
-	isMyIncidentReport("body.incidentReportId"),
+	isMyIncidentReportOrImSupervisor("body.incidentReportId"),
 	async (request, response) => {
 		const { incidentReportId, incidentInfo } = request.body;
 		

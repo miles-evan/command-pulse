@@ -15,7 +15,7 @@ incidentReportRouter.post("/init", ...validateRequest(initializeIncidentReportVa
     return response.send({ incidentReportId });
 });
 // Generate / revise incident report
-incidentReportRouter.post("/generate", ...validateRequest(generateIncidentReportValidation), ...permission("in company"), isMyIncidentReport("body.incidentReportId"), async (request, response) => {
+incidentReportRouter.post("/generate", ...validateRequest(generateIncidentReportValidation), ...permission("in company"), isMyIncidentReportOrImSupervisor("body.incidentReportId"), async (request, response) => {
     const { incidentReportId, incidentInfo } = request.body;
     const { followUpQuestions, report, title } = await generateIncidentReport(incidentReportId, incidentInfo);
     return response.send({ followUpQuestions, report, title });
