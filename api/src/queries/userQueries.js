@@ -18,11 +18,11 @@ export async function expandUserIdArray(userIds) {
 	if(userIds.length === 0) return [];
 	return User.aggregate([
 		{ $match: {
-				_id: { $in: userIds }
-			}},
+			_id: { $in: userIds }
+		}},
 		{ $project: {
-				userId: "$_id", firstName: 1, lastName: 1, _id: 0
-			}}
+			userId: "$_id", firstName: 1, lastName: 1, _id: 0
+		}}
 	]);
 }
 

@@ -5,6 +5,7 @@ import { projectShifts } from "./shiftQueries.js";
 import { Company } from "../mongoose/schemas/companySchema.js";
 import mongoose from "mongoose";
 import { promptGenerateIncidentReport, promptReviseIncidentReport } from "../chatGPT/incidentReportPrompts.js";
+import { usersInSameCompany } from "./userQueries.js";
 
 
 export async function initializeIncidentReport(userId, shiftId) {
@@ -124,4 +125,10 @@ export async function deleteIncidentReport(incidentReportId) {
 export async function userOwnsIncidentReport(userId, incidentReportId) {
 	const user = await User.findOne({ _id: userId, incidentReportIds: incidentReportId });
 	return !!user;
+}
+
+
+export async function userInSameCompanyAsIncidentReport(userId, incidentReportId) {
+	const incident = IncidentReport.findOne({ _id: incidentReportId });
+	return await usersInSameCompany(userId, incident.userId);
 }

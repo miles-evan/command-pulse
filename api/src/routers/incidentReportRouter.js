@@ -101,7 +101,7 @@ incidentReportRouter.delete(
 	"/",
 	...validateRequest(deleteIncidentReportValidation),
 	...permission("in company"),
-	isMyIncidentReport("body.incidentReportId"),
+	isMyIncidentReportOrImSupervisor("body.incidentReportId"),
 	async (request, response) => {
 		const { incidentReportId } = request.body;
 		

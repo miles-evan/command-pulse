@@ -1,6 +1,9 @@
 import { usersInSameCompany } from "../queries/userQueries.js";
 import { userInSameCompanyAsShift, userInSameCompanyAsShiftRequest } from "../queries/shiftQueries.js";
 import extractFromRequest from "../utils/extractFromRequest.js";
+import { userInSameCompanyAsIncidentReport } from "../queries/incidentReportQueries.js";
+
+// this code should be DRY'd out at some point
 
 
 // ensures users are in same company or userId not given
@@ -54,5 +57,17 @@ export function sameCompanyAsShiftRequest(pathFromRequestToShiftRequestId) {
 		
 		if(await userInSameCompanyAsShiftRequest(request.user.id, shiftRequestId)) return next();
 		return response.status(403).send({ message: "must be in the same company as shift" });
+	}
+}
+
+
+export function sameCompanyAsIncidentReport(pathFromRequestToIncidentReportId) {
+	const pathArray = pathFromRequestToIncidentReportId.split(".");
+	
+	return async (request, response, next) => {
+		const incidentReportId = extractFromRequest(request, pathArray);
+		
+		if(await userInSameCompanyAsIncidentReport(request.user.id, incidentReportId)) return next();
+		return response.status(403).send({ message: "must be in the same company as incident report" });
 	}
 }

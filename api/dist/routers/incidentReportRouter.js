@@ -39,7 +39,7 @@ incidentReportRouter.get("/:incidentReportId", ...validateRequest(getIncidentRep
     return response.send({ report });
 });
 // Delete incident report
-incidentReportRouter.delete("/", ...validateRequest(deleteIncidentReportValidation), ...permission("in company"), isMyIncidentReport("body.incidentReportId"), async (request, response) => {
+incidentReportRouter.delete("/", ...validateRequest(deleteIncidentReportValidation), ...permission("in company"), isMyIncidentReportOrImSupervisor("body.incidentReportId"), async (request, response) => {
     const { incidentReportId } = request.body;
     await deleteIncidentReport(incidentReportId);
     return response.sendStatus(200);
