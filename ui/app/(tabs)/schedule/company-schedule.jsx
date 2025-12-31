@@ -19,6 +19,8 @@ export default function CompanySchedule() {
 			
 			<TabHeader/>
 			
+			<ToggleShiftView startState={"company"} style={{ textDecorationLine: "underline" }}/>
+			
 			<LeftRightSelector
 				onLeft={() => setWeek(prev => prev - 1)}
 				onRight={() => setWeek(prev => prev + 1)}
@@ -30,8 +32,6 @@ export default function CompanySchedule() {
 			<Gap size={15}/>
 			
 			<ShiftLocationList weekRange={weekRange}/>
-			
-			<ToggleShiftView startState={"company"}/>
 		
 		</SafeAreaViewWithBackground>
 	);

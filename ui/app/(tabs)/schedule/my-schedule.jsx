@@ -7,12 +7,14 @@ import Gap from "@/components/general-utility-components/Gap.jsx";
 import ShiftList from "@/components/scheduling/my-schedule/ShiftList.jsx";
 import { useIsScreenFocused } from "@/hooks/useIsScreenFocused.js";
 import ToggleShiftView from "@/components/scheduling/ToggleShiftView";
+import { useGlobalState } from "@/hooks/useGlobalState.js";
 
 
 export default function MySchedule() {
 	
 	const [dir, setDir] = useState(1);
 	const isFocused = useIsScreenFocused();
+	const globalState = useGlobalState();
 	
 	
 	function toggleDir() {
@@ -24,6 +26,10 @@ export default function MySchedule() {
 		<SafeAreaViewWithBackground>
 			
 			<TabHeader/>
+			
+			{globalState.isSupervisor && (
+				<ToggleShiftView startState={"me"} style={{ textDecorationLine: "underline" }}/>
+			)}
 			
 			<FlexRowSpaceBetween>
 				<StyledText look="18 medium medium">
@@ -37,8 +43,6 @@ export default function MySchedule() {
 			<Gap size={5}/>
 			
 			<ShiftList dir={dir} isFocused={isFocused} coverRequestable updateNotifications/>
-			
-			<ToggleShiftView startState={"me"}/>
 		
 		</SafeAreaViewWithBackground>
 	);
