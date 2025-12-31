@@ -35,34 +35,6 @@ export default function TabLayout() {
 				>
 					
 					<Tabs.Screen
-						name="incident-reports"
-						options={{
-							title: "Incidents",
-							tabBarIcon: ({ color, size }) => (
-								<Ionicons name="document-outline" size={size+5} color={color} />
-							),
-							tabBarLabel: ({ color }) => (
-								<TabTitle color={color}>Incidents</TabTitle>
-							),
-						}}
-					/>
-					
-					{/*
-					<Tabs.Screen
-						name="messaging/index"
-						options={{
-							title: "Messaging",
-							tabBarIcon: ({ color, size }) => (
-								<MaterialIcons name="chat-bubble-outline" size={size+5} color={color} />
-							),
-							tabBarLabel: ({ color }) => (
-								<TabTitle color={color}>Messaging</TabTitle>
-							),
-						}}
-					/>
-					*/}
-					
-					<Tabs.Screen
 						name="announcements/index"
 						options={{
 							title: "Announcements",
@@ -84,6 +56,34 @@ export default function TabLayout() {
 							),
 							tabBarLabel: ({ color }) => (
 								<TabTitle color={color}>Schedule</TabTitle>
+							),
+						}}
+					/>
+					
+					{/*
+					<Tabs.Screen
+						name="messaging/index"
+						options={{
+							title: "Messaging",
+							tabBarIcon: ({ color, size }) => (
+								<MaterialIcons name="chat-bubble-outline" size={size+5} color={color} />
+							),
+							tabBarLabel: ({ color }) => (
+								<TabTitle color={color}>Messaging</TabTitle>
+							),
+						}}
+					/>
+					*/}
+					
+					<Tabs.Screen
+						name="incident-reports"
+						options={{
+							title: "Incidents",
+							tabBarIcon: ({ color, size }) => (
+								<Ionicons name="document-outline" size={size+5} color={color} />
+							),
+							tabBarLabel: ({ color }) => (
+								<TabTitle color={color}>Incidents</TabTitle>
 							),
 						}}
 					/>

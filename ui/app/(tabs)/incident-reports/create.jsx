@@ -9,13 +9,16 @@ import { router, useLocalSearchParams } from "expo-router";
 import * as incidentReportService from "@/services/incidentReportService.js";
 import { useEffect, useRef, useState } from "react";
 import If from "@/components/general-utility-components/If.jsx";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import StyledTextInput from "@/components/project-specific-utility-components/StyledTextInput.jsx";
 import Button from "@/components/project-specific-utility-components/Button.jsx";
 import GenerateWithAIButton from "@/components/incidentReports/GenerateWithAIButton.jsx";
 import LoadingText from "@/components/project-specific-utility-components/LoadingText.jsx";
 import SpringyAnimatedView from "@/components/general-utility-components/SpringyAnimatedView.jsx";
+import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
+import useKeyboardVisible from "@/hooks/useKeyboardVisible.js";
+import LinearAnimatedView from "@/components/general-utility-components/LinearAnimatedView.jsx";
 
 
 export default function Create() {
@@ -24,6 +27,7 @@ export default function Create() {
 	const [loading, setLoading] = useState(false);
 	const valueRef = useRef(null);
 	const { shiftId } = useLocalSearchParams();
+	const keyboardVisible = useKeyboardVisible();
 	
 	
 	useEffect(() => {
@@ -104,14 +108,23 @@ export default function Create() {
 				<SpringyAnimatedView style={{ width: "90%", marginHorizontal: "auto" }}>
 					<StyledText look="26 medium mediumHard" hCenter={false}>Description</StyledText>
 					
-					<StyledTextInput
-						placeholder="Describe what happened in your own words..."
-						valueRef={valueRef}
-						bigMode
-						whiteTintedBackground
-					/>
+					<If condition={!keyboardVisible}>
+						<StyledText look="18 mediumSoft mediumHard" hCenter={false}>
+							Type your response below, or use the microphone on your keyboard:
+						</StyledText>
+						<HorizontalLine length="100%" style={{ marginTop: "15", marginBottom: "25" }}/>
+					</If>
 					
-					<GenerateWithAIButton onPress={generate} disabled={loading}/>
+					<SpringyAnimatedView damping={30} stiffness={100}>
+						<StyledTextInput
+							placeholder={"Describe what happened in your own words..."}
+							valueRef={valueRef}
+							bigMode
+							whiteTintedBackground
+						/>
+						
+						<GenerateWithAIButton onPress={generate} disabled={loading}/>
+					</SpringyAnimatedView>
 				</SpringyAnimatedView>
 				
 			)}

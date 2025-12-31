@@ -39,6 +39,7 @@ export default function StyledTextInput({
 					paddingVertical: 12,
 				} : {}),
 				...(bigMode? {
+					minHeight: 250,
 					height: 250,
 				} : {}),
 				...(whiteTintedBackground? {

@@ -1,6 +1,6 @@
 import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
-import * as FileSystem from "expo-file-system";
+import * as FileSystem from "expo-file-system/legacy";
 import { PDFDocument } from "pdf-lib";
 import MarkdownIt from "markdown-it";
 
@@ -22,9 +22,9 @@ async function addPdfMargins(inUri, { top=18, bottom=18, left=16, right=16 } = {
 		page.drawPage(p, { x: L, y: B, width: width - L - R, height: height - T - B });
 	}
 	
-	const b64 = await outDoc.saveAsBase64();
+	const b64 = await outDoc.saveAsBase64({ dataUri: false });
 	const outUri = `${FileSystem.cacheDirectory}report_${Date.now()}.pdf`;
-	await FileSystem.writeAsStringAsync(outUri, b64, { encoding: FileSystem.EncodingType.Base64 });
+	await FileSystem.writeAsStringAsync(outUri, b64, { encoding: "base64" });
 	return outUri;
 }
 
