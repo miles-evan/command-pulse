@@ -47,6 +47,7 @@ export default function TabLayout() {
 						}}
 					/>
 					
+					{/*
 					<Tabs.Screen
 						name="messaging/index"
 						options={{
@@ -59,6 +60,7 @@ export default function TabLayout() {
 							),
 						}}
 					/>
+					*/}
 					
 					<Tabs.Screen
 						name="announcements/index"
