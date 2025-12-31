@@ -10,7 +10,7 @@ import { Colors } from "@/constants/Colors.js";
 export default function StyledText({ look="12 semibold black", hCenter=true, vCenter=false, style={}, children, ...rest }) {
 	
 	return (
-		<Text style={getStyle(look, hCenter, vCenter, style)} { ...rest }>
+		<Text style={getStyle(look, hCenter, vCenter, style)} allowFontScaling={false} { ...rest }>
 			{children}
 		</Text>
 	);

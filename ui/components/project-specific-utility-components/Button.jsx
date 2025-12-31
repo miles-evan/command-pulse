@@ -1,4 +1,4 @@
-import {Pressable, StyleSheet, Text} from "react-native";
+import { Pressable } from "react-native";
 import { Colors } from "@/constants/Colors.js";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import {router, useLocalSearchParams} from "expo-router";

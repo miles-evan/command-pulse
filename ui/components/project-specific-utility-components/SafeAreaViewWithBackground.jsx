@@ -1,4 +1,4 @@
-import background from "@/assets/images/squares-background.png";
+import background from "@/assets/images/background.png";
 import {View, Image, Dimensions, Keyboard, TouchableWithoutFeedback} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";

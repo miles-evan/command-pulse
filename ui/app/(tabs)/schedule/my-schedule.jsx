@@ -6,6 +6,7 @@ import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRow
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import ShiftList from "@/components/scheduling/my-schedule/ShiftList.jsx";
 import { useIsScreenFocused } from "@/hooks/useIsScreenFocused.js";
+import ToggleShiftView from "@/components/scheduling/ToggleShiftView";
 
 
 export default function MySchedule() {
@@ -36,6 +37,8 @@ export default function MySchedule() {
 			<Gap size={5}/>
 			
 			<ShiftList dir={dir} isFocused={isFocused} coverRequestable updateNotifications/>
+			
+			<ToggleShiftView startState={"me"}/>
 		
 		</SafeAreaViewWithBackground>
 	);

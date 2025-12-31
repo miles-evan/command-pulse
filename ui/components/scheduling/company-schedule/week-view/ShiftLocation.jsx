@@ -16,6 +16,7 @@ import FlexRow from "@/components/general-utility-components/FlexRow.jsx";
 import { areSameDay } from "@/utils/dateUtils.js";
 import Animated, { LinearTransition } from "react-native-reanimated";
 import SpringyAnimatedView from "@/components/general-utility-components/SpringyAnimatedView.jsx";
+import { Colors } from "@/constants/Colors.js";
 
 
 export default function ShiftLocation({
@@ -94,7 +95,7 @@ export default function ShiftLocation({
 							value={locationName}
 							onChangeText={setLocationName}
 							selectTextOnFocus
-							style={{ flex: 1, marginHorizontal: 12, height: 36, fontSize: 24 }}
+							style={{ flex: 1, marginHorizontal: 12, height: 36, fontSize: 24, backgroundColor: Colors.white + "99" }}
 						/>
 					</FlexRow>
 				)}

@@ -5,6 +5,7 @@ import { formatDateRange, getWeekRange } from "@/utils/dateUtils.js";
 import { useMemo, useState } from "react";
 import ShiftLocationList from "@/components/scheduling/company-schedule/week-view/ShiftLocationList.jsx";
 import Gap from "@/components/general-utility-components/Gap.jsx";
+import ToggleShiftView from "@/components/scheduling/ToggleShiftView";
 
 
 export default function CompanySchedule() {
@@ -29,6 +30,8 @@ export default function CompanySchedule() {
 			<Gap size={15}/>
 			
 			<ShiftLocationList weekRange={weekRange}/>
+			
+			<ToggleShiftView startState={"company"}/>
 		
 		</SafeAreaViewWithBackground>
 	);
