@@ -1,9 +1,16 @@
 import { User } from "../mongoose/schemas/userSchema.js";
 import { hashPassword } from "../utils/hashPassword.js";
+import capitalize from "../utils/capitalize.js";
 
 
 export async function createUser(email, password, firstName, lastName, phoneNumber) {
-	const newUser = new User({ email, password: hashPassword(password), firstName, lastName, phoneNumber });
+	const newUser = new User({
+		email,
+		password: hashPassword(password),
+		firstName: capitalize(firstName),
+		lastName: capitalize(lastName),
+		phoneNumber,
+	});
 	await newUser.save();
 	return newUser;
 }
@@ -31,3 +38,4 @@ export async function usersInSameCompany(userId1, userId2) {
 	const user2 = await User.findById(userId2);
 	return user1.companyId.equals(user2.companyId);
 }
+

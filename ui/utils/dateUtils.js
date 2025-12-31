@@ -108,9 +108,13 @@ export function shortTime(date) {
 
 // Date -> "8"
 // Date -> "8am"
-export function superShortTime(date, includePM=false) {
-	return shortTime(date).replace("pm", includePM? "pm" : "").replace(":00", "");
+export function superShortTime(date, includePM=false, shortenAmPm=false) {
+	return shortTime(date)
+		.replace(/pm/g, includePM? shortenAmPm? "p" : "pm" : "")
+		.replace(/am/g, shortenAmPm ? "a" : "am")
+		.replace(/:00/g, "");
 }
+
 
 
 // -------------------------------- Comparisons:

@@ -14,9 +14,9 @@ export default function RemoveUserButton() {
 		<IconAndTextButton
 			iconName="remove"
 			IconFamily={Ionicons}
-			text="Remove new user"
-			color="mediumSoft"
-			pressColor="medium"
+			text="Remove user"
+			color="accent"
+			pressColor="softAccent"
 			innerContainerStyle={{ flexDirection: "row" }}
 			outerContainerStyle={{ flexDirection: "row", justifyContent: "flexStart" }}
 			textStyle={{ marginLeft: 12 }}

@@ -46,7 +46,7 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 				</StyledText>
 				
 				<StyledText look="26 light veryHard" numberOfLines={1} style={styles.times}>
-					{superShortTime(shiftStart) + "-" + superShortTime(shiftEnd)}
+					{superShortTime(shiftStart, true, true) + "-" + superShortTime(shiftEnd, true, true)}
 				</StyledText>
 			
 			</FlexRowSpaceBetween>

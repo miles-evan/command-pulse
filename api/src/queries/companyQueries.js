@@ -2,11 +2,12 @@ import { User } from "../mongoose/schemas/userSchema.js";
 import { Company } from "../mongoose/schemas/companySchema.js";
 import { generateUniqueCompanyInviteCode } from "../utils/uniqueCodes.js";
 import { expandUserIdArray } from "./userQueries.js";
+import capitalize from "../utils/capitalize.js";
 
 
 export async function createCompany(companyName, supervisorId) {
 	const newCompany = new Company({
-		name: companyName,
+		name: capitalize(companyName),
 		supervisorInviteCode: await generateUniqueCompanyInviteCode("supervisorInviteCode"),
 		officerInviteCode: await generateUniqueCompanyInviteCode("officerInviteCode")
 	});

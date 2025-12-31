@@ -13,8 +13,8 @@ export default function InviteUserButton() {
 		<IconAndTextButton
 			iconName="add"
 			text="Invite new user"
-			color="mediumSoft"
-			pressColor="medium"
+			color="accent"
+			pressColor="softAccent"
 			innerContainerStyle={{ flexDirection: "row" }}
 			outerContainerStyle={{ flexDirection: "row", justifyContent: "flexStart" }}
 			textStyle={{ marginLeft: 12 }}
