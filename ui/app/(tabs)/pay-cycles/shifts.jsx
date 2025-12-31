@@ -8,7 +8,7 @@ import { ScrollView } from "react-native";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import Button from "@/components/project-specific-utility-components/Button.jsx";
 import { breakUpKeyValuePairs, labelKeysAndValues } from "@/utils/objectUtils.js";
-import * as payCycleService from "@/services/payCycleService.js";
+import * as payCycleService from "@/services/payCycleService.ts";
 import { useState } from "react";
 import If from "@/components/general-utility-components/If.jsx";
 import { router } from "expo-router";

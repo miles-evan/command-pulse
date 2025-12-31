@@ -8,7 +8,7 @@ import { useGlobalState } from "@/hooks/useGlobalState.js";
 import { useEffect, useMemo, useState } from "react";
 import useContactsList from "@/hooks/useContactsList.js";
 import { getPayCycleRange } from "@/utils/dateUtils.js";
-import * as payCycleService from "@/services/payCycleService.js";
+import * as payCycleService from "@/services/payCycleService.ts";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { Colors } from "@/constants/Colors.js";
 import { useIsScreenFocused } from "@/hooks/useIsScreenFocused.js";

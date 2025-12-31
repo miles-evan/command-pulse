@@ -1,6 +1,6 @@
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import StyledTextInput from "@/components/project-specific-utility-components/StyledTextInput.jsx";
-import StyledDropdown from "@/components/project-specific-utility-components/StyledDropdown.jsx";
+import StyledDropdown from "@/components/project-specific-utility-components/StyledDropdown.tsx";
 import { View } from "react-native";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import { useEffect } from "react";

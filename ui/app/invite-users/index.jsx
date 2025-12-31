@@ -16,7 +16,7 @@ import Button from "@/components/project-specific-utility-components/Button.jsx"
 import OrLine from "@/components/general-utility-components/OrLine.jsx";
 import FlexRowSpaceBetween from "@/components/general-utility-components/FlexRowSpaceBetween.jsx";
 import CopyButton from "@/components/project-specific-utility-components/CopyButton.jsx";
-import StyledDropdown from "@/components/project-specific-utility-components/StyledDropdown.jsx";
+import StyledDropdown from "@/components/project-specific-utility-components/StyledDropdown.tsx";
 
 
 export default function InviteUsers() {

@@ -9,6 +9,7 @@ import BackButton from "@/components/project-specific-utility-components/BackBut
 import If from "@/components/general-utility-components/If.jsx";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
 import { useMemo } from "react";
+import { ScrollView } from "react-native";
 
 
 export default function SeePayCycles() {
@@ -37,15 +38,17 @@ export default function SeePayCycles() {
 			</StyledText>
 			
 			{!loading? (
-				<PayCycleCard
-					dateRange={dateRange}
-					payDay={payDay}
-					onLeft={previousPayCycleSummary}
-					onRight={nextPayCycleSummary}
-					payCycleSummary={payCycleSummary}
-					user={user}
-					updatePayCycle={updatePayCycle}
-				/>
+				<ScrollView>
+					<PayCycleCard
+						dateRange={dateRange}
+						payDay={payDay}
+						onLeft={previousPayCycleSummary}
+						onRight={nextPayCycleSummary}
+						payCycleSummary={payCycleSummary}
+						user={user}
+						updatePayCycle={updatePayCycle}
+					/>
+				</ScrollView>
 			) : (
 				<LoadingText/>
 			)}

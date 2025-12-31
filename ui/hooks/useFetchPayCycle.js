@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import * as payCycleService from "@/services/payCycleService.js";
+import * as payCycleService from "@/services/payCycleService.ts";
 import { getPayCycleRange } from "@/utils/dateUtils.js";
 
 

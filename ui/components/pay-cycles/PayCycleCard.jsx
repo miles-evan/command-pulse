@@ -7,14 +7,17 @@ import HorizontalLine from "@/components/general-utility-components/HorizontalLi
 import Button from "@/components/project-specific-utility-components/Button.jsx";
 import If from "@/components/general-utility-components/If.jsx";
 import Contact from "@/components/contacts/Contact.jsx";
-import * as payCycleService from "@/services/payCycleService.js";
+import * as payCycleService from "@/services/payCycleService.ts";
 import { router } from "expo-router";
 import { useGlobalState } from "@/hooks/useGlobalState.js";
 import FlexRow from "@/components/general-utility-components/FlexRow.jsx";
+import StyledDropdown from "@/components/project-specific-utility-components/StyledDropdown.tsx";
+import { useState } from "react";
 
 
 export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user, onLeft, onRight, updatePayCycle }) {
 	
+	const [paymentMethodSelected, setPaymentMethodSelected] = useState("Cash");
 	const globalState = useGlobalState();
 	const isSupervisor = !!user;
 	const {
@@ -29,7 +32,7 @@ export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user,
 	
 	
 	async function confirmSent() {
-		if(payCycleId) await payCycleService.confirmSent(null, null, null, payCycleId);
+		if(payCycleId) await payCycleService.confirmSent(null, null, null, payCycleId, paymentMethodSelected);
 		else await payCycleService.confirmSent(user.userId, ...dateRange);
 		await updatePayCycle();
 	}
@@ -84,10 +87,19 @@ export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user,
 			<StyledText look="25 light veryHard">
 				{paymentReceived? `Payment received (${paymentMethod})` : paymentSent? `Payment sent (${paymentMethod})` : "Payment not yet sent"}
 			</StyledText>
-			<If condition={!isSupervisor && paymentSent && !paymentReceived}>
+			<If condition={!isSupervisor && paymentSent && !paymentReceived && paymentMethod !== "Payroll"}>
 				<Button style={{ width: "100%" }} onPress={confirmReceived}>Confirm received</Button>
 			</If>
 			<If condition={isSupervisor && !paymentSent}>
+				<StyledDropdown
+					data={[
+						{ label: "Cash", value: "Cash" },
+						{ label: "Electronic transfer", value: "Electronic transfer" },
+						{ label: "Payroll", value: "Payroll" },
+					]}
+					value={paymentMethodSelected}
+					onChange={({ value }) => setPaymentMethodSelected(value)}
+				/>
 				<Button style={{ width: "100%" }} onPress={confirmSent}>Confirm sent</Button>
 			</If>
 			

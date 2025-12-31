@@ -2,9 +2,16 @@ import { Colors } from "@/constants/Colors.js";
 import { Dropdown } from "react-native-element-dropdown";
 import * as React from "react";
 import { useState } from "react";
+import type { StyleProp, ViewStyle } from "react-native";
 
 
-export default function StyledDropdown({ data, value, onChange, style, whiteTintedBackground, ...rest }) {
+export default function StyledDropdown<V>({ data, value, onChange, style, whiteTintedBackground, ...rest }: {
+	data: Array<{ label: string; value: V }>,
+	value?: V
+	onChange?: (value: { label: string, value: V }) => void,
+	style?: React.CSSProperties,
+	whiteTintedBackground?: boolean
+}) {
 	
 	const [val, setVal] = useState(value);
 	
@@ -20,7 +27,7 @@ export default function StyledDropdown({ data, value, onChange, style, whiteTint
 					backgroundColor: "rgba(255, 255, 255, 0.75)",
 				} : {}),
 				...style
-			}}
+			} as StyleProp<ViewStyle>}
 			maxHeight={300}
 			selectedTextStyle={{ color: Colors.veryHard }}
 			labelField="label"
