@@ -33,7 +33,7 @@ export default function PayCycleCard({ dateRange, payDay, payCycleSummary, user,
 	
 	async function confirmSent() {
 		if(payCycleId) await payCycleService.confirmSent(null, null, null, payCycleId, paymentMethodSelected);
-		else await payCycleService.confirmSent(user.userId, ...dateRange);
+		else await payCycleService.confirmSent(user.userId, ...dateRange, null, paymentMethodSelected);
 		await updatePayCycle();
 	}
 	
