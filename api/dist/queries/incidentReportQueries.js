@@ -6,6 +6,7 @@ import { Company } from "../mongoose/schemas/companySchema.js";
 import mongoose from "mongoose";
 import { promptGenerateIncidentReport, promptReviseIncidentReport } from "../chatGPT/incidentReportPrompts.js";
 import { usersInSameCompany } from "./userQueries.js";
+import { getContacts } from "./companyQueries.js";
 export async function initializeIncidentReport(userId, shiftId) {
     const newIncidentReport = new IncidentReport({
         userId,
@@ -23,6 +24,7 @@ export async function generateIncidentReport(incidentReportId, incidentInfo) {
     if (incidentReport.report === null) {
         const user = await User.findById(incidentReport.userId).lean();
         const company = await Company.findById(user.companyId).lean();
+        company.usersInCompany = await getContacts(company._id);
         const shift = await Shift.findById(incidentReport.shiftId).lean();
         const response = await promptGenerateIncidentReport(user, company, shift, incidentReport.dateCreated, incidentInfo);
         const { report, followUpQuestions, title } = response;
