@@ -1,15 +1,26 @@
 
 
-export function dayOfWeek(date, labelToday=false) {
+export function dayOfWeek(date, labelToday=false, withDayNumber=false) {
 	if(labelToday && areSameDay(date, new Date()))
 		return "Today";
-	return date.toLocaleDateString("en-US", { weekday: "long" });
+	return date.toLocaleDateString("en-US", { weekday: "long" })
+		+ (!withDayNumber? "" : ", " + numberWithSuffix(date.getDate()));
 }
 
 
 // exs. MON, TUE, WED, THU
-export function dayOfWeekShort(date) {
-	return dayOfWeek(date).slice(0, 3).toUpperCase();
+export function dayOfWeekShort(date, withDayNumber=false) {
+	return dayOfWeek(date, withDayNumber).slice(0, 3).toUpperCase();
+}
+
+
+// 3 -> 3rd
+export function numberWithSuffix(number) {
+	console.log("numberWithSuffix", number);
+	return number + (number % 10 === 1 && number % 100 !== 11? "st"
+		: number % 10 === 2 && number % 100 !== 12? "nd"
+		: number % 10 === 3 && number % 100 !== 13? "rd"
+		: "th")
 }
 
 

@@ -121,7 +121,7 @@ export default function ShiftDayCardEnlarged({
 				leftDisabled={leftDisabled || editing || addingShifts}
 				rightDisabled={rightDisabled || editing || addingShifts}
 			>
-				{dayOfWeek(date)}
+				{dayOfWeek(date, false, true)}
 			</LeftRightSelector>
 			
 			<HorizontalLine color="soft" length={"100%"}/>
