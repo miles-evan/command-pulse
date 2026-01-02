@@ -9,6 +9,7 @@ import background from "@/assets/images/squares-background.png";
 import logo from "@/assets/images/logo.png";
 
 
+
 export default function RootLayout() {
 
     useEffect(() => {
@@ -23,8 +24,6 @@ export default function RootLayout() {
             <Stack
                 screenOptions={{
                     headerShown: false,
-                    //contentStyle: { backgroundColor: "transparent" },
-                    //animation: "none",
                 }}
             >
                 <Stack.Screen name="(tabs)"/>

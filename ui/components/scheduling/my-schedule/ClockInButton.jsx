@@ -3,12 +3,13 @@ import { Colors } from "@/constants/Colors.js";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import { Pressable } from "react-native";
 import * as shiftService from "@/services/shiftService.js";
+import askFirst from "@/utils/askFirst.ts";
 
 
 export default function ClockInButton({ onPress }) {
 	
 	return (
-		<Pressable style={{ alignItems: "center" }} onPress={onPress}>
+		<Pressable style={{ alignItems: "center" }} onPress={() => askFirst(onPress)}>
 			{({ pressed }) => (
 				<>
 					<MaterialIcons name="play-circle-outline" size={54} color={pressed? Colors.softAccent : Colors.accent} />

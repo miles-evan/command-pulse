@@ -4,13 +4,14 @@ import { Colors } from "@/constants/Colors.js";
 import StyledText from "@/components/general-utility-components/StyledText.jsx";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import * as shiftService from "@/services/shiftService.js";
+import askFirst from "@/utils/askFirst.ts";
 
 
 export default function ClockOutButton({ onPress }) {
 	
 	
 	return (
-		<Pressable style={{ alignItems: "center" }} onPress={onPress}>
+		<Pressable style={{ alignItems: "center" }} onPress={() => askFirst(onPress)}>
 			{({ pressed }) => (
 				<>
 					<MaterialCommunityIcons name="stop-circle-outline" size={54} color={pressed? Colors.softDanger : Colors.danger} />

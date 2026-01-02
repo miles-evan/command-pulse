@@ -47,6 +47,7 @@ export default function StyledTextInput({
 				} : {}),
 				...style,
 			}}
+			allowFontScaling={false}
 			placeholderTextColor={Colors.medium}
 			value={value}
 			onChangeText={setValue}
