@@ -31,7 +31,7 @@ export default function ShiftRequestCard({ shiftRequest }) {
 			<MessageSenderAndTime timeSent={timeSent} firstName={firstName} lastName={lastName}/>
 			
 			<ShiftCard
-				shift={shift}
+				shift={{ ...shift, payRate: undefined }}
 				mode="plain"
 				FooterComponent={
 					<>

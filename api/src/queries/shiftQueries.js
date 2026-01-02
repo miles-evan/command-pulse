@@ -173,6 +173,10 @@ export async function getShiftRequests(companyId, startDate, endDate) {
 			: [];
 	}))).flat();
 	
+	for(const shiftRequest of shiftRequests) {
+		delete shiftRequest.shift.payRate;
+	}
+	
 	return shiftRequests.sort((a, b) => a.timeSent - b.timeSent);
 }
 
