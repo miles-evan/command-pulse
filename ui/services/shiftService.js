@@ -15,8 +15,8 @@ export const reassignShift = (shiftId, userId) =>
 	BetterFetch.post(rootURL + "/reassign", { shiftId, userId });
 
 // get my shifts
-export const getMy = async (date, dir, skip, limit) => {
-	const response = await BetterFetch.get(rootURL, { date: date.toISOString(), dir, skip, limit });
+export const getMy = async (date, dir, skip, limit, sortBy="shiftEnd") => {
+	const response = await BetterFetch.get(rootURL, { date: date.toISOString(), dir, skip, limit, sortBy });
 	response.body.shifts?.forEach?.(expandShiftDates);
 	return response;
 };

@@ -13,7 +13,7 @@ import { useGlobalState } from "@/hooks/useGlobalState.js";
 // dir (1 or -1) is direction to look for shifts (forward in time or backward)
 export default function ShiftList({
 	dir, isFocused=true, showPressFeedback=false, onPressShift=_=>{},
-	mode="default", coverRequestable=false, updateNotifications=false
+	mode="default", coverRequestable=false, updateNotifications=false, sortBy
 }) {
 	
 	const [shifts, setShifts] = useState([]);
@@ -36,7 +36,7 @@ export default function ShiftList({
 			setIsLoading(true);
 			
 			(async () => {
-				let response = await shiftService.getMy(new Date(), dir, prev.length, 10);
+				let response = await shiftService.getMy(new Date(), dir, prev.length, 10, sortBy);
 				const { shifts: newShifts } = response.body;
 				setShifts([...prev, ...newShifts]);
 				
@@ -46,7 +46,7 @@ export default function ShiftList({
 				
 				// show previous shift if you haven't clocked out yet
 				if(dir === 1) {
-					response = await shiftService.getMy(new Date(), -1, 0, 1);
+					response = await shiftService.getMy(new Date(), -1, 0, 1, sortBy);
 					const { shifts: pastShifts } = response.body;
 					if(pastShifts.length === 0)
 						return setIsLoading(false);

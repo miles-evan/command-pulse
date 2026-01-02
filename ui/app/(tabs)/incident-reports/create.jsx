@@ -99,6 +99,7 @@ export default function Create() {
 							showPressFeedback
 							onPressShift={initIncident}
 							mode="plain"
+							sortBy="shiftStart"
 						/>
 					</If>
 				</SpringyAnimatedView>

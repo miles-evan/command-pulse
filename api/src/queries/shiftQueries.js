@@ -96,13 +96,13 @@ export async function deleteShiftRequest(shiftRequestId) {
 // --------------------------------
 
 
-// gets shifts based on Date object, filtered and sorted by shiftEnd (exclusive)
-export async function getShifts(userId, date, dir=1, skip=0, limit=20) {
+// gets shifts based on Date object, filtered and sorted by shiftEnd (by default), exclusive
+export async function getShifts(userId, date, dir=1, skip=0, limit=20, sortBy="shiftEnd") {
 	const user = await User.findById(userId);
 	
 	const shifts = await Shift.find({
 		_id: { $in: user.shiftIds },
-		shiftEnd: { [dir === 1? "$gt" : "$lt"]: date },
+		[sortBy]: { [dir === 1? "$gt" : "$lt"]: date },
 	}).sort({ shiftEnd: dir }).skip(skip).limit(limit);
 	
 	return projectShifts(shifts);
