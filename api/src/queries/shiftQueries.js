@@ -23,7 +23,10 @@ export async function createAndAssignShift(
 export async function acceptShiftRequest(userId, shiftRequestId) {
 	const { shiftId } = await ShiftRequest.findById(shiftRequestId);
 	
-	await reassignShift(shiftId, userId);
+	await Promise.all([
+		updateShiftInfo(shiftId, { payRate: -1 }),
+		reassignShift(shiftId, userId),
+	]);
 	
 	return shiftId;
 }
