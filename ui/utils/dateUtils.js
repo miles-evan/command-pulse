@@ -16,7 +16,6 @@ export function dayOfWeekShort(date, withDayNumber=false) {
 
 // 3 -> 3rd
 export function numberWithSuffix(number) {
-	console.log("numberWithSuffix", number);
 	return number + (number % 10 === 1 && number % 100 !== 11? "st"
 		: number % 10 === 2 && number % 100 !== 12? "nd"
 		: number % 10 === 3 && number % 100 !== 13? "rd"

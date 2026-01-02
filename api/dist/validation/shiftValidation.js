@@ -63,6 +63,9 @@ export const getMyShiftsValidation = [
         .optional()
         .isInt({ min: 1, max: 50 }).withMessage("limit must be an integer between 1 and 50")
         .toInt(),
+    query("sortBy")
+        .optional()
+        .isIn(["shiftEnd", "shiftStart"]).withMessage("sortBy must be 'shiftEnd' or 'shiftStart'"),
 ];
 export const getSomeonesShiftsValidation = [
     ...getMyShiftsValidation,

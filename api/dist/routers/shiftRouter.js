@@ -34,14 +34,14 @@ shiftRouter.get("/all", ...validateRequest(getAllShiftsValidation), ...permissio
 });
 // Get my shifts
 shiftRouter.get("/", ...validateRequest(getMyShiftsValidation), ...permission("in company"), async (request, response) => {
-    const { date, dir, skip, limit } = matchedData(request);
-    const shifts = await getShifts(request.user.id, date, dir, skip, limit);
+    const { date, dir, skip, limit, sortBy = "shiftEnd" } = matchedData(request);
+    const shifts = await getShifts(request.user.id, date, dir, skip, limit, sortBy);
     response.send({ shifts });
 });
 // Get someone's shifts
 shiftRouter.get("/users/:userId", ...validateRequest(getSomeonesShiftsValidation), ...permission("supervisor"), async (request, response) => {
-    const { userId, date, dir, skip, limit } = matchedData(request);
-    const shifts = await getShifts(userId, date, dir, skip, limit);
+    const { userId, date, dir, skip, limit, sortBy = "shiftEnd" } = matchedData(request);
+    const shifts = await getShifts(userId, date, dir, skip, limit, sortBy);
     response.send({ shifts });
 });
 // Make cover request

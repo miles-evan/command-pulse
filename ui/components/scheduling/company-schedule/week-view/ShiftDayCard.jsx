@@ -33,7 +33,7 @@ export default function ShiftDayCard({ date, shifts, onPress, editing=false, onD
 			
 			<HorizontalLine color="soft" length="100%" style={styles.divider}/>
 			
-			{sortedShifts.map(({ userId, firstName, lastName, shiftStart, shiftEnd }, index) => (
+			{sortedShifts.map(({ userId, firstName, lastName, shiftStart, shiftEnd, payRate }, index) => (
 				<View key={index}>
 					
 					<If condition={index === 5}>
@@ -43,7 +43,7 @@ export default function ShiftDayCard({ date, shifts, onPress, editing=false, onD
 					<FlexRowSpaceBetween style={styles.shiftContainer}>
 						
 						<StyledText
-							look={`18 light ${userId? "veryHard" : "accent"}`} numberOfLines={1} style={styles.name}>
+							look={`18 light ${payRate === -1? "danger" : userId? "veryHard" : "accent"}`} numberOfLines={1} style={styles.name}>
 							{userId? lastName : "???"}
 						</StyledText>
 					

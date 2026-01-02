@@ -11,14 +11,15 @@ export default function PayRateInput({ initialValue, onNewValue=_=>{} }) {
 	const [isDifferent, setIsDifferent] = useState(false);
 	
 	
+	useEffect(() => {
+		if(payRate === -1) setValue("TBD");
+		onNewValue(payRate);
+	}, [payRate]);
+	
+	
 	function formatPayRate(payRate) {
 		return `$${payRate}/hr`
 	}
-	
-	
-	useEffect(() => {
-		onNewValue(payRate);
-	}, [payRate]);
 	
 	
 	function onChangeText(newText) {
@@ -37,12 +38,12 @@ export default function PayRateInput({ initialValue, onNewValue=_=>{} }) {
 	function onEndEditing() {
 		setSelection(null);
 		
-		const newPayRate = Number(value);
+		const newPayRate = value.trim() === ""? NaN : Number(value);
 		if (isNaN(newPayRate)) {
-			setValue(formatPayRate(payRate));
+			setValue(payRate === -1? "TBD" : formatPayRate(payRate));
 		} else {
 			setPayRate(newPayRate);
-			setValue(formatPayRate(newPayRate));
+			setValue(newPayRate === -1? "TBD" : formatPayRate(newPayRate));
 		}
 		
 		setIsDifferent(newPayRate !== initialValue);
@@ -57,7 +58,7 @@ export default function PayRateInput({ initialValue, onNewValue=_=>{} }) {
 			selection={selection}
 			onFocus={onFocus}
 			onEndEditing={onEndEditing}
-			color={isDifferent? "altAccent" : "veryHard"}
+			color={value === "TBD"? "danger" : isDifferent? "altAccent" : "veryHard"}
 		/>
 	);
 	

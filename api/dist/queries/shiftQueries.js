@@ -15,7 +15,10 @@ export async function createAndAssignShift(shiftStart, shiftEnd, location, payRa
 }
 export async function acceptShiftRequest(userId, shiftRequestId) {
     const { shiftId } = await ShiftRequest.findById(shiftRequestId);
-    await reassignShift(shiftId, userId);
+    await Promise.all([
+        updateShiftInfo(shiftId, { payRate: -1 }),
+        reassignShift(shiftId, userId),
+    ]);
     return shiftId;
 }
 export async function reassignShift(shiftId, userId, shiftRequestMessage, companyId, reassignerUserId) {
@@ -63,12 +66,12 @@ export async function deleteShiftRequest(shiftRequestId) {
     await ShiftRequest.findByIdAndDelete(shiftRequestId);
 }
 // --------------------------------
-// gets shifts based on Date object, filtered and sorted by shiftEnd (exclusive)
-export async function getShifts(userId, date, dir = 1, skip = 0, limit = 20) {
+// gets shifts based on Date object, filtered and sorted by shiftEnd (by default), exclusive
+export async function getShifts(userId, date, dir = 1, skip = 0, limit = 20, sortBy = "shiftEnd") {
     const user = await User.findById(userId);
     const shifts = await Shift.find({
         _id: { $in: user.shiftIds },
-        shiftEnd: { [dir === 1 ? "$gt" : "$lt"]: date },
+        [sortBy]: { [dir === 1 ? "$gt" : "$lt"]: date },
     }).sort({ shiftEnd: dir }).skip(skip).limit(limit);
     return projectShifts(shifts);
 }
@@ -121,6 +124,9 @@ export async function getShiftRequests(companyId, startDate, endDate) {
                 }]
             : [];
     }))).flat();
+    for (const shiftRequest of shiftRequests) {
+        delete shiftRequest.shift.payRate;
+    }
     return shiftRequests.sort((a, b) => a.timeSent - b.timeSent);
 }
 export async function projectShifts(shifts) {

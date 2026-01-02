@@ -1,7 +1,14 @@
 import { User } from "../mongoose/schemas/userSchema.js";
 import { hashPassword } from "../utils/hashPassword.js";
+import capitalize from "../utils/capitalize.js";
 export async function createUser(email, password, firstName, lastName, phoneNumber) {
-    const newUser = new User({ email, password: hashPassword(password), firstName, lastName, phoneNumber });
+    const newUser = new User({
+        email,
+        password: hashPassword(password),
+        firstName: capitalize(firstName),
+        lastName: capitalize(lastName),
+        phoneNumber,
+    });
     await newUser.save();
     return newUser;
 }

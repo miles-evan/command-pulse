@@ -5,12 +5,13 @@ import PersonDropDown from "@/components/project-specific-utility-components/Per
 import { StyleSheet } from "react-native";
 import TimeRangeInput from "@/components/scheduling/company-schedule/day-view/TimeRangeInput.jsx";
 import PayRateInput from "@/components/scheduling/company-schedule/day-view/PayRateInput.jsx";
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import RemoveButton from "@/components/project-specific-utility-components/RemoveButton.jsx";
 
 export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits=_=>{}, onDelete=()=>{} }) {
 	
 	const { userId, firstName, lastName, shiftStart, shiftEnd, payRate } = shift;
+	const payRateStripped = useMemo(() => payRate === -1, [payRate]);
 	const edits = useRef({}); // useRef so that it doesn't rerender
 	
 	
@@ -41,11 +42,11 @@ export default function ShiftEntryEnlarged({ shift, editing=false, onChangeEdits
 		!editing? (
 			<FlexRowSpaceBetween style={{ alignItems: "center", marginVertical: 1.5 }}>
 				
-				<StyledText look={`26 light ${ userId? "veryHard" : "accent"}`} numberOfLines={1} ellipsizeMode="clip" style={styles.name}>
+				<StyledText look={`26 light ${ payRateStripped? "danger" : userId? "veryHard" : "accent"}`} numberOfLines={1} ellipsizeMode="clip" style={styles.name}>
 					{userId? firstName + " " + lastName : "???"}
 				</StyledText>
 				
-				<StyledText look="26 light veryHard" numberOfLines={1} style={styles.times}>
+				<StyledText look={`26 light ${payRateStripped? "danger" : "veryHard"}`} numberOfLines={1} style={styles.times}>
 					{superShortTime(shiftStart, true, true) + "-" + superShortTime(shiftEnd, true, true)}
 				</StyledText>
 			
