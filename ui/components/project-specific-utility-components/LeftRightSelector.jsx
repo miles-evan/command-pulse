@@ -6,7 +6,7 @@ import { Colors } from "@/constants/Colors.js";
 
 
 // children is a string of text to display in the selector
-export default function LeftRightSelector({ onLeft, onRight, leftDisabled, rightDisabled, containerStyle={}, textStyle={}, children }) {
+export default function LeftRightSelector({ onLeft, onRight, leftDisabled, rightDisabled, containerStyle={}, textStyle={}, children, ...rest }) {
 	
 	if(leftDisabled) onLeft = () => {};
 	if(rightDisabled) onRight = () => {};
@@ -21,7 +21,7 @@ export default function LeftRightSelector({ onLeft, onRight, leftDisabled, right
 				)}
 			</Pressable>
 			
-			<StyledText look="34 medium veryHard" style={textStyle}>
+			<StyledText look="34 medium veryHard" width="75%" numberOfLines={1} adjustsFontSizeToFit style={textStyle} {...rest}>
 				{children}
 			</StyledText>
 			

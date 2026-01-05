@@ -39,8 +39,8 @@ export default function StyledTextInput({
 					paddingVertical: 12,
 				} : {}),
 				...(bigMode? {
-					minHeight: 250,
-					height: 250,
+					minHeight: 150,
+					height: 150,
 				} : {}),
 				...(whiteTintedBackground? {
 					backgroundColor: "rgba(255, 255, 255, 0.75)",
