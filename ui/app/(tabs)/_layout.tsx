@@ -96,7 +96,7 @@ export default function TabLayout() {
 								<MaterialIcons name="attach-money" size={size+5} color={color} />
 							),
 							tabBarLabel: ({ color }) => (
-								<TabTitle color={color}>Pay cycles</TabTitle>
+								<TabTitle color={color}>Pay</TabTitle>
 							),
 						}}
 					/>
