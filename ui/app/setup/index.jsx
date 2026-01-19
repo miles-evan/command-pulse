@@ -6,6 +6,7 @@ import FormCard from "@/components/form-card/FormCard";
 import Gap from "@/components/general-utility-components/Gap.jsx";
 import HorizontalLine from "@/components/general-utility-components/HorizontalLine.jsx";
 import OrLine from "@/components/general-utility-components/OrLine.jsx";
+import { ScrollView, View } from "react-native";
 
 
 export default function GetStarted() {
@@ -14,12 +15,12 @@ export default function GetStarted() {
 	return (
 		<SafeAreaViewWithBackground>
 			
-			<Gap size={25}/>
+			<View style={{ width: "85%", marginHorizontal: "auto" }}>
+				<StyledText look="68 semibold veryHard" numberOfLines={1} adjustsFontSizeToFit>Welcome</StyledText>
+				<StyledText look="44 medium veryHard" numberOfLines={1} adjustsFontSizeToFit>Command Pulse</StyledText>
+			</View>
 			
-			<StyledText look="68 semibold veryHard">Welcome</StyledText>
-			<StyledText look="44 medium veryHard">Command Pulse</StyledText>
-			
-			<Gap size={40}/>
+			<Gap size="5%"/>
 			
 			<FormCard>
 				<FormHeader>Get started</FormHeader>
@@ -27,7 +28,7 @@ export default function GetStarted() {
 				<Button to="/setup/create-company" withParams={{ isCreatingCompany: true }}>Create a new company</Button>
 			</FormCard>
 			
-			<OrLine style={{ marginVertical: 28 }}/>
+			<OrLine style={{ marginVertical: "5%" }}/>
 			
 			<StyledText look="25 semibold mediumHard">Already in a company?</StyledText>
 			<Button look="lightBlue" to="/setup/login" withParams={{ alreadyInCompany: true }} style={{ width: "72%" }}>Log in</Button>

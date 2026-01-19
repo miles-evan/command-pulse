@@ -90,7 +90,7 @@ export default function SeeReport() {
 				<IconAndTextButton
 					IconFamily={MaterialCommunityIcons}
 					iconName="file-search-outline"
-					text="  View incient report"
+					text="  View incident report"
 					size={42}
 					fontSize={27}
 					onPress={view}
